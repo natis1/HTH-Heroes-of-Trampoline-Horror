@@ -167,6 +167,7 @@ public class ElvenWindowContainment implements ActionListener {
                 	      }
                 	    }
                 	} else {
+
                 		pseudoVSync = ElvenMain.ElvenFramerate;//use user set fps
                 	}
                 	
