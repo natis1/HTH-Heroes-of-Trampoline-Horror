@@ -39,7 +39,7 @@ public class ElvenWindowContainment implements ActionListener {
 		
     public ElvenWindowContainment() {
     	
-    	initUI("cutscene1");
+    	initUI("game");
 
 
     	if (ElvenMain.ElvenXResolution == 0 && spawnBlackBKG){
@@ -106,42 +106,7 @@ public class ElvenWindowContainment implements ActionListener {
     	myMenuScreen.dispose();
     }
     
-    public void goToMainMenu(int score){
-    	
-		
-    	if (ElvenMain.ElvenXResolution == 0 && spawnBlackBKG){
-    		myBlackScreen.setVisible(false);
-        	myBlackScreen.dispose();
-    	}
-    	
-    	myGameScreen.setVisible(false);
-    	myGameScreen.dispose();
-    	
-    	
-    	
-    		myMenuScreen = new JFrame();
-            myMenuScreen.add(new ElvenMainMenu(score));
-        	
-        	
-        	myMenuScreen.getContentPane().setBackground(Color.RED);
-        	myMenuScreen.setLocation(400, 400);
-        	myMenuScreen.setResizable(true);
-            
-            
-        	myMenuScreen.setTitle("Damned Dwarves Deux");
-        	myMenuScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        	
-        	
-		
 
-        
-        
-        
-        //myBlackScreen.
-        
-    	
-    	
-    }
     
     
     private void initUI(String UIName) {
@@ -362,9 +327,7 @@ public class ElvenWindowContainment implements ActionListener {
             case "game":
                 myGameScreen.add(new ElvenBoard(universalScaler, pseudoVSync));
                 break;
-            case "cutscene1":
-                myGameScreen.add(new ElvenCutscene1(universalScaler));
-                break;
+
         }
 
 
