@@ -1,25 +1,25 @@
 
 
-public class ElvenKeyManager {
+public class KeyboardManager {
 	
 	//public boolean[] elvenAsciiInput;
 	//ascii?
 	
 	public boolean[] elvenAsciiInput;
 	
-	public ElvenKeyManager() {
+	public KeyboardManager() {
 		elvenAsciiInput = new boolean[52];
 
-		
-    }
-	
-	
-	
-	
-	
-	
+
+	}
+
+
+
+
+
+
 	void keyReleased(int keyYouLetGoOf){
-		
+
 		elvenAsciiInput[keyYouLetGoOf] = false;
 		
 		

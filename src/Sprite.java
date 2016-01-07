@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class ElvenSprite {
+public class Sprite {
 
 	//Coordinates
 	protected int x;
@@ -29,7 +29,7 @@ public class ElvenSprite {
 	protected double collision_radius=0;
 
 	//Constructor
-	public ElvenSprite(int x, int y, double angle, double radius, String image_file) {
+	public Sprite(int x, int y, double angle, double radius, String image_file) {
 		this.x = x;
 		this.y = y;
 		this.angle = angle;

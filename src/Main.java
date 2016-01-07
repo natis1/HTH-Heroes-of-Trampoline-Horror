@@ -14,7 +14,7 @@ import java.awt.*;
  * 
  */
 
-public class ElvenMain  {
+public class Main {
 	
 	
 	//Stores score and gamestate in one int
@@ -42,7 +42,7 @@ public class ElvenMain  {
 
 
                 //BOW TO THE VOID OR BE CONSUMED BY IT
-                ElvenWindowContainment ElvenMasterRulesOverPunyHumans = new ElvenWindowContainment();
+                WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
                 
             }
         });

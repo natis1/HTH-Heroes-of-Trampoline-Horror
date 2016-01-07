@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 
-public class ElvenWindowContainment implements ActionListener {
+public class WindowLoader implements ActionListener {
 	
 	
-	//private ElvenKeyManager keySetter = new ElvenKeyManager();
+	//private KeyboardManager keySetter = new KeyboardManager();
 	private JFrame myBlackScreen;
 	private JFrame myGameScreen;
 	private JFrame myMenuScreen;
@@ -37,12 +37,12 @@ public class ElvenWindowContainment implements ActionListener {
 
 	//private SystemTray tray;
 		
-    public ElvenWindowContainment() {
+    public WindowLoader() {
     	
     	initUI("game");
 
 
-    	if (ElvenMain.ElvenXResolution == 0 && spawnBlackBKG){
+    	if (Main.ElvenXResolution == 0 && spawnBlackBKG){
     		initBlackUI();
     		myGameScreen.toFront();
     	}
@@ -92,12 +92,12 @@ public class ElvenWindowContainment implements ActionListener {
     
     public void goBackToGame(){
     	
-    	ElvenMain.ElvenGameState = 1;
+    	Main.ElvenGameState = 1;
     	
     	
     	initUI("game");
         
-    	if (ElvenMain.ElvenXResolution == 0 && spawnBlackBKG){
+    	if (Main.ElvenXResolution == 0 && spawnBlackBKG){
     		initBlackUI();
     		myGameScreen.toFront();
     	}
@@ -138,19 +138,19 @@ public class ElvenWindowContainment implements ActionListener {
                 
                 if (bufferedReader.readLine() != null){
                 	System.out.print(bufferedReader.readLine());
-                	ElvenMain.ElvenGameDifficulty = Integer.parseInt(bufferedReader.readLine());
-                	ElvenMain.ElvenSoulsStolen = Integer.parseInt(bufferedReader.readLine());
+                	Main.ElvenGameDifficulty = Integer.parseInt(bufferedReader.readLine());
+                	Main.ElvenSoulsStolen = Integer.parseInt(bufferedReader.readLine());
                 	
-                	ElvenMain.ElvenUpgradeMovement = (bufferedReader.readLine().charAt(0));
-                	ElvenMain.ElvenUpgradeFirerate = (bufferedReader.readLine().charAt(0));
-                	ElvenMain.ElvenUpgradeTracking = (bufferedReader.readLine().charAt(0));
+                	Main.ElvenUpgradeMovement = (bufferedReader.readLine().charAt(0));
+                	Main.ElvenUpgradeFirerate = (bufferedReader.readLine().charAt(0));
+                	Main.ElvenUpgradeTracking = (bufferedReader.readLine().charAt(0));
                 	
-                	ElvenMain.ElvenXResolution = Integer.parseInt(bufferedReader.readLine());
+                	Main.ElvenXResolution = Integer.parseInt(bufferedReader.readLine());
                 	System.out.println((bufferedReader.readLine()));
-                	ElvenMain.ElvenYResolution = Integer.parseInt(bufferedReader.readLine());
-                	ElvenMain.ElvenFramerate = Integer.parseInt(bufferedReader.readLine());
+                	Main.ElvenYResolution = Integer.parseInt(bufferedReader.readLine());
+                	Main.ElvenFramerate = Integer.parseInt(bufferedReader.readLine());
                 	
-                	if (ElvenMain.ElvenFramerate == 0){
+                	if (Main.ElvenFramerate == 0){
                 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 	    GraphicsDevice[] gs = ge.getScreenDevices();
 
@@ -158,17 +158,17 @@ public class ElvenWindowContainment implements ActionListener {
                 	      DisplayMode dm = gs[i].getDisplayMode();
 
                 	       pseudoVSync = dm.getRefreshRate();
-							ElvenMain.ElvenFramerate = pseudoVSync;
+							Main.ElvenFramerate = pseudoVSync;
                 	      if (pseudoVSync == DisplayMode.REFRESH_RATE_UNKNOWN) {
                 	        System.out.println("Unknown HZ, using 60 because you are probably in a VM or something"); //I love VMs, might add an override
                 	        //if the person runs it from the cmdline with the --hz option.
                 	        pseudoVSync = 60;
-							  ElvenMain.ElvenFramerate = pseudoVSync;
+							  Main.ElvenFramerate = pseudoVSync;
                 	      }
                 	    }
                 	} else {
 
-                		pseudoVSync = ElvenMain.ElvenFramerate;//use user set fps
+                		pseudoVSync = Main.ElvenFramerate;//use user set fps
                 	}
                 	
                 	
@@ -210,12 +210,12 @@ public class ElvenWindowContainment implements ActionListener {
                         DisplayMode dm = gs[i].getDisplayMode();
 
                         pseudoVSync = dm.getRefreshRate();
-                        ElvenMain.ElvenFramerate = pseudoVSync;
+                        Main.ElvenFramerate = pseudoVSync;
                         if (pseudoVSync == DisplayMode.REFRESH_RATE_UNKNOWN) {
                             System.out.println("Unknown HZ, using 60 because you are probably in a VM or something"); //I love VMs, might add an override
                             //if the person runs it from the cmdline with the --hz option.
                             pseudoVSync = 60;
-                            ElvenMain.ElvenFramerate = pseudoVSync;
+                            Main.ElvenFramerate = pseudoVSync;
                         }
                     }
     	            
@@ -244,8 +244,8 @@ public class ElvenWindowContainment implements ActionListener {
     		
     	}
     	
-    	if (ElvenMain.ElvenFramerate != 0){
-    		pseudoVSync = ElvenMain.ElvenFramerate;
+    	if (Main.ElvenFramerate != 0){
+    		pseudoVSync = Main.ElvenFramerate;
     	}
 
 
@@ -263,7 +263,7 @@ public class ElvenWindowContainment implements ActionListener {
         int screenChangeYBy = 0;
         universalScaler = 1;
 
-    	if (ElvenMain.ElvenXResolution == 0){
+    	if (Main.ElvenXResolution == 0){
     		screenWidth = screenSize.getWidth();
             screenHeight = screenSize.getHeight();
 
@@ -291,7 +291,7 @@ public class ElvenWindowContainment implements ActionListener {
 
 
     	} else {
-    		screenHeight = ElvenMain.ElvenYResolution;
+    		screenHeight = Main.ElvenYResolution;
 
 
 
@@ -326,7 +326,7 @@ public class ElvenWindowContainment implements ActionListener {
         //myGameScreen.
         switch (UIName) {
             case "game":
-                myGameScreen.add(new ElvenBoard(universalScaler, pseudoVSync));
+                myGameScreen.add(new MainMenuPanel(universalScaler, pseudoVSync));
                 break;
 
         }
@@ -381,7 +381,7 @@ public class ElvenWindowContainment implements ActionListener {
             @Override
             public void run() {
                 
-                ElvenWindowContainment ex = new ElvenWindowContainment();
+                WindowLoader ex = new WindowLoader();
 
                 ex.myBlackScreen.setVisible(true);
                 ex.myGameScreen.setVisible(true);
@@ -393,7 +393,7 @@ public class ElvenWindowContainment implements ActionListener {
 @Override
 public void actionPerformed(ActionEvent e) {
 		//-1 = main menu
-    if (ElvenMain.ElvenGameState == -1){
+    if (Main.ElvenGameState == -1){
         myGameScreen.setVisible(false);
         myGameScreen.removeAll();
         myGameScreen.dispose();
@@ -403,38 +403,38 @@ public void actionPerformed(ActionEvent e) {
 
         initUI("game");
 
-        ElvenMain.ElvenGameState = 1;
+        Main.ElvenGameState = 1;
 
         //1 = New Game
-    } else if (ElvenMain.ElvenGameState == 1){
+    } else if (Main.ElvenGameState == 1){
 
 
         //2 NG+
-    } else if (ElvenMain.ElvenGameState == 2){
+    } else if (Main.ElvenGameState == 2){
 
 
         //3 Load Game
-    } else if (ElvenMain.ElvenGameState == 3){
+    } else if (Main.ElvenGameState == 3){
 
 
         //16 End Cutscene and load game
-    } else if (ElvenMain.ElvenGameState == 16){
+    } else if (Main.ElvenGameState == 16){
 
 
         //18 End Cutscene 2
-    } else if (ElvenMain.ElvenGameState == 18){
+    } else if (Main.ElvenGameState == 18){
 
 
         //19 Cutscene 3
-    } else if (ElvenMain.ElvenGameState == 19){
+    } else if (Main.ElvenGameState == 19){
 
 
         //20 End Cutscene 3
-    } else if (ElvenMain.ElvenGameState == 20){
+    } else if (Main.ElvenGameState == 20){
 
 
         //21 Cutscene 4
-    } else if (ElvenMain.ElvenGameState == 21){
+    } else if (Main.ElvenGameState == 21){
 
 
         //22 End Cutscene 4

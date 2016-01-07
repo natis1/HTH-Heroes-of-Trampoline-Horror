@@ -7,7 +7,7 @@ import java.awt.event.KeyAdapter;
 //import java.awt.Image;
 
 
-public class ElvenBoard extends JPanel {
+public class MainMenuPanel extends JPanel {
 
     //private KeyboardAnimation animation2
 
@@ -28,12 +28,7 @@ public class ElvenBoard extends JPanel {
     //Smooth enough for most monitors even if eyes can still see past it.
 
 
-
-    private String bgImageString;
-
-
-
-    private ElvenSprite backgroundSprite;
+    private Sprite backgroundSprite;
 
     
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
@@ -44,7 +39,7 @@ public class ElvenBoard extends JPanel {
 
     
     
-    public ElvenBoard(double scaler, int monitorHZ) {
+    public MainMenuPanel(double scaler, int monitorHZ) {
         universalScaler = scaler;
         computerHZ = monitorHZ;
         //computerHZ = 300;
@@ -61,9 +56,7 @@ public class ElvenBoard extends JPanel {
     private void initBoard() {
 
 
-
-
-
+        String bgImageString;
         if (universalScaler <= 1.0001){
             bgImageString = "main/resources/mainMenuScreen.png";
             is4K = false;
@@ -72,7 +65,7 @@ public class ElvenBoard extends JPanel {
             is4K = true; //maybe if I ever use 4k images for other stuff,
         }
 
-        backgroundSprite = new ElvenSprite(0, 0, 0, 0, bgImageString);
+        backgroundSprite = new Sprite(0, 0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
 
         runGameLoop();
@@ -145,7 +138,7 @@ Yes I know it is an oversite, whatever.
         //We will need the last update time.
         lastUpdateTime = System.nanoTime();
         //Store the last time we rendered.
-        double lastRenderTime = System.nanoTime();
+        double lastRenderTime;
 
         //If we are able to get as high as this FPS, don't render again.
         final double TARGET_FPS = computerHZ;
@@ -215,10 +208,15 @@ Yes I know it is an oversite, whatever.
 
                     Thread.yield();
 
-                    //This stops the app from consuming all your CPU. It makes this slightly less accurate, but is worth it.
-                    //You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
-                    //FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different peoples' solutions to this.
-                    try {Thread.sleep(1);} catch(Exception e) {}
+                    
+                    try {
+
+                        Thread.sleep(1);
+
+                    } catch(Exception e) {
+                        e.printStackTrace();
+
+                    }
 
                     now = System.nanoTime();
                 }
