@@ -1,0 +1,4 @@
+Just a little text file for writing down what we want to do with the game
+
+I'm going to write a Chunk class for containing Sprite objects etc and working with world generation?
+We don't have to use this but maybe it will be useful in figuring out how we will structure everything

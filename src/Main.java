@@ -1,7 +1,5 @@
 import java.awt.*;
 
-//package com.zetcode;
-
 /**
  * 
  * TODO: THIS GAME WILL BE THE BEST PC PORT SINCE AC:Unity
@@ -14,9 +12,8 @@ import java.awt.*;
  * 
  */
 
-public class Main {
-	
-	
+public class Main
+{
 	//Stores score and gamestate in one int
 	public static int ElvenGameState = 0;
 	public static int ElvenSoulsStolen = 0;
@@ -30,24 +27,19 @@ public class Main {
 	public static char ElvenUpgradeMovement = 0;
 	public static char ElvenUpgradeTracking = 0;
     
-    public static void main(String[] args) {
+    public static void main(String[] args)
+	{
+        EventQueue.invokeLater(
+				new Runnable() {
+						@Override
+						public void run()
+						{
 
-		//System.out.println(new File("images/void"));
-    	
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
+							//BOW TO THE VOID OR BE CONSUMED BY IT
+							WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
 
-
-
-
-                //BOW TO THE VOID OR BE CONSUMED BY IT
-                WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
-                
-            }
-        });
+						}
+        						}
+							  );
     }
-
-
-
 }

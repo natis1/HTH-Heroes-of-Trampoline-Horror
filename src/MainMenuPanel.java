@@ -1,17 +1,9 @@
-//package com.zetcode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 
-//import java.awt.Image;
-
-
-public class MainMenuPanel extends JPanel {
-
-    //private KeyboardAnimation animation2
-
-    
+public class MainMenuPanel extends JPanel
+{
     private double universalScaler;
 
     private double now;
@@ -27,19 +19,16 @@ public class MainMenuPanel extends JPanel {
     //For calculating movement. I think this is fine if we set the cap at something like 144hz (~7)
     //Smooth enough for most monitors even if eyes can still see past it.
 
-
     private Sprite backgroundSprite;
 
-    
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
     private int graphicsQuality = 3;
 
-
     private int frameCatchup = 0;
 
-    
-    
-    public MainMenuPanel(double scaler, int monitorHZ) {
+
+    public MainMenuPanel(double scaler, int monitorHZ)
+    {
         universalScaler = scaler;
         computerHZ = monitorHZ;
         //computerHZ = 300;
@@ -49,18 +38,18 @@ public class MainMenuPanel extends JPanel {
 
         //100% working on every multiple of 60, everything exept background works perfectly on any other number.
         initBoard();
-        
-        
     }
 
-    private void initBoard() {
-
-
+    private void initBoard()
+    {
         String bgImageString;
-        if (universalScaler <= 1.0001){
+        if (universalScaler <= 1.0001)
+        {
             bgImageString = "main/resources/mainMenuScreen.png";
             is4K = false;
-        } else {
+        }
+        else
+        {
             bgImageString = "main/resources/mainMenuScreen.png";
             is4K = true; //maybe if I ever use 4k images for other stuff,
         }
@@ -69,7 +58,6 @@ public class MainMenuPanel extends JPanel {
         backgroundSprite.loadImage();
 
         runGameLoop();
-
     }
 
     @Override
@@ -82,32 +70,22 @@ public class MainMenuPanel extends JPanel {
     }
 
 
-/** This function draws all of the sprites using graphics2D libraries
+/**
+This function draws all of the sprites using graphics2D libraries
 All drawing must be called from the board
 You cannot call doDrawing from other classes, to add a sprite to
 the drawing queue, create the class inside the board.
 
-Yes I know it is an oversite, whatever.
-
+Yes I know it is an oversight, whatever.
 */
-    private void doDrawing(Graphics g) {
-
+    private void doDrawing(Graphics g)
+    {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScaler, universalScaler);
-
 
         //Draw stuff here
         g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
                 backgroundSprite.getY(), this);
-
-
-
-
-
-
-        
-        
-        
     }
 
     //Starts a new thread and runs the game loop in it.
@@ -126,12 +104,8 @@ Yes I know it is an oversite, whatever.
     public void gameLoop()
     {
         //This value would probably be stored elsewhere.
-
-
         //Always get lots of hz even if it isn't possible to render this many frames
-
         //Calculate how many ns each frame should take for our target game hertz.
-
         //At the very most we will update the game this many times before a new render.
         //If you're worried about visual hitches more than perfect timing, set this to 1.
         final int MAX_UPDATES_BEFORE_RENDER = 100;
@@ -171,34 +145,22 @@ Yes I know it is an oversite, whatever.
                 //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
                 if ( now - lastUpdateTime > TIME_BETWEEN_UPDATES)
                 {
-
-
-
-
                     lastUpdateTime = now - TIME_BETWEEN_UPDATES;
                 }
-
                 //Render. To do so, we need to calculate interpolation for a smooth render.
 
                 lastRenderTime = now;
-
                 //Update the frames we got.
                 int thisSecond = (int) (lastUpdateTime / 1000000000);
                 if (thisSecond > lastSecondTime)
                 {
                     //TODO System.out.println("Main: NEW SECOND " + thisSecond + " " + frame_count);
-
-
-
-
                     lastSecondTime = thisSecond;
                 }
-
 
                 //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
                 while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS)
                 {
-
                     if (graphicsQuality < 3){
                         frameCatchup--;
                     }
@@ -208,14 +170,13 @@ Yes I know it is an oversite, whatever.
 
                     Thread.yield();
 
-                    
-                    try {
-
+                    try
+                    {
                         Thread.sleep(1);
-
-                    } catch(Exception e) {
+                    }
+                    catch(Exception e)
+                    {
                         e.printStackTrace();
-
                     }
 
                     now = System.nanoTime();
@@ -226,44 +187,27 @@ Yes I know it is an oversite, whatever.
 
     private void drawGame(float interpolation)
     {
-
         repaint();
-
     }
 
 
-    
-    public void update() {
+    public void update()
+    {
+        if (graphicsQuality > 2){
+            updateParticles();
+        }
 
-
-
-            if (graphicsQuality > 2){
-                updateParticles();
-            }
-
-            float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
-            drawGame(interpolation);
-
-
-        //NOT DONE HERE ANYMORE
-        //repaint();
+        float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
+        drawGame(interpolation);
     }
     
-    private void updateParticles() {
-
-
+    private void updateParticles()
+    {
         //TODO ADD ACTUAL PARTICLES
-
-
     }
-    
-    
-    
-    
 
-    private class TAdapter extends KeyAdapter {
-
+    private class TAdapter extends KeyAdapter
+    {
         //TODO KEYBOARD SUPPORT
-
     }
 }

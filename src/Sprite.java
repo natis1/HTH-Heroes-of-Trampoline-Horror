@@ -36,7 +36,6 @@ public class Sprite {
 		this.collision_radius = radius;
 		this.image_file = image_file;
 
-
     	//when compiling for real, comment this
     	//TODO: UNCOMMENT WHEN RUNNING IN SIM
 		//this.image_file = "Images\\" + image_file;
@@ -110,8 +109,7 @@ public class Sprite {
 	}
 
 	public int[] getCenter() {
-		int[] center = {x + width /2, y + height /2};
-		return center;
+		return new int[]{x + width /2, y + height /2};
 	}
 
 	//Center the sprite on the given x and y coordinates.
