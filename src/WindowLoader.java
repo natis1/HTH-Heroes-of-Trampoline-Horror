@@ -329,6 +329,10 @@ public class WindowLoader implements ActionListener {
                 myGameScreen.add(new MainMenuPanel(universalScaler, pseudoVSync));
                 break;
 
+			case "overworld":
+				myGameScreen.add(new OverworldPanel(universalScaler, pseudoVSync));
+				break;
+
         }
 
 
@@ -390,6 +394,25 @@ public class WindowLoader implements ActionListener {
     }
 
 
+
+
+	public void checkGameState()
+	{
+		Thread loop = new Thread()
+		{
+			public void run()
+			{
+				gameLoop();
+			}
+		};
+		loop.start();
+	}
+
+
+
+
+
+
 @Override
 public void actionPerformed(ActionEvent e) {
 		//-1 = main menu
@@ -415,6 +438,15 @@ public void actionPerformed(ActionEvent e) {
 			break;
 		case 2:
 
+			myGameScreen.setVisible(false);
+			myGameScreen.removeAll();
+			myGameScreen.dispose();
+
+
+			//Nothing like reiniting my perfectly working window. No reason for a new one.
+
+			initUI("overworld");
+			Main.ElvenGameState = 1;
 
 			//3 Load Game
 			break;

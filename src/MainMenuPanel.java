@@ -278,7 +278,7 @@ Yes I know it is an oversite, whatever.
         if ((me.getX() / universalScaler) > 1030 && (me.getY() / universalScaler < 316)){
 
             //1 = start windows game new.
-            Main.ElvenGameState = 1;
+            Main.ElvenGameState = 2;
 
             //TODO ADD SOMETHING HERE
 

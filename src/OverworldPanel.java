@@ -82,8 +82,8 @@ public class OverworldPanel extends JPanel implements MouseListener {
      the drawing queue, create the class inside the board.
 
      Yes I know it is an oversite, whatever.
-
      */
+
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -93,14 +93,6 @@ public class OverworldPanel extends JPanel implements MouseListener {
         //Draw stuff here
         g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
                 backgroundSprite.getY(), this);
-
-
-
-
-
-
-
-
 
     }
 
@@ -264,18 +256,7 @@ public class OverworldPanel extends JPanel implements MouseListener {
     @Override
     public void mouseReleased(MouseEvent me) {
 
-        System.out.println(me.getX() / universalScaler);
-        System.out.println(me.getY() / universalScaler);
 
-        if ((me.getX() / universalScaler) > 1030 && (me.getY() / universalScaler < 316)){
-
-            //1 = start windows game new.
-            Main.ElvenGameState = 1;
-
-            //TODO ADD SOMETHING HERE
-
-
-        }
 
 
 
