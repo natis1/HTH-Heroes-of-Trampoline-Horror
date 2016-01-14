@@ -1,19 +1,13 @@
-//package com.zetcode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-//import java.awt.Image;
-
-
-public class MainMenuPanel extends JPanel implements MouseListener {
+public class OverworldPanel extends JPanel implements MouseListener {
 
     //private KeyboardAnimation animation2
 
-    
     private double universalScaler;
 
     private double now;
@@ -29,19 +23,17 @@ public class MainMenuPanel extends JPanel implements MouseListener {
     //For calculating movement. I think this is fine if we set the cap at something like 144hz (~7)
     //Smooth enough for most monitors even if eyes can still see past it.
 
-
     private Sprite backgroundSprite;
 
-    
     //3- Draw all, 2- No useless sprites, 1- No moving background, 0- TBD when we need more GPU capabilities.
     private int graphicsQuality = 3;
 
 
     private int frameCatchup = 0;
 
-    
-    
-    public MainMenuPanel(double scaler, int monitorHZ) {
+
+
+    public OverworldPanel (double scaler, int monitorHZ) {
         universalScaler = scaler;
         computerHZ = monitorHZ;
         //computerHZ = 300;
@@ -84,14 +76,14 @@ public class MainMenuPanel extends JPanel implements MouseListener {
     }
 
 
-/** This function draws all of the sprites using graphics2D libraries
-All drawing must be called from the board
-You cannot call doDrawing from other classes, to add a sprite to
-the drawing queue, create the class inside the board.
+    /** This function draws all of the sprites using graphics2D libraries
+     All drawing must be called from the board
+     You cannot call doDrawing from other classes, to add a sprite to
+     the drawing queue, create the class inside the board.
 
-Yes I know it is an oversite, whatever.
+     Yes I know it is an oversite, whatever.
 
-*/
+     */
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -107,9 +99,9 @@ Yes I know it is an oversite, whatever.
 
 
 
-        
-        
-        
+
+
+
     }
 
     //Starts a new thread and runs the game loop in it.
@@ -124,7 +116,7 @@ Yes I know it is an oversite, whatever.
         };
         loop.start();
     }
-    
+
     public void gameLoop()
     {
         //This value would probably be stored elsewhere.
@@ -155,75 +147,75 @@ Yes I know it is an oversite, whatever.
             int updateCount = 0;
 
 
-                //Do as many game updates as we need to, potentially playing catchup.
-                while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER)
-                {
-                    update();
-                    lastUpdateTime += TIME_BETWEEN_UPDATES;
-                    updateCount++;
-                    if (updateCount > 15 && graphicsQuality > 2){
-                        graphicsQuality--;
-                        //updateCount = 10;
-                        frameCatchup = (int) (300 / speedMultiplier);
-                    }
+            //Do as many game updates as we need to, potentially playing catchup.
+            while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER)
+            {
+                update();
+                lastUpdateTime += TIME_BETWEEN_UPDATES;
+                updateCount++;
+                if (updateCount > 15 && graphicsQuality > 2){
+                    graphicsQuality--;
+                    //updateCount = 10;
+                    frameCatchup = (int) (300 / speedMultiplier);
+                }
+
+            }
+
+            //If for some reason an update takes forever, we don't want to do an insane number of catchups.
+            //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
+            if ( now - lastUpdateTime > TIME_BETWEEN_UPDATES)
+            {
+
+
+
+
+                lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+            }
+
+            //Render. To do so, we need to calculate interpolation for a smooth render.
+
+            lastRenderTime = now;
+
+            //Update the frames we got.
+            int thisSecond = (int) (lastUpdateTime / 1000000000);
+            if (thisSecond > lastSecondTime)
+            {
+                //TODO System.out.println("Main: NEW SECOND " + thisSecond + " " + frame_count);
+
+
+
+
+                lastSecondTime = thisSecond;
+            }
+
+
+            //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
+            while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS)
+            {
+
+                if (graphicsQuality < 3){
+                    frameCatchup--;
+                }
+                if (frameCatchup < 0){
+                    graphicsQuality = 3; // Good job team, you did it.
+                }
+
+                Thread.yield();
+
+
+                try {
+
+                    Thread.sleep(1);
+
+                } catch(Exception e) {
+                    e.printStackTrace();
 
                 }
 
-                //If for some reason an update takes forever, we don't want to do an insane number of catchups.
-                //If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
-                if ( now - lastUpdateTime > TIME_BETWEEN_UPDATES)
-                {
-
-
-
-
-                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
-                }
-
-                //Render. To do so, we need to calculate interpolation for a smooth render.
-
-                lastRenderTime = now;
-
-                //Update the frames we got.
-                int thisSecond = (int) (lastUpdateTime / 1000000000);
-                if (thisSecond > lastSecondTime)
-                {
-                    //TODO System.out.println("Main: NEW SECOND " + thisSecond + " " + frame_count);
-
-
-
-
-                    lastSecondTime = thisSecond;
-                }
-
-
-                //Yield until it has been at least the target time between renders. This saves the CPU from hogging.
-                while ( now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS)
-                {
-
-                    if (graphicsQuality < 3){
-                        frameCatchup--;
-                    }
-                    if (frameCatchup < 0){
-                        graphicsQuality = 3; // Good job team, you did it.
-                    }
-
-                    Thread.yield();
-
-
-                    try {
-
-                        Thread.sleep(1);
-
-                    } catch(Exception e) {
-                        e.printStackTrace();
-
-                    }
-
-                    now = System.nanoTime();
-                }
+                now = System.nanoTime();
             }
         }
+    }
 
 
     private void drawGame(float interpolation)
@@ -234,23 +226,23 @@ Yes I know it is an oversite, whatever.
     }
 
 
-    
+
     public void update() {
 
 
 
-            if (graphicsQuality > 2){
-                updateParticles();
-            }
+        if (graphicsQuality > 2){
+            updateParticles();
+        }
 
-            float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
-            drawGame(interpolation);
+        float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
+        drawGame(interpolation);
 
 
         //NOT DONE HERE ANYMORE
         //repaint();
     }
-    
+
     private void updateParticles() {
 
 
