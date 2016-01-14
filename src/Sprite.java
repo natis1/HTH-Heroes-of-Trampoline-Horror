@@ -1,6 +1,8 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.IOException;
 
 public class Sprite {
@@ -125,6 +127,43 @@ public class Sprite {
 	public void setVisible(Boolean visible) {
 		vis = visible;
 	}
+
+
+    /* According to this link
+     * http://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage
+     * This is the way to clone a buffered image.
+     */
+    private BufferedImage deepCopy(BufferedImage bi)
+    {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        //return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null).getSubimage(0, 0, bi.getWidth(), bi.getHeight());
+    }
+
+
+
+
+
+    /* There is a faster way to do the following, but this worked for me and I had trouble getting
+     * the faster way working.
+     * http://stackoverflow.com/questions/2825837/java-how-to-do-fast-copy-of-a-bufferedimages-pixels-unit-test-included
+     */
+    private BufferedImage copySrcIntoDstAt(
+            BufferedImage src,
+            BufferedImage dst,
+            int dx, int dy)
+    {
+        for (int x = 0; x < src.getWidth(); x++)
+        {
+            for (int y = 0; y < src.getHeight(); y++)
+            {
+                dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
+            }
+        }
+        return dst;
+    }
 
 	
 	/*
