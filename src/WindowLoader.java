@@ -393,52 +393,62 @@ public class WindowLoader implements ActionListener {
 @Override
 public void actionPerformed(ActionEvent e) {
 		//-1 = main menu
-    if (Main.ElvenGameState == -1){
-        myGameScreen.setVisible(false);
-        myGameScreen.removeAll();
-        myGameScreen.dispose();
+	switch (Main.ElvenGameState) {
+		case -1:
+			myGameScreen.setVisible(false);
+			myGameScreen.removeAll();
+			myGameScreen.dispose();
 
 
-		//Nothing like reiniting my perfectly working window. No reason for a new one.
+			//Nothing like reiniting my perfectly working window. No reason for a new one.
 
-        initUI("game");
+			initUI("game");
 
-        Main.ElvenGameState = 1;
+			Main.ElvenGameState = 1;
 
-        //1 = New Game
-    } else if (Main.ElvenGameState == 1){
-
-
-        //2 NG+
-    } else if (Main.ElvenGameState == 2){
+			//1 = New Game
+			break;
+		case 1:
 
 
-        //3 Load Game
-    } else if (Main.ElvenGameState == 3){
+			//2 NG+
+			break;
+		case 2:
 
 
-        //16 End Cutscene and load game
-    } else if (Main.ElvenGameState == 16){
+			//3 Load Game
+			break;
+		case 3:
 
 
-        //18 End Cutscene 2
-    } else if (Main.ElvenGameState == 18){
+			//16 End Cutscene and load game
+			break;
+		case 16:
 
 
-        //19 Cutscene 3
-    } else if (Main.ElvenGameState == 19){
+			//18 End Cutscene 2
+			break;
+		case 18:
 
 
-        //20 End Cutscene 3
-    } else if (Main.ElvenGameState == 20){
+			//19 Cutscene 3
+			break;
+		case 19:
 
 
-        //21 Cutscene 4
-    } else if (Main.ElvenGameState == 21){
+			//20 End Cutscene 3
+			break;
+		case 20:
 
 
-        //22 End Cutscene 4
-    }
+			//21 Cutscene 4
+			break;
+		case 21:
+
+
+			//22 End Cutscene 4
+			break;
+	}
 
 
 

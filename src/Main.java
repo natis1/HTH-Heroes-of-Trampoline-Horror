@@ -39,7 +39,7 @@ public class Main
 							WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
 
 						}
-        						}
-							  );
+				}
+		);
     }
 }
