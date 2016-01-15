@@ -12,14 +12,8 @@ public class MainMenuPanel extends BasePanel
         super(scalar, monitorHZ);
         addMouseListener(this);
 
-        String bgImageString;
-        if (universalScalar <= 1.0001){
-            bgImageString = "main/resources/mainMenuScreen.png";
-            is4K = false;
-        } else {
-            bgImageString = "main/resources/mainMenuScreen.png";
-            is4K = true; //maybe if I ever use 4k images for other stuff,
-        }
+        String bgImageString = "main/resources/mainMenuScreen.png";
+        is4K = universalScalar > 1.0001;
 
         backgroundSprite = new Sprite(0, 0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
@@ -41,7 +35,7 @@ All drawing must be called from the board
 You cannot call doDrawing from other classes, to add a sprite to
 the drawing queue, create the class inside the board.*/
 
-    private void doDrawing(Graphics g)
+    protected void doDrawing(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
@@ -51,7 +45,7 @@ the drawing queue, create the class inside the board.*/
                 backgroundSprite.getY(), this);
     }
 
-    private void drawGame(float interpolation)
+    protected void drawGame(float interpolation)
     {
         repaint();
     }
@@ -65,8 +59,8 @@ the drawing queue, create the class inside the board.*/
         float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
         drawGame(interpolation);
     }
-    
-    private void updateParticles()
+
+    protected void updateParticles()
     {
         //TODO ADD ACTUAL PARTICLES
     }

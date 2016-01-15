@@ -49,7 +49,7 @@ public class BasePanel extends JPanel implements MouseListener
         Toolkit.getDefaultToolkit().sync();
     }
 
-    private void doDrawing(Graphics g)
+    protected void doDrawing(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
@@ -146,7 +146,7 @@ public class BasePanel extends JPanel implements MouseListener
     }
 
 
-    private void drawGame(float interpolation)
+    protected void drawGame(float interpolation)
     {
         repaint();
     }
@@ -162,7 +162,7 @@ public class BasePanel extends JPanel implements MouseListener
         drawGame(interpolation);
     }
 
-    private void updateParticles()
+    protected void updateParticles()
     {
         //TODO ADD ACTUAL PARTICLES
     }
