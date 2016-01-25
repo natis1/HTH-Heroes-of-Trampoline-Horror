@@ -15,7 +15,7 @@ public class WindowLoader implements ActionListener {
 	private JFrame myBlackScreen;
 	private JFrame myGameScreen;
 	private JFrame myMenuScreen;
-//	private JFrame myCutScreen;
+
 
 
 
@@ -66,6 +66,7 @@ public class WindowLoader implements ActionListener {
 
 
 
+
 		myBlackScreen = new JFrame();
 
 		myBlackScreen.setUndecorated(true);
@@ -90,21 +91,6 @@ public class WindowLoader implements ActionListener {
 
 	}
 
-	public void goBackToGame(){
-
-		Main.ElvenGameState = 1;
-
-
-		initUI("game");
-
-		if (Main.ElvenXResolution == 0 && spawnBlackBKG){
-			initBlackUI();
-			myGameScreen.toFront();
-		}
-
-		myMenuScreen.setVisible(false);
-		myMenuScreen.dispose();
-	}
 
 
 
@@ -113,11 +99,6 @@ public class WindowLoader implements ActionListener {
 
 		isRunning = true;
 		if (!didInit){
-
-
-
-
-
 
 			String fileName = "elvenShooter.txt";
 

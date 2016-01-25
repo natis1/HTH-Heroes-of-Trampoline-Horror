@@ -1,9 +1,10 @@
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
-public class MainMenuPanel extends BasePanel
+public class MainMenuPanel extends BasePanel implements MouseListener
 {
     private Sprite backgroundSprite;
 
@@ -13,7 +14,7 @@ public class MainMenuPanel extends BasePanel
         addMouseListener(this);
 
         String bgImageString = "main/resources/mainMenuScreen.png";
-        is4K = universalScalar > 1.0001;
+        //is4K = (universalScalar > 1.0001);
 
         backgroundSprite = new Sprite(0, 0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
@@ -43,26 +44,6 @@ the drawing queue, create the class inside the board.*/
         //Draw stuff here
         g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
                 backgroundSprite.getY(), this);
-    }
-
-    protected void drawGame(float interpolation)
-    {
-        repaint();
-    }
-
-    public void update() {
-
-        if (graphicsQuality > 2){
-            updateParticles();
-        }
-
-        float interpolation = Math.min(1.0f, (float) ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES) );
-        drawGame(interpolation);
-    }
-
-    protected void updateParticles()
-    {
-        //TODO ADD ACTUAL PARTICLES
     }
 
     @Override
