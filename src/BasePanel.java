@@ -4,7 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class BasePanel extends JPanel implements MouseListener
+public class BasePanel extends JPanel
 {
     protected double universalScalar;
 
@@ -40,20 +40,7 @@ public class BasePanel extends JPanel implements MouseListener
         //100% working on every multiple of 60, everything except background works perfectly on any other number.
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
 
-        doDrawing(g);
-
-        Toolkit.getDefaultToolkit().sync();
-    }
-
-    protected void doDrawing(Graphics g)
-    {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.scale(universalScalar, universalScalar);
-    }
 
     //Starts a new thread and runs the game loop in it.
     public void runLoop()
@@ -167,42 +154,4 @@ public class BasePanel extends JPanel implements MouseListener
         //TODO ADD ACTUAL PARTICLES
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e)
-    {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e)
-    {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent me)
-    {
-        System.out.println(me.getX() / universalScalar);
-        System.out.println(me.getY() / universalScalar);
-
-        if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar < 316))
-        {
-            //1 = start windows game new.
-            Main.ElvenGameState = 2;
-            //TODO ADD SOMETHING HERE (Something?)
-        }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e)
-    {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e)
-    {
-    }
-
-    private class TAdapter extends KeyAdapter
-    {
-        //TODO KEYBOARD SUPPORT
-    }
 }
