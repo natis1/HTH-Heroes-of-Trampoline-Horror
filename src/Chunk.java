@@ -19,7 +19,7 @@ public class Chunk
     {
         return x * 10000 + y;
     }
-    
+
     public void update()
     {
         for(Sprite s : sprites)
