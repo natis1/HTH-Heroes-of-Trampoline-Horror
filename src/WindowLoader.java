@@ -92,9 +92,6 @@ public class WindowLoader implements ActionListener {
 	}
 
 
-
-
-
 	private void initUI(String UIName) {
 
 		isRunning = true;

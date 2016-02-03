@@ -2,6 +2,9 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 
 
 public class OverworldPanel extends BasePanel implements MouseListener
@@ -12,6 +15,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
     {
         super(scalar, monitorHZ);
         addMouseListener(this);
+        SpriteLoader loadImages = new SpriteLoader();
+
 
         String bgImageString = "main/resources/ANGRY.png";
         //is4K = (universalScalar > 1.0001);
@@ -21,6 +26,17 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         runLoop();
     }
+
+    private BufferedImage deepCopy(BufferedImage bi)
+    {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        //return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null).getSubimage(0, 0, bi.getWidth(), bi.getHeight());
+    }
+
+
 
     @Override
     public void paintComponent(Graphics g) {
