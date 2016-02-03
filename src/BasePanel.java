@@ -1,8 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class BasePanel extends JPanel
 {
@@ -39,8 +35,6 @@ public class BasePanel extends JPanel
 
         //100% working on every multiple of 60, everything except background works perfectly on any other number.
     }
-
-
 
     //Starts a new thread and runs the game loop in it.
     public void runLoop()
