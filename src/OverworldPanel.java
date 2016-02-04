@@ -5,20 +5,17 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import java.util.ArrayList;
 
 
 public class OverworldPanel extends BasePanel implements MouseListener
 {
     private Sprite backgroundSprite;
-    private SpriteLoader loadImages;
 
-    private ArrayList<Sprite> groundTiles;
-
-    public OverworldPanel(double scalar, int monitorHZ) {
+    public OverworldPanel(double scalar, int monitorHZ)
+    {
         super(scalar, monitorHZ);
         addMouseListener(this);
-        loadImages = new SpriteLoader();
+        SpriteLoader loadImages = new SpriteLoader();
 
 
         String bgImageString = "main/resources/ANGRY.png";
@@ -27,24 +24,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
         backgroundSprite = new Sprite(0, 0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
 
-
         runLoop();
     }
-
-    private void assignImagesToGround () {
-
-        for (int x = 0; x < 1920; x += 16){
-            for (int y = 0; y < 1080; y += 16){
-                groundTiles.add(new Sprite(x, y, 0, 0, deepCopy(loadImages.imageSetCopy.get(0))));
-            }
-        }
-
-
-
-
-    }
-
-
 
     private BufferedImage deepCopy(BufferedImage bi)
     {
