@@ -19,7 +19,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
         super(scalar, monitorHZ);
         addMouseListener(this);
 
-        //SpriteLoader loadImages = new SpriteLoader(); //TODO: SpriteLoader Doesn't Exist? -Lucas
+        //SpriteLoader loadImages = new SpriteLoader();
 
 
         String bgImageString = "main/resources/ANGRY.png";
@@ -64,7 +64,6 @@ public class OverworldPanel extends BasePanel implements MouseListener
     {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
-        //Program seems to be failing here?
 
         for(Sprite s : sprites)
         {
