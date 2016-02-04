@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 
 public class BasePanel extends JPanel
 {
+    
     protected double universalScalar;
 
     protected double now;
