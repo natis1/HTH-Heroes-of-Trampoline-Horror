@@ -14,6 +14,8 @@ import java.awt.*;
 
 public class Main
 {
+	//Why not move these to a settings class (or something similar)? -Lucas
+
 	//Stores score and gamestate in one int
 	public static int ElvenGameState = 0;
 	public static int ElvenSoulsStolen = 0;

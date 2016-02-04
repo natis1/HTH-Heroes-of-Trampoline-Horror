@@ -5,17 +5,21 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.util.ArrayList;
 
 
 public class OverworldPanel extends BasePanel implements MouseListener
 {
     private Sprite backgroundSprite;
 
+    private ArrayList<Sprite> sprites =  new ArrayList<>();
+
     public OverworldPanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
         addMouseListener(this);
-        SpriteLoader loadImages = new SpriteLoader();
+
+        //SpriteLoader loadImages = new SpriteLoader(); //TODO: SpriteLoader Doesn't Exist? -Lucas
 
 
         String bgImageString = "main/resources/ANGRY.png";
@@ -23,6 +27,10 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         backgroundSprite = new Sprite(0, 0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
+
+        Sprite temp = new Sprite(0, 0, 0, 0, "main/resources/groundGrass.jpg");
+        temp.loadImage();
+        sprites.add(temp);
 
         runLoop();
     }
@@ -56,6 +64,12 @@ public class OverworldPanel extends BasePanel implements MouseListener
     {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
+        //Program seems to be failing here?
+
+        for(Sprite s : sprites)
+        {
+            g2d.drawImage(s.getImage(), s.getX(), s.getY(), this);
+        }
 
         //Draw stuff here
         g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
