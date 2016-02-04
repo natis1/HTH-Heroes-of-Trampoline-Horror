@@ -45,6 +45,11 @@ public class Sprite {
 		vis = true;
 	}
 
+	public Sprite(int x, int y, BufferedImage image){
+
+
+	}
+
 	//Load a buffered image
 	public void loadImage(){
 		BufferedImage img = null;
