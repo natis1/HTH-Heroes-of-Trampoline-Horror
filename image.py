@@ -14,4 +14,8 @@ img = Image.new('RGBA', (img_size, img_size))
 img.putdata(gen_Pmap(img_size))
 img.save("image.png")
 
+# Here is a cloud nine project so you can see how it works (interpreter included)
+# https://ide.c9.io/bananasky/image_creation 
 
+# Here is an example of noise generated with this method: 
+# http://i.imgur.com/4qOMeTs.png
