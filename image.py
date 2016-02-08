@@ -1,3 +1,4 @@
+'''
 from noise import pnoise2, snoise2
 from PIL   import Image
 from random import randint
@@ -34,3 +35,4 @@ def gen():
         img.save("image_" + str(i) + ".png")
 
 gen()
+'''
