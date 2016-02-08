@@ -38,6 +38,11 @@ public class Main
 						{
 
 							//BOW TO THE VOID OR BE CONSUMED BY IT
+
+							//Honestly I am so glad nobody has noticed this or the window loader name.
+
+							//PS since its an elf a Malzahar quote is kinda unfitting, maybe something like:
+							//"A solid giggle should do the trick!"
 							WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
 
 						}

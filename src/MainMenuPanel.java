@@ -16,7 +16,7 @@ public class MainMenuPanel extends BasePanel implements MouseListener
         String bgImageString = "main/resources/mainMenuScreen.png";
         //is4K = (universalScalar > 1.0001);
 
-        backgroundSprite = new Sprite(0, 0, 0, 0, bgImageString);
+        backgroundSprite = new Sprite(0, 0, 0, bgImageString);
         backgroundSprite.loadImage();
 
         runLoop();

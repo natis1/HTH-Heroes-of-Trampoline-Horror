@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.nio.Buffer;
 import java.util.ArrayList;
 
-/**
- * Created by scc on 2/3/2016.
- */
+
 public class SpriteLoader {
 
     protected ArrayList<BufferedImage> imageSetCopy;
 
     protected SpriteLoader () {
+
+        imageSetCopy = new ArrayList<BufferedImage>();
 
 
         imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
