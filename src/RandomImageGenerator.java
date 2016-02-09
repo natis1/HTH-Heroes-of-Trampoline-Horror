@@ -7,8 +7,10 @@ import java.io.IOException;
 
 public class RandomImageGenerator {
 
-    //BIOME SIZE
-    private static int FEATURE_SIZE = 8;
+    //BIOME SIZE Large for demo
+
+    //Notice similar biomes appear near each other
+    private static int FEATURE_SIZE = 64;
     public BufferedImage nextRandomImage;
 
 
@@ -17,21 +19,7 @@ public class RandomImageGenerator {
 
 
         OpenSimplexNoise noiseRed = new OpenSimplexNoise();
-        try {
-            Thread.sleep(0, 5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         OpenSimplexNoise noiseGreen = new OpenSimplexNoise();
-        try {
-            Thread.sleep(0, 5);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        //sleep for 5 nanos to change the seed
-
         OpenSimplexNoise noiseBlue = new OpenSimplexNoise();
 
 
@@ -90,8 +78,11 @@ public class RandomImageGenerator {
                 double valueG = noiseGreen.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
                 double valueB = noiseBlue.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
                 int rgb = 0x010000 * (int)((valueR + 1) * 127.5);
-                rgb += 0x000100 * (int)((valueG + 1) * 127.5);
-                rgb += (int)((valueB + 1) * 127.5);
+
+                //This has been commented to show that the generation is NOT random but follows a pattern
+
+                //rgb += 0x000100 * (int)((valueG + 1) * 127.5);
+                //rgb += (int)((valueB + 1) * 127.5);
 
                 image.setRGB(x, y, rgb);
             }
