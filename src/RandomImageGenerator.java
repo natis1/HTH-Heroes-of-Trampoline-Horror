@@ -10,7 +10,7 @@ public class RandomImageGenerator {
     //BIOME SIZE Large for demo
 
     //Notice similar biomes appear near each other
-    private static int FEATURE_SIZE = 64;
+    private static int FEATURE_SIZE = 16;
     public BufferedImage nextRandomImage;
 
 
