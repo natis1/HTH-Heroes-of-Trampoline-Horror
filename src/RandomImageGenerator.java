@@ -7,31 +7,58 @@ import java.io.IOException;
 
 public class RandomImageGenerator {
 
-    private static int FEATURE_SIZE = 16;
+    //BIOME SIZE
+    private static int FEATURE_SIZE = 8;
+    public BufferedImage nextRandomImage;
 
 
-    public void RandomImageGenerator(String saveLocation, int height, int width) {
+    public RandomImageGenerator(String saveLocation, int width, int height) {
 
 
 
-        OpenSimplexNoise noise = new OpenSimplexNoise();
-        BufferedImage image = new BufferedImage(height, width, BufferedImage.TYPE_INT_RGB);
+        OpenSimplexNoise noiseRed = new OpenSimplexNoise();
+        try {
+            Thread.sleep(0, 5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        OpenSimplexNoise noiseGreen = new OpenSimplexNoise();
+        try {
+            Thread.sleep(0, 5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //sleep for 5 nanos to change the seed
+
+        OpenSimplexNoise noiseBlue = new OpenSimplexNoise();
+
+
+        nextRandomImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 
         for (int y = 0; y < height; y++)
         {
+
             for (int x = 0; x < width; x++)
             {
-                double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
-                int rgb = 0x010101 * (int)((value + 1) * 127.5);
-                image.setRGB(x, y, rgb);
+                double valueR = noiseRed.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
+                double valueG = noiseGreen.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
+                double valueB = noiseBlue.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
+                int rgb = 0x010000 * (int)((valueR + 1) * 127.5);
+                rgb += 0x000100 * (int)((valueG + 1) * 127.5);
+                rgb += (int)((valueB + 1) * 127.5);
+
+                nextRandomImage.setRGB(x, y, rgb);
             }
+
         }
 
 
         File imageWriteLocation = new File(saveLocation);
         try {
-            ImageIO.write(image, "png", imageWriteLocation);
+            ImageIO.write(nextRandomImage, "png", imageWriteLocation);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,24 +66,33 @@ public class RandomImageGenerator {
     }
 
 
-    public BufferedImage RandomImageGenerator(int height, int width) {
+    public RandomImageGenerator(int width, int height) {
 
-        return generateBufferedImage(height, width);
+        nextRandomImage = generateBufferedImage(width, height);
     }
 
 
-    private BufferedImage generateBufferedImage(int height, int width) {
+    private BufferedImage generateBufferedImage(int width, int height) {
 
-        OpenSimplexNoise noise = new OpenSimplexNoise();
-        BufferedImage image = new BufferedImage(height, width, BufferedImage.TYPE_INT_RGB);
+        OpenSimplexNoise noiseRed = new OpenSimplexNoise();
+        OpenSimplexNoise noiseGreen = new OpenSimplexNoise();
+        OpenSimplexNoise noiseBlue = new OpenSimplexNoise();
+
+
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
-                double value = noise.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
-                int rgb = 0x010101 * (int)((value + 1) * 127.5);
+                double valueR = noiseRed.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
+                double valueG = noiseGreen.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
+                double valueB = noiseBlue.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0.0);
+                int rgb = 0x010000 * (int)((valueR + 1) * 127.5);
+                rgb += 0x000100 * (int)((valueG + 1) * 127.5);
+                rgb += (int)((valueB + 1) * 127.5);
+
                 image.setRGB(x, y, rgb);
             }
         }

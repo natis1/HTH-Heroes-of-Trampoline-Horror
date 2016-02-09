@@ -27,13 +27,13 @@ public class OpenSimplexNoise {
 	private static final double NORM_CONSTANT_3D = 103;
 	private static final double NORM_CONSTANT_4D = 30;
 	
-	private static final long DEFAULT_SEED = 0;
+	private static long DEFAULT_SEED = 0;
 	
 	private short[] perm;
 	private short[] permGradIndex3D;
 	
 	public OpenSimplexNoise() {
-		this(DEFAULT_SEED);
+		this(System.nanoTime());
 	}
 	
 	public OpenSimplexNoise(short[] perm) {
