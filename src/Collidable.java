@@ -1,8 +1,5 @@
 import java.awt.*;
 
-/**
- * Created by Lucas on 2/3/2016.
- */
 public class Collidable
 {
     //Coordinates
@@ -19,15 +16,20 @@ public class Collidable
     protected double collision_radius = 0;
 
     //Constructor
-    public Collidable(int x, int y, double radius)
+    public Collidable(int x, int y)
     {
         this.x = x;
         this.y = y;
-        this.collision_radius = radius;
     }
 
     public Rectangle getBoundingRectangle() {
         return new Rectangle(x, y, width, height);
+    }
+
+    public void setSize(int width, int height)
+    {
+        this.width  = width;
+        this.height = height;
     }
 
     public int getWidth() {
@@ -73,6 +75,7 @@ public class Collidable
         dx = new_dx;
         dy = new_dy;
     }
+
     /*
     public void move() {
         x += dx;

@@ -5,11 +5,13 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.util.ArrayList;
 
 
 public class OverworldPanel extends BasePanel implements MouseListener
 {
     private Sprite backgroundSprite;
+    private ArrayList<Chunk> chunks;
 
     public OverworldPanel(double scalar, int monitorHZ)
     {
@@ -22,6 +24,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
         //is4K = (universalScalar > 1.0001);
 
         backgroundSprite = new Sprite(0, 0, 0, loadImages.imageSetCopy.get(129));
+
+        chunks = new ArrayList<>();
 
         runLoop();
     }

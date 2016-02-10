@@ -5,36 +5,23 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 
-public class Sprite {
-
-	//Coordinates
-	protected int x;
-	protected int y;
-	//Dimensions
-	protected int width;
-	protected int height;
+public class Sprite extends Collidable
+{
 	//Whether or not the sprite is visible
 	protected boolean vis;
 	protected boolean keepLoaded;
 	//Image of the sprite
 	protected BufferedImage image;
-	//velocity of the sprite
-	protected double dx=0;
-	protected double dy=0;
-	//Angle to draw the image at.
 	protected double angle = 0.0;
-	//Boolean indicating if the sprite is within the edges of the screen.
-	protected boolean stay_in_bounds = false;
 	//Reference to the ship image file
 	protected String image_file;
-	//Detect collisions in a circle around the sprite.
-	protected double collision_radius=0;
-
 
 	private boolean preloaded = false;
 
 	//Constructor
-	public Sprite(int x, int y, double angle, String image_file) {
+	public Sprite(int x, int y, double angle, String image_file)
+	{
+		super(x, y);
 		preloaded = false;
 
 		this.x = x;
@@ -45,25 +32,24 @@ public class Sprite {
     	//when compiling for real, comment this
     	//TODO: UNCOMMENT WHEN RUNNING IN SIM
 		//this.image_file = "Images\\" + image_file;
-		
+
 		vis = true;
 	}
 
-	public Sprite(int x, int y, double angle, BufferedImage image) {
+	public Sprite(int x, int y, double angle, BufferedImage image)
+	{
+		super(x, y);
 		preloaded = true;
 
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
 		this.image = createTransformedImage(image, angle);
-
-
 	}
 
-
 	//Load a buffered image
-	public void loadImage(){
-
+	public void loadImage()
+	{
 		if (!preloaded){
 			BufferedImage img = null;
 			try {
@@ -74,14 +60,14 @@ public class Sprite {
 			}
 			this.image = createTransformedImage(img, angle);
 		} else {
-			//You shouldn't call me
-
+			//You shouldn't call me ??
 			StackTraceElement[] e = new Throwable().getStackTrace();
 			for (int f = e.length - 1; f > 0; f--){
 				System.out.println(e[f]);
 			}
 		}
 
+        setSize(image.getWidth(), image.getHeight());
 	}
 
 	//Load a rotated buffered image
@@ -113,32 +99,12 @@ public class Sprite {
 		return new Rectangle(x, y, width, height);
 	}
 	
-	public int getWidth() {
+	public int getImageWidth() {
 		return image.getWidth();
 	}
 	
-	public int getHeight() {
+	public int getImageHeight() {
 		return image.getHeight();
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getXCenter() {
-		return x + width /2;
-	}
-
-	public int getYCenter() {
-		return y + height /2;
-	}
-
-	public int[] getCenter() {
-		return new int[]{x + width /2, y + height /2};
 	}
 
 	//Center the sprite on the given x and y coordinates.
@@ -169,10 +135,6 @@ public class Sprite {
         return new BufferedImage(cm, raster, isAlphaPremultiplied, null).getSubimage(0, 0, bi.getWidth(), bi.getHeight());
     }
 
-
-
-
-
     /* There is a faster way to do the following, but this worked for me and I had trouble getting
      * the faster way working.
      * http://stackoverflow.com/questions/2825837/java-how-to-do-fast-copy-of-a-bufferedimages-pixels-unit-test-included
@@ -191,60 +153,6 @@ public class Sprite {
         }
         return dst;
     }
-
-	
-	/*
-	public void move() {
-		x += dx;
-		y += dy;
-		//Keep certain sprites in bounds.
-		if(stay_in_bounds && !InBounds()){
-			StayInBounds();
-		}
-	}
-	 */
-	//Detect if the sprite is in bounds
-	/*public boolean InBounds() {
-		if(x < 0){
-			return false;
-		}
-		if(y < 0){
-			return false;
-		}
-		if(x+width > MovingSpriteEx.ScreenX){
-			return false;
-		}
-		if(y+height > MovingSpriteEx.ScreenY){
-			return false;
-		}
-		return true;
-	}*/
-
-	//Keep the sprite from straying out of bounds with this function
-	/*public void StayInBounds(){
-		if(x < 0){//left wall
-			x=0;
-		}
-		else if(x+width > MovingSpriteEx.ScreenX){//right wall
-			x= MovingSpriteEx.ScreenX - width;
-		}
-		if(y < 0){//top wall
-			y=0;
-		}
-		else if(y+height > MovingSpriteEx.ScreenY){//bottom wall
-			y= MovingSpriteEx.ScreenY - height;
-		}
-	}*/
-
-	public void changeVelocity(double change_dx, double change_dy){
-		dx += change_dx;
-		dy += change_dy;
-	}
-
-	public void setVelocity(double new_dx, double new_dy){
-		dx = new_dx;
-		dy = new_dy;
-	}
 
 	public void changeAngle(double angle){
 		//Remember the current center
