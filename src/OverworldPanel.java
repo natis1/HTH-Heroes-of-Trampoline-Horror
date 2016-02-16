@@ -19,6 +19,9 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
 
         String bgImageString = "main/resources/ANGRY.png";
+
+        RandomWorldGenerator generateTheWorld = new RandomWorldGenerator();
+
         //is4K = (universalScalar > 1.0001);
 
         //backgroundSprite = new Sprite(0, 0, 0, loadImages.imageSetCopy.get(129));
