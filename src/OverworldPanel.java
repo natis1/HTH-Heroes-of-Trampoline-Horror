@@ -5,22 +5,31 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 public class OverworldPanel extends BasePanel implements MouseListener
 {
     private Sprite backgroundSprite;
 
+    private Point characterLocation;
+    private long seed;
+
     public OverworldPanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
         addMouseListener(this);
+        ReadSaveFile();
+
         SpriteLoader loadImages = new SpriteLoader();
 
 
         String bgImageString = "main/resources/ANGRY.png";
 
-        RandomWorldGenerator generateTheWorld = new RandomWorldGenerator();
+        RandomWorldGenerator generateTheWorld = new RandomWorldGenerator(characterLocation.x, characterLocation.y);
 
         //is4K = (universalScalar > 1.0001);
 
@@ -31,6 +40,45 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         runLoop();
     }
+
+
+    private void ReadSaveFile() {
+
+
+        try {
+            // FileReader reads text files in the default encoding.
+            FileReader fileReader =
+                    new FileReader("worldsave.txt");
+
+            // Always wrap FileReader in BufferedReader.
+            BufferedReader bufferedReader =
+                    new BufferedReader(fileReader);
+
+            if (bufferedReader.readLine() != null) {
+                characterLocation.x = Integer.parseInt(bufferedReader.readLine());
+                characterLocation.y = Integer.parseInt(bufferedReader.readLine());
+                seed = Long.parseLong(bufferedReader.readLine());
+                if (seed == 0){
+                    seed = System.nanoTime();
+                }
+
+
+            }
+
+
+
+
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+        } catch (IOException e) {
+            //Please restart or something
+            e.printStackTrace();
+        }
+    }
+
+
+
 
     private BufferedImage deepCopy(BufferedImage bi)
     {
