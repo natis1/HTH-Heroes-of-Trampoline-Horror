@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
@@ -9,14 +10,21 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class OverworldPanel extends BasePanel implements MouseListener
 {
     private Sprite backgroundSprite;
 
-    private Point characterLocation;
+    private Point characterLocation = new Point();
+    private Point characterChunk = new Point();
+    private SpriteLoader loadImages = new SpriteLoader();
+
     private long seed;
+
+    private ArrayList<Sprite> backgroundPoints = new ArrayList<Sprite>();
+
 
     public OverworldPanel(double scalar, int monitorHZ)
     {
@@ -24,22 +32,62 @@ public class OverworldPanel extends BasePanel implements MouseListener
         addMouseListener(this);
         ReadSaveFile();
 
-        SpriteLoader loadImages = new SpriteLoader();
+
 
 
         String bgImageString = "main/resources/ANGRY.png";
 
-        RandomWorldGenerator generateTheWorld = new RandomWorldGenerator(characterLocation.x, characterLocation.y);
+        LoadMapSprites();
 
-        //is4K = (universalScalar > 1.0001);
+        characterChunk = characterLocation;
+        characterChunk.x += 512 ; characterChunk.y += 512 ;
+        characterChunk.x /= 1024; characterChunk.y /= 1024;
 
-        //backgroundSprite = new Sprite(0, 0, 0, loadImages.imageSetCopy.get(129));
+        RandomWorldGenerator generateTheWorld = new RandomWorldGenerator(seed, characterChunk.x, characterChunk.y);
+
+
+
 
 
         backgroundSprite = new Sprite(0, 0, 0, new RandomImageGenerator(1920, 1080).nextRandomImage );
 
         runLoop();
     }
+
+
+    private void LoadMapSprites() {
+        int characterX = characterChunk.x % 1024;
+        int characterY = characterChunk.y % 1024;
+
+        characterX += 512;
+        characterY += 512;
+
+        BufferedImage saveGameToLoad = null;
+        try {
+            saveGameToLoad = ImageIO.read(getClass().getResource("world" + characterChunk.getX() + " " + characterChunk.getY()));
+        } catch (IOException e) {
+            System.out.println("Error loading image.");
+            e.printStackTrace();
+        }
+
+
+
+        for (int x = -62; x < 62; x++){
+            for (int y = -36; y < 36; y++){
+                int r;
+                Color c = new Color(saveGameToLoad.getRGB(characterX + x, characterY + y));
+                r = c.getRed();
+                //r /= 0x010000;
+
+                backgroundPoints.add(new Sprite(960 - 16 * x, 540 - 16 * y, 0, DeepCopy(loadImages.imageSetCopy.get(r))));
+
+
+            }
+        }
+
+
+    }
+
 
 
     private void ReadSaveFile() {
@@ -57,12 +105,11 @@ public class OverworldPanel extends BasePanel implements MouseListener
             if (bufferedReader.readLine() != null) {
                 characterLocation.x = Integer.parseInt(bufferedReader.readLine());
                 characterLocation.y = Integer.parseInt(bufferedReader.readLine());
-                seed = Long.parseLong(bufferedReader.readLine());
+                seed = Long.valueOf(bufferedReader.readLine());
                 if (seed == 0){
                     seed = System.nanoTime();
                 }
-
-
+                bufferedReader.close();
             }
 
 
@@ -80,7 +127,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
 
 
-    private BufferedImage deepCopy(BufferedImage bi)
+    private BufferedImage DeepCopy(BufferedImage bi)
     {
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
@@ -110,9 +157,15 @@ public class OverworldPanel extends BasePanel implements MouseListener
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
+        for (int bkg = 0; bkg < backgroundPoints.size(); bkg++){
+            g2d.drawImage(backgroundPoints.get(bkg).getImage(),
+                    backgroundPoints.get(bkg).getX(), backgroundPoints.get(bkg).getY(), this);
+
+        }
+
         //Draw stuff here
-        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
-                backgroundSprite.getY(), this);
+        //g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
+        //        backgroundSprite.getY(), this);
     }
 
     @Override

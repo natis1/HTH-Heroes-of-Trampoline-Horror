@@ -97,7 +97,6 @@ public class WindowLoader implements ActionListener {
 		isRunning = true;
 		if (!didInit){
 
-			String fileName = "worldsave.txt";
 
 
 
@@ -107,7 +106,7 @@ public class WindowLoader implements ActionListener {
 			try {
 				// FileReader reads text files in the default encoding.
 				FileReader fileReader =
-						new FileReader(fileName);
+						new FileReader("worldsave.txt");
 
 				// Always wrap FileReader in BufferedReader.
 				BufferedReader bufferedReader =
@@ -154,12 +153,11 @@ public class WindowLoader implements ActionListener {
 			}
 			catch(FileNotFoundException ex) {
 				System.out.println(
-						"Unable to open file '" +
-								fileName + "' Because the file was not found. Recreating... this may lead to lossed data");
+						"Unable to open file Because the file was not found. Recreating... this may lead to lost data");
 
 				PrintWriter writer;
 				try {
-					writer = new PrintWriter("elvenShooter.txt", "UTF-8");
+					writer = new PrintWriter("worldsave.txt", "UTF-8");
 
 					writer.println("Save File. Do not edit you cheater");
 					writer.println("0");//X location
@@ -190,8 +188,7 @@ public class WindowLoader implements ActionListener {
 
 				} catch (FileNotFoundException e) {
 					System.out.println(
-							"No idea why I can't make '" +
-									fileName + "' Something is seriously wrong with your system");
+							"No idea why I can't make file Something is seriously wrong with your system");
 
 				} catch (UnsupportedEncodingException e) {
 					System.out.println(
@@ -203,8 +200,7 @@ public class WindowLoader implements ActionListener {
 			}
 			catch(IOException ex) {
 				System.out.println(
-						"Error reading file '"
-								+ fileName + "' Because you do not have permissions. Run as Admin to fix.");
+						"Error reading file Because you do not have permissions. Run as Admin to fix.");
 				// Or we could just do this:
 				// ex.printStackTrace();
 			}
