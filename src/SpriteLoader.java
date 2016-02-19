@@ -15,8 +15,71 @@ public class SpriteLoader {
 
 
         imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
         imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
         imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
+
+
 
 
         for (int i = imageSetCopy.size(); i < 65; i++){
