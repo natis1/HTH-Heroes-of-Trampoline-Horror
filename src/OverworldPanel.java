@@ -6,10 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -20,6 +17,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
     private Point characterLocation = new Point();
     private Point characterChunk = new Point();
     private SpriteLoader loadImages = new SpriteLoader();
+
+    private BufferedImage saveGameToLoad;
 
     private long seed;
 
@@ -37,15 +36,30 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         String bgImageString = "main/resources/ANGRY.png";
 
-        LoadMapSprites();
-
         characterChunk = characterLocation;
         characterChunk.x += 512 ; characterChunk.y += 512 ;
         characterChunk.x /= 1024; characterChunk.y /= 1024;
 
-        RandomWorldGenerator generateTheWorld = new RandomWorldGenerator(seed, characterChunk.x, characterChunk.y);
+
+        try {
+            saveGameToLoad = ImageIO.read(new File("world" + (int) characterChunk.getX() + " " + (int) characterChunk.getY() + ".png"));
 
 
+        } catch (IOException e) {
+            System.out.println("Error loading image. IOException Regenerating");
+            new RandomWorldGenerator(seed, characterChunk.x, characterChunk.y);
+
+
+            try {
+                saveGameToLoad = ImageIO.read(new File("world" + (int) characterChunk.getX() + " " + (int) characterChunk.getY() + ".png"));
+            } catch (IOException e1) {
+                System.out.println("Unknown Error prevented image loading");
+
+                e1.printStackTrace();
+            }
+        }
+
+        LoadMapSprites();
 
 
 
@@ -56,19 +70,13 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
 
     private void LoadMapSprites() {
-        int characterX = characterChunk.x % 1024;
-        int characterY = characterChunk.y % 1024;
 
-        characterX += 512;
-        characterY += 512;
+        int characterX = 512;
+        int characterY = 512;
 
-        BufferedImage saveGameToLoad = null;
-        try {
-            saveGameToLoad = ImageIO.read(getClass().getResource("world" + characterChunk.getX() + " " + characterChunk.getY()));
-        } catch (IOException e) {
-            System.out.println("Error loading image.");
-            e.printStackTrace();
-        }
+
+        characterLocation.x += 512;
+        characterLocation.y += 512;
 
 
 
@@ -84,7 +92,35 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
             }
         }
+    }
 
+    private void ReloadMapSprites() {
+        //TODO check if chunk changed
+
+        backgroundPoints.clear();
+
+
+
+        long time = System.nanoTime();
+
+
+        for (int x = -62; x < 62; x++){
+            for (int y = -36; y < 36; y++){
+
+                int r;
+                Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
+                r = c.getRed();
+
+
+                backgroundPoints.add(new Sprite(960 - 16 * x, 540 - 16 * y, 0, DeepCopy(loadImages.imageSetCopy.get(r))));
+
+
+            }
+        }
+
+        long endtime = System.nanoTime() - time;
+
+        System.out.println("time taken (ns) : " + endtime);
 
     }
 
@@ -175,6 +211,28 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+        if (e.getY() < 100){
+            characterLocation.y++;
+
+            ReloadMapSprites();
+
+        } else if (e.getY() > 980){
+            characterLocation.y--;
+
+            ReloadMapSprites();
+        }
+
+        if (e.getX() < 100){
+            characterLocation.x++;
+
+            ReloadMapSprites();
+        } else if (e.getX() > 1820){
+            characterLocation.x--;
+
+            ReloadMapSprites();
+        }
+
 
     }
 

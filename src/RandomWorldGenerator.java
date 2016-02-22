@@ -61,8 +61,9 @@ public class RandomWorldGenerator {
                 double biomeData = biomeGenerator.eval(x / (CHUNK_SIZE * AVERAGE_BIOME_SIZE), y / (CHUNK_SIZE * AVERAGE_BIOME_SIZE), 0.0);
 
 
+                int r = ((int)((chunkData + 1) * 127.5) % 64);
 
-                int rgb = 0x010000 * (int)((chunkData + 1) * 63.5);
+                int rgb = 0x010000 * r;
                 rgb += (int)((biomeData + 1) * 127.5);
 
                 worldData.setRGB(x + 512, y + 512, rgb);
