@@ -31,6 +31,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
         addMouseListener(this);
         ReadSaveFile();
 
+        this.setBackground(Color.BLACK);
+
 
 
 
@@ -59,11 +61,14 @@ public class OverworldPanel extends BasePanel implements MouseListener
             }
         }
 
+
+
+
+
+        backgroundSprite = new Sprite(0, 0, 0, new RandomImageGenerator(16, 16).nextRandomImage );
+
         LoadMapSprites();
 
-
-
-        backgroundSprite = new Sprite(0, 0, 0, new RandomImageGenerator(1920, 1080).nextRandomImage );
 
         runLoop();
     }
@@ -79,6 +84,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
         characterLocation.y += 512;
 
 
+        BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1088, BufferedImage.TYPE_INT_RGB);
 
         for (int x = -62; x < 62; x++){
             for (int y = -36; y < 36; y++){
@@ -87,11 +93,26 @@ public class OverworldPanel extends BasePanel implements MouseListener
                 r = c.getRed();
                 //r /= 0x010000;
 
-                backgroundPoints.add(new Sprite(960 - 16 * x, 540 - 16 * y, 0, DeepCopy(loadImages.imageSetCopy.get(r))));
+                backgroundLoadBufferedImage = copySrcIntoDstAt
+                        (DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
 
 
             }
         }
+
+        backgroundSprite.image = backgroundLoadBufferedImage;
+    }
+
+    private BufferedImage copySrcIntoDstAt(BufferedImage src, BufferedImage dst, int dx, int dy)
+    {
+        for (int x = 0; x < src.getWidth(); x++)
+        {
+            for (int y = 0; y < src.getHeight(); y++)
+            {
+                dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
+            }
+        }
+        return dst;
     }
 
     private void ReloadMapSprites() {
@@ -103,16 +124,19 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         long time = System.nanoTime();
 
+        BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1088, BufferedImage.TYPE_INT_RGB);
 
-        for (int x = -62; x < 62; x++){
-            for (int y = -36; y < 36; y++){
+
+        for (int x = 0; x < 120; x++){
+            for (int y = 0; y < 68; y++){
+
 
                 int r;
                 Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
                 r = c.getRed();
 
-
-                backgroundPoints.add(new Sprite(960 - 16 * x, 540 - 16 * y, 0, DeepCopy(loadImages.imageSetCopy.get(r))));
+                backgroundLoadBufferedImage = copySrcIntoDstAt
+                        (DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
 
 
             }
@@ -121,6 +145,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
         long endtime = System.nanoTime() - time;
 
         System.out.println("time taken (ns) : " + endtime);
+        backgroundSprite.image = backgroundLoadBufferedImage;
 
     }
 
@@ -193,11 +218,14 @@ public class OverworldPanel extends BasePanel implements MouseListener
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
-        for (int bkg = 0; bkg < backgroundPoints.size(); bkg++){
-            g2d.drawImage(backgroundPoints.get(bkg).getImage(),
-                    backgroundPoints.get(bkg).getX(), backgroundPoints.get(bkg).getY(), this);
+        long time = System.nanoTime();
 
-        }
+        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(), backgroundSprite.getY(), this);
+
+        long endtime = System.nanoTime() - time;
+
+
+        //System.out.println("Draw Time : " + endtime);
 
         //Draw stuff here
         //g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
