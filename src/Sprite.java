@@ -30,12 +30,16 @@ public class Sprite {
 	//Detect collisions in a circle around the sprite.
 	protected double collision_radius=0;
 
+
+	private boolean preloaded = false;
+
 	//Constructor
-	public Sprite(int x, int y, double angle, double radius, String image_file) {
+	public Sprite(int x, int y, double angle, String image_file) {
+		preloaded = false;
+
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
-		this.collision_radius = radius;
 		this.image_file = image_file;
 
     	//when compiling for real, comment this
@@ -45,16 +49,39 @@ public class Sprite {
 		vis = true;
 	}
 
+	public Sprite(int x, int y, double angle, BufferedImage image) {
+		preloaded = true;
+
+		this.x = x;
+		this.y = y;
+		this.angle = angle;
+		this.image = createTransformedImage(image, angle);
+
+
+	}
+
+
 	//Load a buffered image
 	public void loadImage(){
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(getClass().getResource(image_file));
-		} catch (IOException e) {
-			System.out.println("Error loading image.");
-			e.printStackTrace();
+
+		if (!preloaded){
+			BufferedImage img = null;
+			try {
+				img = ImageIO.read(getClass().getResource(image_file));
+			} catch (IOException e) {
+				System.out.println("Error loading image.");
+				e.printStackTrace();
+			}
+			this.image = createTransformedImage(img, angle);
+		} else {
+			//You shouldn't call me
+
+			StackTraceElement[] e = new Throwable().getStackTrace();
+			for (int f = e.length - 1; f > 0; f--){
+				System.out.println(e[f]);
+			}
 		}
-		this.image = createTransformedImage(img, angle);
+
 	}
 
 	//Load a rotated buffered image

@@ -14,18 +14,14 @@ import java.awt.*;
 
 public class Main
 {
-	//Stores score and gamestate in one int
+	//Why not move these to a settings class (or something similar)? -Lucas
+
 	public static int ElvenGameState = 0;
-	public static int ElvenSoulsStolen = 0;
-	public static int ElvenGameDifficulty = 0;
-	
-	public static int ElvenXResolution = 0;
-	public static int ElvenYResolution = 0;
+
 	public static int ElvenFramerate = 0;
-	
-	public static char ElvenUpgradeFirerate = 0;
-	public static char ElvenUpgradeMovement = 0;
-	public static char ElvenUpgradeTracking = 0;
+	public static int ElvenWorldSeed = 0;
+	public static int ElvenWindowedResolution = 0;
+
     
     public static void main(String[] args)
 	{
@@ -36,6 +32,11 @@ public class Main
 						{
 
 							//BOW TO THE VOID OR BE CONSUMED BY IT
+
+							//Honestly I am so glad nobody has noticed this or the window loader name.
+
+							//PS since its an elf a Malzahar quote is kinda unfitting, maybe something like:
+							//"A solid giggle should do the trick!"
 							WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
 
 						}

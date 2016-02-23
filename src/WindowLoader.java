@@ -42,7 +42,7 @@ public class WindowLoader implements ActionListener {
 		initUI("game");
 
 
-		if (Main.ElvenXResolution == 0 && spawnBlackBKG){
+		if (Main.ElvenWindowedResolution == 0 && spawnBlackBKG){
 			initBlackUI();
 			myGameScreen.toFront();
 		}
@@ -92,15 +92,11 @@ public class WindowLoader implements ActionListener {
 	}
 
 
-
-
-
 	private void initUI(String UIName) {
 
 		isRunning = true;
 		if (!didInit){
 
-			String fileName = "elvenShooter.txt";
 
 
 
@@ -110,7 +106,7 @@ public class WindowLoader implements ActionListener {
 			try {
 				// FileReader reads text files in the default encoding.
 				FileReader fileReader =
-						new FileReader(fileName);
+						new FileReader("worldsave.txt");
 
 				// Always wrap FileReader in BufferedReader.
 				BufferedReader bufferedReader =
@@ -119,16 +115,12 @@ public class WindowLoader implements ActionListener {
 
 				if (bufferedReader.readLine() != null){
 					System.out.print(bufferedReader.readLine());
-					Main.ElvenGameDifficulty = Integer.parseInt(bufferedReader.readLine());
-					Main.ElvenSoulsStolen = Integer.parseInt(bufferedReader.readLine());
+					System.out.print(bufferedReader.readLine());
 
-					Main.ElvenUpgradeMovement = (bufferedReader.readLine().charAt(0));
-					Main.ElvenUpgradeFirerate = (bufferedReader.readLine().charAt(0));
-					Main.ElvenUpgradeTracking = (bufferedReader.readLine().charAt(0));
 
-					Main.ElvenXResolution = Integer.parseInt(bufferedReader.readLine());
-					System.out.println((bufferedReader.readLine()));
-					Main.ElvenYResolution = Integer.parseInt(bufferedReader.readLine());
+					//Line 4 - 6
+					Main.ElvenWorldSeed = (bufferedReader.readLine().charAt(0));
+					Main.ElvenWindowedResolution = Integer.parseInt(bufferedReader.readLine());
 					Main.ElvenFramerate = Integer.parseInt(bufferedReader.readLine());
 
 					if (Main.ElvenFramerate == 0){
@@ -161,26 +153,18 @@ public class WindowLoader implements ActionListener {
 			}
 			catch(FileNotFoundException ex) {
 				System.out.println(
-						"Unable to open file '" +
-								fileName + "' Because the file was not found. Recreating... this may lead to lossed data");
+						"Unable to open file Because the file was not found. Recreating... this may lead to lost data");
 
 				PrintWriter writer;
 				try {
-					writer = new PrintWriter("elvenShooter.txt", "UTF-8");
-					int zero = 0;
-					char pleaseBeZero = (char) zero;//If this doesn't work IDK what will
+					writer = new PrintWriter("worldsave.txt", "UTF-8");
 
 					writer.println("Save File. Do not edit you cheater");
-					writer.println("0");
-					writer.println("0");
-					writer.println("0");//Top ones are ints, bottom ones are nulls.
-					writer.println(pleaseBeZero);//0
-					writer.println(pleaseBeZero);//0
-					writer.println(pleaseBeZero);//0
-					writer.println("0");// res X
-					writer.println("x"); // by sign, does nothing
-					writer.println("0");//y res
-					writer.println("0");//framerate
+					writer.println("0");//X location
+					writer.println("0");//Y location
+					writer.println("0");//Seed
+					writer.println("0");//Resolution (0 for fullscreen) This is the height (IE 1080p 720p etc)
+					writer.println("0");//Framerate
 					writer.close();
 
 
@@ -204,8 +188,7 @@ public class WindowLoader implements ActionListener {
 
 				} catch (FileNotFoundException e) {
 					System.out.println(
-							"No idea why I can't make '" +
-									fileName + "' Something is seriously wrong with your system");
+							"No idea why I can't make file Something is seriously wrong with your system");
 
 				} catch (UnsupportedEncodingException e) {
 					System.out.println(
@@ -217,8 +200,7 @@ public class WindowLoader implements ActionListener {
 			}
 			catch(IOException ex) {
 				System.out.println(
-						"Error reading file '"
-								+ fileName + "' Because you do not have permissions. Run as Admin to fix.");
+						"Error reading file Because you do not have permissions. Run as Admin to fix.");
 				// Or we could just do this:
 				// ex.printStackTrace();
 			}
@@ -244,7 +226,7 @@ public class WindowLoader implements ActionListener {
 		int screenChangeYBy = 0;
 		universalScaler = 1;
 
-		if (Main.ElvenXResolution == 0){
+		if (Main.ElvenWindowedResolution == 0){
 			screenWidth = screenSize.getWidth();
 			screenHeight = screenSize.getHeight();
 
@@ -272,7 +254,7 @@ public class WindowLoader implements ActionListener {
 
 
 		} else {
-			screenHeight = Main.ElvenYResolution;
+			screenHeight = Main.ElvenWindowedResolution;
 
 
 
@@ -328,7 +310,7 @@ public class WindowLoader implements ActionListener {
 
 		myGameScreen.setBackground(Color.black);
 
-		myGameScreen.setTitle("Damned Dwarves Deux");
+		myGameScreen.setTitle("Trampoline Hero!");
 		//setLocationRelativeTo(null);
 
 		//Wait. This means you can't possibly close it without taskMGR
