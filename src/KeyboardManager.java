@@ -1,14 +1,22 @@
+import java.awt.event.KeyEvent;
+
 public class KeyboardManager
 {
-	public boolean[] elvenAsciiInput;
-	
-	public KeyboardManager()
-	{
-		elvenAsciiInput = new boolean[52];
-	}
+    public boolean[] elvenAsciiInput;
 
-	void keyReleased(int keyYouLetGoOf)
-	{
-		elvenAsciiInput[keyYouLetGoOf] = false;
-	}
+    public KeyboardManager() {
+        elvenAsciiInput = new boolean[52];
+    }
+
+    void keyReleased(int keyYouLetGoOf) {
+        elvenAsciiInput[keyYouLetGoOf] = false;
+    }
+
+
+
+
+
+
+
+
 }

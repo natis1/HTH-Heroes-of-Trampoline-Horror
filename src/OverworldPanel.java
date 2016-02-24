@@ -1,6 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
     private Point characterLocation = new Point();
     private Point characterChunk = new Point();
     private SpriteLoader loadImages = new SpriteLoader();
+    private KeyboardManager keyboardManager = new KeyboardManager();
 
     private BufferedImage saveGameToLoad;
 
@@ -25,11 +27,15 @@ public class OverworldPanel extends BasePanel implements MouseListener
     private ArrayList<Sprite> backgroundPoints = new ArrayList<Sprite>();
 
 
-    public OverworldPanel(double scalar, int monitorHZ)
-    {
+    public OverworldPanel(double scalar, int monitorHZ) {
         super(scalar, monitorHZ);
         addMouseListener(this);
+        addKeyListener(new TAdapter());
+        setFocusable(true);
+
         ReadSaveFile();
+
+
 
         this.setBackground(Color.BLACK);
 
@@ -86,8 +92,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1088, BufferedImage.TYPE_INT_RGB);
 
-        for (int x = -62; x < 62; x++){
-            for (int y = -36; y < 36; y++){
+        for (int x = 0; x < 120; x++){
+            for (int y = 0; y < 68; y++){
                 int r;
                 Color c = new Color(saveGameToLoad.getRGB(characterX + x, characterY + y));
                 r = c.getRed();
@@ -103,13 +109,12 @@ public class OverworldPanel extends BasePanel implements MouseListener
         backgroundSprite.image = backgroundLoadBufferedImage;
     }
 
-    private BufferedImage copySrcIntoDstAt(BufferedImage src, BufferedImage dst, int dx, int dy)
-    {
+    private BufferedImage copySrcIntoDstAt(BufferedImage src, BufferedImage dst, int dx, int dy) {
         for (int x = 0; x < src.getWidth(); x++)
         {
             for (int y = 0; y < src.getHeight(); y++)
-            {
-                dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
+                {
+                    dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
             }
         }
         return dst;
@@ -188,8 +193,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
 
 
-    private BufferedImage DeepCopy(BufferedImage bi)
-    {
+    private BufferedImage DeepCopy(BufferedImage bi) {
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = bi.copyData(null);
@@ -203,7 +207,9 @@ public class OverworldPanel extends BasePanel implements MouseListener
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        checkIfKeysArePressed();
         doDrawing(g);
+
 
         Toolkit.getDefaultToolkit().sync();
     }
@@ -213,8 +219,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
      You cannot call doDrawing from other classes, to add a sprite to
      the drawing queue, create the class inside the board.*/
 
-    protected void doDrawing(Graphics g)
-    {
+    protected void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
@@ -240,29 +245,161 @@ public class OverworldPanel extends BasePanel implements MouseListener
     @Override
     public void mousePressed(MouseEvent e) {
 
+        boolean reload = false;
+
         if (e.getY() < 100){
-            characterLocation.y++;
-
-            ReloadMapSprites();
-
-        } else if (e.getY() > 980){
             characterLocation.y--;
+            reload = true;
 
-            ReloadMapSprites();
+
+        }
+        if (e.getY() > 980){
+            characterLocation.y++;
+            reload = true;
         }
 
         if (e.getX() < 100){
-            characterLocation.x++;
-
-            ReloadMapSprites();
-        } else if (e.getX() > 1820){
             characterLocation.x--;
+            reload = true;
+        }
+        if (e.getX() > 1820){
+            characterLocation.x++;
+            reload = true;
+        }
 
+
+
+        //Only redraw once
+        if (reload) {
+            ReloadMapSprites();
+        }
+    }
+
+
+    //TODO move all this stuff below here to its own class.
+
+
+
+
+    public void checkIfKeysArePressed(){
+
+        boolean[] elvenAsciiInput = keyboardManager.elvenAsciiInput;
+
+        boolean reload = false;
+
+        if (elvenAsciiInput[0]){
+            //TODO add space button
+        }
+        if (elvenAsciiInput[1]){
+            characterLocation.y--;
+            reload = true;
+        }
+        if (elvenAsciiInput[2]){
+            characterLocation.x--;
+            reload = true;
+        }
+        if (elvenAsciiInput[3]){
+            characterLocation.x++;
+            reload = true;
+        }
+        if (elvenAsciiInput[4]){
+            characterLocation.y++;
+            reload = true;
+        }
+        if (elvenAsciiInput[5]){
+            //TODO add input when user presses Q
+        }
+        if (elvenAsciiInput[6]){
+            //TODO add input when user presses E
+        }
+
+        if (reload) {
             ReloadMapSprites();
         }
 
 
     }
+
+    private class TAdapter extends KeyAdapter {
+
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+            int key = e.getKeyCode();
+
+            if (key == KeyEvent.VK_SPACE) {
+                keyboardManager.elvenAsciiInput[0] = false;
+            }
+
+            if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
+                keyboardManager.elvenAsciiInput[2] = false;
+
+
+            }
+
+            if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+                keyboardManager.elvenAsciiInput[3] = false;
+                //dx = dx + accelx;
+            }
+
+            if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+                keyboardManager.elvenAsciiInput[1] = false;
+            }
+
+            if (key == KeyEvent.VK_Q) {
+                keyboardManager.elvenAsciiInput[5] = false;
+            }
+            if (key == KeyEvent.VK_E) {
+                keyboardManager.elvenAsciiInput[6] = false;
+            }
+
+            if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+
+
+                keyboardManager.elvenAsciiInput[4] = false;
+            }
+        }
+
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+            int key = e.getKeyCode();
+
+            if (key == KeyEvent.VK_SPACE) {
+                keyboardManager.elvenAsciiInput[0] = true;
+            }
+
+            if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
+                keyboardManager.elvenAsciiInput[2] = true;
+            }
+
+            if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+                keyboardManager.elvenAsciiInput[3] = true;
+            }
+
+            if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+                keyboardManager.elvenAsciiInput[1] = true;
+            }
+
+            if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+                keyboardManager.elvenAsciiInput[4] = true;
+            }
+            if (key == KeyEvent.VK_Q) {
+                keyboardManager.elvenAsciiInput[5] = true;
+            }
+            if (key == KeyEvent.VK_E) {
+                keyboardManager.elvenAsciiInput[6] = true;
+            }
+
+
+        }
+
+
+    }
+
+
 
     @Override
     public void mouseReleased(MouseEvent me) {
@@ -287,8 +424,4 @@ public class OverworldPanel extends BasePanel implements MouseListener
     public void mouseExited(MouseEvent e) {
     }
 
-    private class TAdapter extends KeyAdapter
-    {
-        //TODO KEYBOARD SUPPORT
-    }
 }
