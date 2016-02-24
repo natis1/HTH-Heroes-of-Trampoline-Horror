@@ -82,25 +82,33 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
     private void LoadMapSprites() {
 
-        int characterX = 512;
-        int characterY = 512;
+        int characterX = 32;
+        int characterY = 32;
 
 
-        characterLocation.x += 512;
-        characterLocation.y += 512;
+        characterLocation.x += 32;
+        characterLocation.y += 32;
 
 
         BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1088, BufferedImage.TYPE_INT_RGB);
 
         for (int x = 0; x < 120; x++){
             for (int y = 0; y < 68; y++){
-                int r;
-                Color c = new Color(saveGameToLoad.getRGB(characterX + x, characterY + y));
-                r = c.getRed();
-                //r /= 0x010000;
 
-                backgroundLoadBufferedImage = copySrcIntoDstAt
-                        (DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
+                if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
+                    break;
+                }
+
+                if (y + characterLocation.getY() >= 0 && y + characterLocation.getY() <= 1023){
+                    int r;
+                    Color c = new Color(saveGameToLoad.getRGB(characterX + x, characterY + y));
+                    r = c.getRed();
+                    //r /= 0x010000;
+
+                    backgroundLoadBufferedImage = copySrcIntoDstAt
+                            (DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
+                }
+
 
 
             }
@@ -134,15 +142,19 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         for (int x = 0; x < 120; x++){
             for (int y = 0; y < 68; y++){
+                if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
+                    break;
+                }
 
 
-                int r;
-                Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
-                r = c.getRed();
+                if (y + characterLocation.getY() >= 0 && y + characterLocation.getY() <= 1023){
+                    int r;
+                    Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
+                    r = c.getRed();
 
-                backgroundLoadBufferedImage = copySrcIntoDstAt
-                        (DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
-
+                    backgroundLoadBufferedImage = copySrcIntoDstAt
+                            (DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
+                }
 
             }
         }
