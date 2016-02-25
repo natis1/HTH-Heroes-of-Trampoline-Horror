@@ -9,6 +9,8 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.Vector;
 
 
 public class OverworldPanel extends BasePanel implements MouseListener
@@ -24,6 +26,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
     private long seed;
 
+    private Timer AutosaveTimer;
+
 
 
     //private ArrayList<Sprite> backgroundPoints = new ArrayList<Sprite>();
@@ -35,7 +39,13 @@ public class OverworldPanel extends BasePanel implements MouseListener
         addKeyListener(new TAdapter());
         setFocusable(true);
 
-        ReadSaveFile();
+        int[] savedIntegers = new int[3];
+        OverworldSaveManager saveManager = new OverworldSaveManager();
+
+        Vector<Long> loadData = saveManager.LoadFromSaveFile("worldsave.txt");
+
+        //characterLocation.x = Integer.parsloadData.get(0);
+
 
 
 
@@ -168,69 +178,6 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
 
 
-    private void ReadSaveFile() {
-
-
-        try {
-            // FileReader reads text files in the default encoding.
-            FileReader fileReader =
-                    new FileReader("worldsave.txt");
-
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader =
-                    new BufferedReader(fileReader);
-
-            if (bufferedReader.readLine() != null) {
-                characterLocation.x = Integer.parseInt(bufferedReader.readLine());
-                characterLocation.y = Integer.parseInt(bufferedReader.readLine());
-                seed = Long.valueOf(bufferedReader.readLine());
-                if (seed == 0){
-                    seed = System.nanoTime();
-                }
-                bufferedReader.close();
-            }
-
-
-
-
-        } catch (FileNotFoundException e) {
-
-            e.printStackTrace();
-        } catch (IOException e) {
-            //Please restart or something
-            e.printStackTrace();
-        }
-    }
-
-
-    private void SaveToFile() {
-
-
-        PrintWriter fileWriter;
-        try {
-            fileWriter = new PrintWriter("worldsave.txt", "UTF-8");
-
-            fileWriter.println("Save File. Do not edit you cheater");
-            fileWriter.println(characterLocation.getX());//X location
-            fileWriter.println(characterLocation.getY());//Y location
-            fileWriter.println(seed);//Seed
-            fileWriter.println("0");//Resolution (0 for fullscreen) This is the height (IE 1080p 720p etc)
-            fileWriter.println("0");//Framerate
-            fileWriter.close();
-
-
-
-        } catch (FileNotFoundException e) {
-            System.out.println(
-                    "No idea why I can't make file Something is seriously wrong with your system");
-
-        } catch (UnsupportedEncodingException e) {
-            System.out.println(
-                    "You do not have UTF-8? I am seriously amazed");
-        }
-
-
-    }
 
 
 
