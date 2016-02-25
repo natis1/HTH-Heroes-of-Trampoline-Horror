@@ -1,20 +1,16 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Timer;
+import javax.swing.Timer;
 import java.util.Vector;
 
 
-public class OverworldPanel extends BasePanel implements MouseListener
-{
+public class OverworldPanel extends BasePanel implements ActionListener, MouseListener {
     private Sprite backgroundSprite;
 
     private Point characterLocation = new Point();
@@ -24,20 +20,19 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
     private BufferedImage saveGameToLoad;
 
+    private Sprite SolidColorBackground = new Sprite (1920, 1080, 0, "main/resources/solidColoredBackground.png");
+
     private long seed;
 
-    private Timer AutosaveTimer;
-
-
-
-    //private ArrayList<Sprite> backgroundPoints = new ArrayList<Sprite>();
-
+    private Timer autosaveTimer;
 
     public OverworldPanel(double scalar, int monitorHZ) {
         super(scalar, monitorHZ);
         addMouseListener(this);
         addKeyListener(new TAdapter());
         setFocusable(true);
+
+
 
         int[] savedIntegers = new int[3];
         OverworldSaveManager saveManager = new OverworldSaveManager();
@@ -66,7 +61,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
 
         } catch (IOException e) {
-            System.out.println("Error loading image. IOException Regenerating");
+            System.out.println("Error loading image. This is normal for first time. IOException Regenerating");
             new RandomWorldGenerator(seed, characterChunk.x, characterChunk.y);
 
 
@@ -88,9 +83,13 @@ public class OverworldPanel extends BasePanel implements MouseListener
         LoadMapSprites();
 
 
+
+        //Lastly setup autosaving by implementing a timer
+        autosaveTimer = new javax.swing.Timer(60000, this);//60 secs or 1 minute
+        autosaveTimer.start();
+
         runLoop();
     }
-
 
     private void LoadMapSprites() {
 
@@ -108,6 +107,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
             for (int y = 0; y < 68; y++){
 
                 if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
+                    backgroundLoadBufferedImage = copyColoredPixelsIntoBufferedImage(
+                            backgroundLoadBufferedImage, x * 16, 0, 16, 1080, 0x00AA00);
                     break;
                 }
 
@@ -117,8 +118,11 @@ public class OverworldPanel extends BasePanel implements MouseListener
                     r = c.getRed();
                     //r /= 0x010000;
 
-                    backgroundLoadBufferedImage = copySrcIntoDstAt
-                            (DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
+                    addImage(backgroundLoadBufferedImage, DeepCopy(loadImages.imageSetCopy.get(r)), 1, x * 16, y * 16);
+                    //backgroundLoadBufferedImage = copySrcIntoDstAt
+                            //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
+                } else {
+                    addImage(backgroundLoadBufferedImage, new BufferedImage(16, 16, ), 1, x * 16, y * 16);
                 }
 
 
@@ -129,10 +133,27 @@ public class OverworldPanel extends BasePanel implements MouseListener
         backgroundSprite.image = backgroundLoadBufferedImage;
     }
 
+    private void addImage(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
+        Graphics2D g2d = buff1.createGraphics();
+        g2d.setComposite(
+                AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opaque));
+        g2d.drawImage(buff2, x, y, null);
+        g2d.dispose();
+    }
+
     private BufferedImage copySrcIntoDstAt(BufferedImage src, BufferedImage dst, int dx, int dy) {
         for (int x = 0; x < src.getWidth(); x++) {
             for (int y = 0; y < src.getHeight(); y++) {
-                    dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
+                dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
+            }
+        }
+        return dst;
+    }
+
+    private BufferedImage copyColoredPixelsIntoBufferedImage(BufferedImage dst, int dx, int dy, int sizex, int sizey, int color) {
+        for (int x = 0; x < sizex; x++) {
+            for (int y = 0; y < sizey; y++) {
+                dst.setRGB( dx + x, dy + y, color);
             }
         }
         return dst;
@@ -153,6 +174,9 @@ public class OverworldPanel extends BasePanel implements MouseListener
         for (int x = 0; x < 120; x++){
             for (int y = 0; y < 68; y++){
                 if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
+                    backgroundLoadBufferedImage = copyColoredPixelsIntoBufferedImage(
+                            backgroundLoadBufferedImage, x * 16, 0, 16, 1080, 0x00AA00);
+
                     break;
                 }
 
@@ -162,8 +186,12 @@ public class OverworldPanel extends BasePanel implements MouseListener
                     Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
                     r = c.getRed();
 
-                    backgroundLoadBufferedImage = copySrcIntoDstAt
-                            (DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
+                    addImage(backgroundLoadBufferedImage, DeepCopy(loadImages.imageSetCopy.get(r)), 1, x * 16, y * 16);
+                    //backgroundLoadBufferedImage = copySrcIntoDstAt
+                            //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
+                } else {
+                    backgroundLoadBufferedImage = copyColoredPixelsIntoBufferedImage(
+                            backgroundLoadBufferedImage, x * 16, y * 16, 16, 16, 0xAA0000);
                 }
 
             }
@@ -175,12 +203,6 @@ public class OverworldPanel extends BasePanel implements MouseListener
         backgroundSprite.image = backgroundLoadBufferedImage;
 
     }
-
-
-
-
-
-
 
     private BufferedImage DeepCopy(BufferedImage bi) {
         ColorModel cm = bi.getColorModel();
@@ -385,6 +407,15 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         }
 
+
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        new OverworldSaveManager().SaveToFile("worldsave.txt",
+                (long) characterLocation.getX(), (long) characterLocation.getY(), seed);
 
     }
 
