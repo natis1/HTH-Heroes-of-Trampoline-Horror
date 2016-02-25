@@ -78,7 +78,7 @@ public class WindowLoader implements ActionListener {
         myBlackScreen.setResizable(false);
 
 
-        myBlackScreen.setTitle("Damned Dwarves Deux");
+        myBlackScreen.setTitle("Trampolines");
         //setLocationRelativeTo(null);
         myBlackScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -116,10 +116,11 @@ public class WindowLoader implements ActionListener {
                 if (bufferedReader.readLine() != null){
                     System.out.print(bufferedReader.readLine());
                     System.out.print(bufferedReader.readLine());
+                    System.out.print(bufferedReader.readLine());
 
 
-                    //Line 4 - 6
-                    Main.ElvenWorldSeed = (bufferedReader.readLine().charAt(0));
+                    //Line 5 - 6
+
                     Main.ElvenWindowedResolution = Integer.parseInt(bufferedReader.readLine());
                     Main.ElvenFramerate = Integer.parseInt(bufferedReader.readLine());
 

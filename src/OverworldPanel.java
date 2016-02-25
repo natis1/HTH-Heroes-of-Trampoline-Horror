@@ -24,7 +24,9 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
     private long seed;
 
-    private ArrayList<Sprite> backgroundPoints = new ArrayList<Sprite>();
+
+
+    //private ArrayList<Sprite> backgroundPoints = new ArrayList<Sprite>();
 
 
     public OverworldPanel(double scalar, int monitorHZ) {
@@ -129,7 +131,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
     private void ReloadMapSprites() {
         //TODO check if chunk changed
 
-        backgroundPoints.clear();
+
 
 
 
@@ -198,6 +200,36 @@ public class OverworldPanel extends BasePanel implements MouseListener
             //Please restart or something
             e.printStackTrace();
         }
+    }
+
+
+    private void SaveToFile() {
+
+
+        PrintWriter fileWriter;
+        try {
+            fileWriter = new PrintWriter("worldsave.txt", "UTF-8");
+
+            fileWriter.println("Save File. Do not edit you cheater");
+            fileWriter.println(characterLocation.getX());//X location
+            fileWriter.println(characterLocation.getY());//Y location
+            fileWriter.println(seed);//Seed
+            fileWriter.println("0");//Resolution (0 for fullscreen) This is the height (IE 1080p 720p etc)
+            fileWriter.println("0");//Framerate
+            fileWriter.close();
+
+
+
+        } catch (FileNotFoundException e) {
+            System.out.println(
+                    "No idea why I can't make file Something is seriously wrong with your system");
+
+        } catch (UnsupportedEncodingException e) {
+            System.out.println(
+                    "You do not have UTF-8? I am seriously amazed");
+        }
+
+
     }
 
 
