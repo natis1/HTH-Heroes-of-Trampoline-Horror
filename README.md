@@ -1,9 +1,7 @@
-Hitler's Trampoline Hero
+Heroes of Trampoline Horror
 
-This is a game that has nothing to do with Hitler, but we needed an inconspicuous codename
-So of course it had to be Hitler because who else would it be?
+The ultimate RPG which originally started as a horror game but is now a roguelike
 
-Anne Frank? She is dead. Because of our lifetime trampoline hero.
+If you are looking at this please view the commit history
 
-
-Anyway this is an RPG which we might do.
+Eli and Andre are working on code and art repectively with Lucas occasionally dropping by while mostly working on his virus sim https://github.com/BananaSky/VirusSimulator which is now in JS apparently?
