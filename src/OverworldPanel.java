@@ -37,7 +37,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
 
 
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.GREEN);
 
 
 
@@ -61,7 +61,7 @@ public class OverworldPanel extends BasePanel implements MouseListener
             try {
                 saveGameToLoad = ImageIO.read(new File("world" + (int) characterChunk.getX() + " " + (int) characterChunk.getY() + ".png"));
             } catch (IOException e1) {
-                System.out.println("Unknown Error prevented image loading");
+                System.out.println("Unknown Error prevented image loading.\nThis shouldn't EVER happen. Corrupted harddrive maybe?\nLook at the stacktrace");
 
                 e1.printStackTrace();
             }
@@ -118,10 +118,8 @@ public class OverworldPanel extends BasePanel implements MouseListener
     }
 
     private BufferedImage copySrcIntoDstAt(BufferedImage src, BufferedImage dst, int dx, int dy) {
-        for (int x = 0; x < src.getWidth(); x++)
-        {
-            for (int y = 0; y < src.getHeight(); y++)
-                {
+        for (int x = 0; x < src.getWidth(); x++) {
+            for (int y = 0; y < src.getHeight(); y++) {
                     dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
             }
         }
