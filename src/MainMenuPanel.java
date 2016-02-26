@@ -17,7 +17,6 @@ public class MainMenuPanel extends BasePanel implements MouseListener
         //is4K = (universalScalar > 1.0001);
 
         backgroundSprite = new Sprite(0, 0, 0, bgImageString);
-        backgroundSprite.loadImage();
 
         runLoop();
     }
@@ -68,21 +67,20 @@ the drawing queue, create the class inside the board.*/
             Main.ElvenGameState = 2;
 
             //TODO ADD SOMETHING HERE
+        } else if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar > 600)){
+            System.exit(0);   // I think this will exit with no error code.
         }
     }
 
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
     }
 
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
     }
 
-    private class TAdapter extends KeyAdapter
-    {
+    private class TAdapter extends KeyAdapter {
         //TODO KEYBOARD SUPPORT
     }
 }

@@ -93,32 +93,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         characterLocation.y += 32;
 
 
-        BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1088, BufferedImage.TYPE_INT_RGB);
-
-        for (int x = 0; x < 120; x++){
-            for (int y = 0; y < 68; y++){
-
-                if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
-                    backgroundLoadBufferedImage = copyColoredPixelsIntoBufferedImage(
-                            backgroundLoadBufferedImage, x * 16, 0, 16, 1080, 0x00AA00);
-                    break;
-                }
-
-                if (y + characterLocation.getY() >= 0 && y + characterLocation.getY() <= 1023){
-                    int r;
-                    Color c = new Color(saveGameToLoad.getRGB(characterX + x, characterY + y));
-                    r = c.getRed();
-                    //r /= 0x010000;
-
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(loadImages.imageSetCopy.get(r)), 1, x * 16, y * 16);
-                    //backgroundLoadBufferedImage = copySrcIntoDstAt
-                            //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
-                } else {
-                    //AddImageWithAlphaComposite(backgroundLoadBufferedImage, new BufferedImage(16, 16, ), 1, x * 16, y * 16);
-                }
-            }
-        }
-        backgroundSprite.image = backgroundLoadBufferedImage;
+        reloadMapSprites();
     }
 
     private void addImageWithAlphaComposite(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
@@ -138,12 +113,11 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         return dst;
     }
 
-    private BufferedImage copyColoredPixelsIntoBufferedImage(BufferedImage dst, int dx, int dy, int sizex, int sizey, int color) {
-        for (int x = 0; x < sizex; x++) {
-            for (int y = 0; y < sizey; y++) {
-                dst.setRGB( dx + x, dy + y, color);
-            }
-        }
+    private BufferedImage copyColoredPixelsIntoBufferedImage(BufferedImage dst, int dx, int dy, int sizex, int sizey, Color color) {
+        Graphics2D g = dst.createGraphics();
+        g.setColor(color);
+        g.fillRect(dx, dy, sizex, sizey);
+        g.dispose();
         return dst;
     }
 
@@ -162,8 +136,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         for (int x = 0; x < 120; x++){
             for (int y = 0; y < 68; y++){
                 if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
-                    backgroundLoadBufferedImage = copyColoredPixelsIntoBufferedImage(
-                            backgroundLoadBufferedImage, x * 16, 0, 16, 1080, 0x00AA00);
+                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 16, 0, 16, 1080, Color.GREEN);
 
                     break;
                 }
@@ -178,8 +151,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                     //backgroundLoadBufferedImage = copySrcIntoDstAt
                             //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
                 } else {
-                    backgroundLoadBufferedImage = copyColoredPixelsIntoBufferedImage(
-                            backgroundLoadBufferedImage, x * 16, y * 16, 16, 16, 0xAA0000);
+                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 16, y * 16, 16, 16, Color.GREEN);
                 }
 
             }

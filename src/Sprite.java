@@ -42,9 +42,9 @@ public class Sprite {
         this.angle = angle;
         this.image_file = image_file;
 
-        //when compiling for real, comment this
-        //TODO: UNCOMMENT WHEN RUNNING IN SIM
-        //this.image_file = "Images\\" + image_file;
+        loadImage();
+
+
 
         vis = true;
     }
