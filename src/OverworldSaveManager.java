@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class OverworldSaveManager {
 
-    protected Vector<Long> LoadFromSaveFile(String Destination){
+    protected Vector<Long> loadFromSaveFile(String Destination){
         //Expand as needed
         Vector<Long> loadedData = new Vector<Long>();
 
@@ -40,7 +40,7 @@ public class OverworldSaveManager {
             e.printStackTrace();
         }
 
-        SaveToFile(Destination, loadedData.get(0), loadedData.get(1), loadedData.get(2));
+        saveToFile(Destination, loadedData.get(0), loadedData.get(1), loadedData.get(2));
 
 
 
@@ -50,7 +50,7 @@ public class OverworldSaveManager {
 
 
 
-    protected void SaveToFile(String Destination, long x, long y, long seed){
+    protected void saveToFile(String Destination, long x, long y, long seed){
 
 
         PrintWriter fileWriter;

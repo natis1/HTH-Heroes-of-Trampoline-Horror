@@ -15,21 +15,18 @@ public class Chunk
 
     Sprite player; //Likely because the player will be  treated differently than the other sprites
 
-    int getPreHash()
-    {
+    int getPreHash() {
         return x * 10000 + y;
     }
 
-    public void update()
-    {
+    public void update() {
         for(Sprite s : sprites)
         {
             //s.update();
         }
     }
 
-    public void draw()
-    {
+    public void draw() {
         for(Sprite s : sprites)
         {
             //s.draw(); Assuming that s is responsible for drawing itself

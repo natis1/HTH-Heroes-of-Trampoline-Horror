@@ -341,26 +341,11 @@ public class WindowLoader implements ActionListener {
 
     }
 
-/*
-    public static void main(String[] args) {
-
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-
-                WindowLoader ex = new WindowLoader();
-
-                ex.myBlackScreen.setVisible(true);
-                ex.myGameScreen.setVisible(true);
-            }
-        });
-    }*/
 
 
 
 
-    public void checkGameState()
-    {
+    public void checkGameState() {
         Thread loop = new Thread()
         {
             public void run()
@@ -370,10 +355,6 @@ public class WindowLoader implements ActionListener {
         };
         loop.start();
     }
-
-
-
-
 
 
     @Override

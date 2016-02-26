@@ -5,7 +5,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.*;
-import java.util.ArrayList;
 import javax.swing.Timer;
 import java.util.Vector;
 
@@ -37,7 +36,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         int[] savedIntegers = new int[3];
         OverworldSaveManager saveManager = new OverworldSaveManager();
 
-        Vector<Long> loadData = saveManager.LoadFromSaveFile("worldsave.txt");
+        Vector<Long> loadData = saveManager.loadFromSaveFile("worldsave.txt");
 
         //characterLocation.x = Integer.parsloadData.get(0);
 
@@ -80,7 +79,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
         backgroundSprite = new Sprite(0, 0, 0, new RandomImageGenerator(16, 16).nextRandomImage );
 
-        LoadMapSprites();
+        loadMapSprites();
 
 
 
@@ -91,7 +90,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         runLoop();
     }
 
-    private void LoadMapSprites() {
+    private void loadMapSprites() {
 
         int characterX = 32;
         int characterY = 32;
@@ -118,11 +117,11 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                     r = c.getRed();
                     //r /= 0x010000;
 
-                    addImage(backgroundLoadBufferedImage, DeepCopy(loadImages.imageSetCopy.get(r)), 1, x * 16, y * 16);
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(loadImages.imageSetCopy.get(r)), 1, x * 16, y * 16);
                     //backgroundLoadBufferedImage = copySrcIntoDstAt
                             //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
                 } else {
-                    addImage(backgroundLoadBufferedImage, new BufferedImage(16, 16, ), 1, x * 16, y * 16);
+                    //AddImageWithAlphaComposite(backgroundLoadBufferedImage, new BufferedImage(16, 16, ), 1, x * 16, y * 16);
                 }
 
 
@@ -133,7 +132,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         backgroundSprite.image = backgroundLoadBufferedImage;
     }
 
-    private void addImage(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
+    private void addImageWithAlphaComposite(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
         Graphics2D g2d = buff1.createGraphics();
         g2d.setComposite(
                 AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opaque));
@@ -141,7 +140,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         g2d.dispose();
     }
 
-    private BufferedImage copySrcIntoDstAt(BufferedImage src, BufferedImage dst, int dx, int dy) {
+    private BufferedImage addImageUsingSetRGB(BufferedImage src, BufferedImage dst, int dx, int dy) {
         for (int x = 0; x < src.getWidth(); x++) {
             for (int y = 0; y < src.getHeight(); y++) {
                 dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
@@ -159,7 +158,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         return dst;
     }
 
-    private void ReloadMapSprites() {
+    private void reloadMapSprites() {
         //TODO check if chunk changed
 
 
@@ -186,7 +185,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                     Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
                     r = c.getRed();
 
-                    addImage(backgroundLoadBufferedImage, DeepCopy(loadImages.imageSetCopy.get(r)), 1, x * 16, y * 16);
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(loadImages.imageSetCopy.get(r)), 1, x * 16, y * 16);
                     //backgroundLoadBufferedImage = copySrcIntoDstAt
                             //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
                 } else {
@@ -204,7 +203,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
     }
 
-    private BufferedImage DeepCopy(BufferedImage bi) {
+    private BufferedImage deepCopy(BufferedImage bi) {
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = bi.copyData(null);
@@ -282,7 +281,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
         //Only redraw once
         if (reload) {
-            ReloadMapSprites();
+            reloadMapSprites();
         }
     }
 
@@ -325,7 +324,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         }
 
         if (reload) {
-            ReloadMapSprites();
+            reloadMapSprites();
         }
 
 
@@ -414,7 +413,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        new OverworldSaveManager().SaveToFile("worldsave.txt",
+        new OverworldSaveManager().saveToFile("worldsave.txt",
                 (long) characterLocation.getX(), (long) characterLocation.getY(), seed);
 
     }
