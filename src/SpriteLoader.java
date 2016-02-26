@@ -93,8 +93,6 @@ public class SpriteLoader {
         }
 
         imageSetCopy.add(loadImage("main/resources/backgroundMenu.png"));
-        imageSetCopy.add(loadImage("main/resources/solidXBackground.png"));
-        imageSetCopy.add(loadImage("main/resources/solidYBackground.png"));
 
 
     }
