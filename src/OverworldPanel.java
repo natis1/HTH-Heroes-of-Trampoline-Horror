@@ -19,8 +19,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
     private BufferedImage saveGameToLoad;
 
-    private Sprite SolidColorBackground = new Sprite (1920, 1080, 0, "main/resources/solidColoredBackground.png");
-
     private long seed;
 
     private Timer autosaveTimer;
@@ -44,11 +42,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
 
         this.setBackground(Color.GREEN);
-
-
-
-
-        String bgImageString = "main/resources/ANGRY.png";
 
         characterChunk = characterLocation;
         characterChunk.x += 512 ; characterChunk.y += 512 ;
@@ -123,12 +116,8 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                 } else {
                     //AddImageWithAlphaComposite(backgroundLoadBufferedImage, new BufferedImage(16, 16, ), 1, x * 16, y * 16);
                 }
-
-
-
             }
         }
-
         backgroundSprite.image = backgroundLoadBufferedImage;
     }
 
@@ -200,7 +189,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
         System.out.println("time taken (ns) : " + endtime);
         backgroundSprite.image = backgroundLoadBufferedImage;
-
     }
 
     private BufferedImage deepCopy(BufferedImage bi) {
@@ -337,6 +325,8 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         public void keyReleased(KeyEvent e) {
 
             int key = e.getKeyCode();
+
+
 
             if (key == KeyEvent.VK_SPACE) {
                 keyboardManager.elvenAsciiInput[0] = false;

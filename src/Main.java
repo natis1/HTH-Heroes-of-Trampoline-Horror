@@ -41,6 +41,8 @@ public class Main
                             //"A solid giggle should do the trick!"
 
                             //Literally don't even need to name a windowloader here I don't think. But whatevs
+
+                            //hmmm..
                             WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
 
                         }

@@ -11,12 +11,4 @@ public class KeyboardManager
     void keyReleased(int keyYouLetGoOf) {
         elvenAsciiInput[keyYouLetGoOf] = false;
     }
-
-
-
-
-
-
-
-
 }
