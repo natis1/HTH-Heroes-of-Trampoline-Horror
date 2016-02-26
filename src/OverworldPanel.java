@@ -39,11 +39,6 @@ public class OverworldPanel extends BasePanel implements MouseListener
 
         this.setBackground(Color.BLACK);
 
-
-
-
-        String bgImageString = "main/resources/ANGRY.png";
-
         characterChunk = characterLocation;
         characterChunk.x += 512 ; characterChunk.y += 512 ;
         characterChunk.x /= 1024; characterChunk.y /= 1024;
