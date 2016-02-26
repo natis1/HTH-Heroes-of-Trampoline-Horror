@@ -13,7 +13,7 @@ public class SpriteLoader {
 
         imageSetCopy = new ArrayList<BufferedImage>();
 
-
+        //Does this still need to be here? Why? -Lucas
         imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
         imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
         imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
@@ -106,7 +106,4 @@ public class SpriteLoader {
         }
         return img;
     }
-
-
-
 }

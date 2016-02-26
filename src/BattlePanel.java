@@ -14,7 +14,7 @@ public class BattlePanel extends BasePanel implements MouseListener
 
 
     private ArrayList<Sprite> weapons    = new ArrayList<>(); //Should be eventually full of a class "Weapon"?
-    private ArrayList<Sprite> characters = new ArrayList<>(); //Should be full of "Character"
+    private ArrayList<Sprite> characters = new ArrayList<>(); //Should be full of "Character" ?
 
     public BattlePanel(double scalar, int monitorHZ)
     {
@@ -26,7 +26,7 @@ public class BattlePanel extends BasePanel implements MouseListener
         this.setBackground(Color.BLACK);
 
         String bgImageString = "main/resources/mainMenuScreen.png";
-        String fgImageString = "main/resources/mainMenuScreen.png";
+        String fgImageString = "main/resources/ANGRY.png";
 
         backgroundSprite.createTransformedImage(imageLoader.loadImage(bgImageString), 0);
         backgroundSprite.createTransformedImage(imageLoader.loadImage(fgImageString), 0);

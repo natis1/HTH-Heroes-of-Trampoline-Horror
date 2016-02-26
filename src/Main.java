@@ -37,6 +37,8 @@ public class Main
 
                             //PS since its an elf a Malzahar quote is kinda unfitting, maybe something like:
                             //"A solid giggle should do the trick!"
+
+                            //hmmm..
                             WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
 
                         }
