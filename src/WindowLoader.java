@@ -312,6 +312,7 @@ public class WindowLoader implements ActionListener {
         myGameScreen.setBackground(Color.black);
 
         myGameScreen.setTitle("Trampoline Hero!");
+
         //setLocationRelativeTo(null);
 
         //Wait. This means you can't possibly close it without taskMGR

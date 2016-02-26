@@ -68,7 +68,7 @@ the drawing queue, create the class inside the board.*/
 
             //TODO ADD SOMETHING HERE
         } else if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar > 600)){
-            System.exit(0);   // I think this will exit with no error code.
+            System.exit(1);   // Manually caused exit
         }
     }
 

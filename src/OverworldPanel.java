@@ -366,6 +366,14 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
             }
 
 
+            if (key == KeyEvent.VK_ESCAPE) {
+                OverworldSaveManager saveManager = new OverworldSaveManager();
+                saveManager.saveToFile("worldsave.txt", (long) characterLocation.x, (long) characterLocation.y, seed);
+
+                System.exit(1);//Manually caused exit
+            }
+
+
         }
 
 
