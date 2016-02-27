@@ -16,16 +16,11 @@ public class WindowLoader implements ActionListener {
     private JFrame myGameScreen;
     private JFrame myMenuScreen;
 
-
-
-
     private boolean isRunning = false;
 
     private boolean spawnBlackBKG = true;
 
     private boolean didInit = false;
-
-
 
     private Timer timer;
     private int DELAY = 2000;
@@ -39,7 +34,7 @@ public class WindowLoader implements ActionListener {
 
     public WindowLoader() {
 
-        initUI("game");
+        initUI("main_menu");
 
 
         if (Main.ElvenWindowedResolution == 0 && spawnBlackBKG){
@@ -96,9 +91,6 @@ public class WindowLoader implements ActionListener {
 
         isRunning = true;
         if (!didInit){
-
-
-
 
             // This will reference one line at a time
             //String line = null;
@@ -289,7 +281,7 @@ public class WindowLoader implements ActionListener {
 
         //myGameScreen.
         switch (UIName) {
-            case "game":
+            case "main_menu":
                 myGameScreen.add(new MainMenuPanel(universalScaler, pseudoVSync));
                 break;
 
@@ -297,6 +289,9 @@ public class WindowLoader implements ActionListener {
                 myGameScreen.add(new OverworldPanel(universalScaler, pseudoVSync));
                 break;
 
+            case "battle":
+                myGameScreen.add(new BattlePanel(universalScaler, pseudoVSync));
+                break;
         }
 
 
@@ -370,7 +365,7 @@ public class WindowLoader implements ActionListener {
 
                 //Nothing like reiniting my perfectly working window. No reason for a new one.
 
-                initUI("game");
+                initUI("main_menu");
 
                 Main.ElvenGameState = 1;
 
@@ -397,8 +392,12 @@ public class WindowLoader implements ActionListener {
                 break;
             case 3:
 
+                myGameScreen.setVisible(false);
+                myGameScreen.removeAll();
+                myGameScreen.dispose();
 
-                //16 End Cutscene and load game
+                initUI("battle");
+                Main.ElvenGameState = 1;
                 break;
             case 16:
 

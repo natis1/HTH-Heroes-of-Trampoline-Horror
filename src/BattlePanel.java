@@ -2,13 +2,12 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
 public class BattlePanel extends BasePanel implements MouseListener
 {
-    private Sprite backgroundSprite;
-    private Sprite foregroundSprite; //The pokemon style battle thing
     private SpriteLoader imageLoader = new SpriteLoader();
     private KeyboardManager keyboardManager = new KeyboardManager();
 
@@ -24,12 +23,6 @@ public class BattlePanel extends BasePanel implements MouseListener
         setFocusable(true);
 
         this.setBackground(Color.BLACK);
-
-        String bgImageString = "main/resources/mainMenuScreen.png";
-        String fgImageString = "main/resources/ANGRY.png";
-
-        backgroundSprite.createTransformedImage(imageLoader.loadImage(bgImageString), 0);
-        backgroundSprite.createTransformedImage(imageLoader.loadImage(fgImageString), 0);
 
         runLoop();
     }
@@ -48,13 +41,6 @@ public class BattlePanel extends BasePanel implements MouseListener
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
-        //Draw stuff here
-        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
-                backgroundSprite.getY(), this);
-
-
-        g2d.drawImage(foregroundSprite.getImage(), foregroundSprite.getX(),
-                foregroundSprite.getY(), this);
     }
 
     @Override

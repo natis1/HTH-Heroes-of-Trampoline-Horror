@@ -137,7 +137,7 @@ public class BasePanel extends JPanel
 
         //If we are able to get as high as this FPS, don't render again.
         final double TARGET_FPS = computerHZ;
-        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS; //TODO: Magic number removal service
+        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS; //TODO: Magic number removal service?
 
         //Simple way of finding FPS.
         lastSecondTime = (int) (lastUpdateTime / 1000000000);
