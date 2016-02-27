@@ -14,52 +14,43 @@ public class SpriteLoader {
 
     protected SpriteLoader (int setType) {
 
-        imageSetCopy = new ArrayList<BufferedImage>();
+        imageSetCopy = new ArrayList<>();
         this.setType = setType;
-        //Does this still need to be here? Why? -Lucas
-
-
 
         switch (this.setType) {
             case 1:
                 generateBackgroundSet();
                 break;
             case 2:
-
-
-
+                generateEnemySet();
+                break;
         }
-
-
-
-
     }
 
-    public void generateBackgroundSet(){
-
-
-
-        imageSetCopy.add(loadImage("main/resources/groundGrass128.png"));
-        imageSetCopy.add(loadImage("main/resources/groundSidewalk128.png"));
-
-
-
+    public void generateBackgroundSet()
+    {
+        imageSetCopy.add(loadImage("main/resources/groundGrass256.png"));
+        imageSetCopy.add(loadImage("main/resources/groundSidewalk256.png"));
     }
-    public void generateEnemySet(){
 
+    public void generateEnemySet()
+    {
         imageSetCopy.add(loadImage("main/resources/ANGRY.png"));
-
-
     }
 
+    public int size()
+    {
+        return imageSetCopy.size();
+    }
 
-    protected BufferedImage returnImageFromSet (int index){
-
-
-        //This ensures you never take an image that does not exist. A special method might be ideal for background sets but whateves.
-        index %= imageSetCopy.size();
+    protected BufferedImage returnImageFromSet (int index)
+    {
+        if (index >= imageSetCopy.size())
+        {
+            throw new IllegalArgumentException("Image with ID: "              + Integer.toString(index) +
+                                               " Does not exist in the set: " + Integer.toString(setType));
+        }
         return imageSetCopy.get(index);
-
     }
 
     public BufferedImage loadImage(String image_file){
