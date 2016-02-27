@@ -5,9 +5,9 @@ import java.util.Vector;
 
 public class OverworldSaveManager {
 
-    protected Vector<Long> loadFromSaveFile(String Destination){
+    protected Vector<Object> loadFromSaveFile(String Destination){
         //Expand as needed
-        Vector<Long> loadedData = new Vector<Long>();
+        Vector<Object> loadedData = new Vector<Object>();
 
         try {
             // FileReader reads text files in the default encoding.
@@ -19,12 +19,9 @@ public class OverworldSaveManager {
                     new BufferedReader(fileReader);
 
             if (bufferedReader.readLine() != null) {
+                loadedData.add(Integer.valueOf(bufferedReader.readLine()));
+                loadedData.add(Integer.valueOf(bufferedReader.readLine()));
                 loadedData.add(Long.valueOf(bufferedReader.readLine()));
-                loadedData.add(Long.valueOf(bufferedReader.readLine()));
-                loadedData.add(Long.valueOf(bufferedReader.readLine()));
-                if (loadedData.elementAt(2) == 0){
-                    loadedData.set(2, System.nanoTime());
-                }
                 bufferedReader.close();
             }
 
@@ -40,7 +37,7 @@ public class OverworldSaveManager {
             e.printStackTrace();
         }
 
-        saveToFile(Destination, loadedData.get(0), loadedData.get(1), loadedData.get(2));
+        saveToFile(Destination, (int) loadedData.get(0), (int) loadedData.get(1), (long) loadedData.get(2));
 
 
 
@@ -50,7 +47,7 @@ public class OverworldSaveManager {
 
 
 
-    protected void saveToFile(String Destination, long x, long y, long seed){
+    protected void saveToFile(String Destination, int x, int y, long seed){
 
 
         PrintWriter fileWriter;

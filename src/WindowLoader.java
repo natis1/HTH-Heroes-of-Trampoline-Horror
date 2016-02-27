@@ -399,31 +399,6 @@ public class WindowLoader implements ActionListener {
                 initUI("battle");
                 Main.ElvenGameState = 1;
                 break;
-            case 16:
-
-
-                //18 End Cutscene 2
-                break;
-            case 18:
-
-
-                //19 Cutscene 3
-                break;
-            case 19:
-
-
-                //20 End Cutscene 3
-                break;
-            case 20:
-
-
-                //21 Cutscene 4
-                break;
-            case 21:
-
-
-                //22 End Cutscene 4
-                break;
         }
 
 

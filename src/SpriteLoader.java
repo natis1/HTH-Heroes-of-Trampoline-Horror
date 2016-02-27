@@ -1,3 +1,4 @@
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -7,93 +8,57 @@ import java.util.ArrayList;
 
 public class SpriteLoader {
 
-    protected ArrayList<BufferedImage> imageSetCopy;
+    private ArrayList<BufferedImage> imageSetCopy;
 
-    protected SpriteLoader () {
+    private int setType;
+
+    protected SpriteLoader (int setType) {
 
         imageSetCopy = new ArrayList<BufferedImage>();
-
+        this.setType = setType;
         //Does this still need to be here? Why? -Lucas
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundDirt.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundGrass.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
-        imageSetCopy.add(loadImage("main/resources/groundMetal.jpg"));
 
 
 
+        switch (this.setType) {
+            case 1:
+                generateBackgroundSet();
+                break;
+            case 2:
 
-        for (int i = imageSetCopy.size(); i < 65; i++){
-            imageSetCopy.add(null);
+
+
         }
+
+
+
+
+    }
+
+    public void generateBackgroundSet(){
+
+
+
+        imageSetCopy.add(loadImage("main/resources/groundGrass128.png"));
+        imageSetCopy.add(loadImage("main/resources/groundSidewalk128.png"));
+
+
+
+    }
+    public void generateEnemySet(){
+
         imageSetCopy.add(loadImage("main/resources/ANGRY.png"));
 
 
-        for (int i = imageSetCopy.size(); i < 129; i++){
-            imageSetCopy.add(null);
-        }
+    }
 
-        imageSetCopy.add(loadImage("main/resources/backgroundMenu.png"));
 
+    protected BufferedImage returnImageFromSet (int index){
+
+
+        //This ensures you never take an image that does not exist. A special method might be ideal for background sets but whateves.
+        index %= imageSetCopy.size();
+        return imageSetCopy.get(index);
 
     }
 

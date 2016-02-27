@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class BattlePanel extends BasePanel implements MouseListener
 {
-    private SpriteLoader imageLoader = new SpriteLoader();
+    private SpriteLoader battleLoader = new SpriteLoader(2);//Todo setup your own sprite loader switch for the battle
     private KeyboardManager keyboardManager = new KeyboardManager();
 
 

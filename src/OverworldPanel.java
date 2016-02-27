@@ -7,14 +7,15 @@ import java.awt.image.WritableRaster;
 import java.io.*;
 import javax.swing.Timer;
 import java.util.Vector;
+import java.util.concurrent.SynchronousQueue;
 
 
 public class OverworldPanel extends BasePanel implements ActionListener, MouseListener {
     private Sprite backgroundSprite;
 
     private Point characterLocation = new Point();
-    private Point characterChunk = new Point();
-    private SpriteLoader loadImages = new SpriteLoader();
+
+    private SpriteLoader backgroundImageLoader = new SpriteLoader(1);
     private KeyboardManager keyboardManager = new KeyboardManager();
 
     private BufferedImage saveGameToLoad;
@@ -34,31 +35,27 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         int[] savedIntegers = new int[3];
         OverworldSaveManager saveManager = new OverworldSaveManager();
 
-        Vector<Long> loadData = saveManager.loadFromSaveFile("worldsave.txt");
+        Vector<Object> loadData = saveManager.loadFromSaveFile("worldsave.txt");
 
-        //characterLocation.x = Integer.parsloadData.get(0);
+        if ((int) loadData.get(0) == 0 && (int) loadData.get(1) == 0 && (long) loadData.get(2) == 0){
+            loadData.set(0, 512); loadData.set(1, 512); loadData.set(2, System.nanoTime());
+        }
+        characterLocation.setLocation((int) loadData.get(0), (int) loadData.get(1) );
 
-
-
-
-        this.setBackground(Color.GREEN);
-
-        characterChunk = characterLocation;
-        characterChunk.x += 512 ; characterChunk.y += 512 ;
-        characterChunk.x /= 1024; characterChunk.y /= 1024;
+        backgroundSprite =  new Sprite(0, 0, 0, "main/resources/ANGRY.png");
 
 
         try {
-            saveGameToLoad = ImageIO.read(new File("world" + (int) characterChunk.getX() + " " + (int) characterChunk.getY() + ".png"));
+            saveGameToLoad = ImageIO.read(new File("world" + (int) (((int) characterLocation.getX() + 512)/1024) + " " + (int) (((int) characterLocation.getY() + 512)/1024) + ".png"));
 
 
         } catch (IOException e) {
             System.out.println("Error loading image. This is normal for first time. IOException Regenerating");
-            new RandomWorldGenerator(seed, characterChunk.x, characterChunk.y);
+            new RandomWorldGenerator(seed, (int) (((int) characterLocation.getX() + 512)/1024), (int) (((int) characterLocation.getY() + 512)/1024));
 
 
             try {
-                saveGameToLoad = ImageIO.read(new File("world" + (int) characterChunk.getX() + " " + (int) characterChunk.getY() + ".png"));
+                saveGameToLoad = ImageIO.read(new File("world" + (((int) characterLocation.getX() + 512)/1024) + " " + (int) (((int) characterLocation.getY() + 512)/1024) + ".png"));
             } catch (IOException e1) {
                 System.out.println("Unknown Error prevented image loading.\nThis shouldn't EVER happen. Corrupted harddrive maybe?\nLook at the stacktrace");
 
@@ -70,9 +67,9 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
 
 
-        backgroundSprite = new Sprite(0, 0, 0, new RandomImageGenerator(16, 16).nextRandomImage );
+        //backgroundSprite = new Sprite(0, 0, 0, new RandomImageGenerator(16, 16).nextRandomImage );
 
-        loadMapSprites();
+        reloadMapSprites();
 
 
 
@@ -83,18 +80,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         runLoop();
     }
 
-    private void loadMapSprites() {
-
-        int characterX = 32;
-        int characterY = 32;
-
-
-        characterLocation.x += 32;
-        characterLocation.y += 32;
-
-
-        reloadMapSprites();
-    }
 
     private void addImageWithAlphaComposite(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
         Graphics2D g2d = buff1.createGraphics();
@@ -130,13 +115,13 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
         long time = System.nanoTime();
 
-        BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1088, BufferedImage.TYPE_INT_RGB);
+        BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1152, BufferedImage.TYPE_INT_RGB);
 
 
-        for (int x = 0; x < 120; x++){
-            for (int y = 0; y < 68; y++){
+        for (int x = 0; x < 15; x++){
+            for (int y = 0; y < 9; y++){
                 if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
-                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 16, 0, 16, 1080, Color.GREEN);
+                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 128, 0, 128, 1080, Color.GREEN);
 
                     break;
                 }
@@ -145,13 +130,15 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                 if (y + characterLocation.getY() >= 0 && y + characterLocation.getY() <= 1023){
                     int r;
                     Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
-                    r = c.getRed();
+                    r = c.getRed() / 24;
 
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(loadImages.imageSetCopy.get(r)), 1, x * 16, y * 16);
+
+
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(backgroundImageLoader.returnImageFromSet(r)), 1, x * 128, y * 128);
                     //backgroundLoadBufferedImage = copySrcIntoDstAt
                             //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
                 } else {
-                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 16, y * 16, 16, 16, Color.GREEN);
+                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 128, y * 128, 128, 128, Color.GREEN);
                 }
 
             }
@@ -177,7 +164,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        checkIfKeysArePressed();
+        //checkIfKeysArePressed();
         doDrawing(g);
 
 
@@ -316,6 +303,9 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
             }
 
             if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+
+
+
                 keyboardManager.elvenAsciiInput[1] = false;
             }
 
@@ -339,24 +329,36 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
             int key = e.getKeyCode();
 
+            boolean reload = false;
+
             if (key == KeyEvent.VK_SPACE) {
                 keyboardManager.elvenAsciiInput[0] = true;
             }
 
             if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
                 keyboardManager.elvenAsciiInput[2] = true;
+                characterLocation.x--;
+                reload = true;
             }
 
             if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+                characterLocation.x++;
+                reload = true;
+
                 keyboardManager.elvenAsciiInput[3] = true;
             }
 
             if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+                characterLocation.y--;
+                reload = true;
                 keyboardManager.elvenAsciiInput[1] = true;
             }
 
             if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
                 keyboardManager.elvenAsciiInput[4] = true;
+
+                characterLocation.y++;
+                reload = true;
             }
             if (key == KeyEvent.VK_Q) {
                 keyboardManager.elvenAsciiInput[5] = true;
@@ -365,10 +367,15 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                 keyboardManager.elvenAsciiInput[6] = true;
             }
 
+            if (reload) {
+                reloadMapSprites();
+            }
+
+
 
             if (key == KeyEvent.VK_ESCAPE) {
                 OverworldSaveManager saveManager = new OverworldSaveManager();
-                saveManager.saveToFile("worldsave.txt", (long) characterLocation.x, (long) characterLocation.y, seed);
+                saveManager.saveToFile("worldsave.txt", (int) characterLocation.x, (int) characterLocation.y, seed);
 
                 System.exit(1);//Manually caused exit
             }
@@ -384,7 +391,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     public void actionPerformed(ActionEvent e) {
 
         new OverworldSaveManager().saveToFile("worldsave.txt",
-                (long) characterLocation.getX(), (long) characterLocation.getY(), seed);
+                (int) characterLocation.getX(), (int) characterLocation.getY(), seed);
 
     }
 
