@@ -2,7 +2,6 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 
@@ -29,8 +28,8 @@ public class SpriteLoader {
 
     public void generateBackgroundSet()
     {
-        imageSetCopy.add(loadImage("main/resources/groundGrass256.png"));
-        imageSetCopy.add(loadImage("main/resources/groundSidewalk256.png"));
+        imageSetCopy.add(loadImage("main/resources/groundGrass.png"));
+        imageSetCopy.add(loadImage("main/resources/groundSidewalk.png"));
     }
 
     public void generateEnemySet()
