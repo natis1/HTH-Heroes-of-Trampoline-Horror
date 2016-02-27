@@ -353,8 +353,27 @@ public class WindowLoader implements ActionListener {
     }
 
 
+    /**
+     *
+     * Any code here can be called from anywhere by changing Main.ElvenGameState.
+     * Be sure that your code changes this gamestate back to 1 once the window is loaded so you do not constantly respawn windows
+     * Setting it to 0 will accomplish the same thing but slower as it will check all the cases. However it acts as sort of a "safemode"
+     * if this trash code breaks
+     *
+     *
+     * This variable is checked every 2 seconds to determine if it has changed.
+     *
+     * This is horrible code but whatever.
+     *
+     * The easiest way to work with this is to dispose of the old stuff and initUI with a string.
+     * Then in initUI tell it do something with that string.
+     *
+     *
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+
         //-1 = main menu
         switch (Main.ElvenGameState) {
             case -1:
@@ -369,12 +388,12 @@ public class WindowLoader implements ActionListener {
 
                 Main.ElvenGameState = 1;
 
-                //1 = New Game
+                //1 = Do nothing, standard state.
                 break;
             case 1:
 
 
-                //2 NG+
+
                 break;
             case 2:
 
