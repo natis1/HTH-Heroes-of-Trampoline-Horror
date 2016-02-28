@@ -1,3 +1,4 @@
+package Base;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -11,7 +12,8 @@ public class SpriteLoader {
 
     private int setType;
 
-    protected SpriteLoader (int setType) {
+    //Personally I would just prefer to have a static array that loads when the game does, rather than adding an unnecessary switch statement:
+    public SpriteLoader (int setType) {
 
         imageSetCopy = new ArrayList<>();
         this.setType = setType;
@@ -23,18 +25,26 @@ public class SpriteLoader {
             case 2:
                 generateEnemySet();
                 break;
+            case 3:
+                generateMenuSet();
+                break;
         }
     }
 
     public void generateBackgroundSet()
     {
-        imageSetCopy.add(loadImage("main/resources/groundGrass.png"));
-        imageSetCopy.add(loadImage("main/resources/groundSidewalk.png"));
+        imageSetCopy.add(loadImage("Resources/groundGrass.png"));
+        imageSetCopy.add(loadImage("Resources/groundSidewalk.png"));
     }
 
     public void generateEnemySet()
     {
-        imageSetCopy.add(loadImage("main/resources/ANGRY.png"));
+        imageSetCopy.add(loadImage("Resources/ANGRY.png"));
+    }
+
+    public void generateMenuSet()
+    {
+        imageSetCopy.add(loadImage("Resources/mainMenuScreen.png"));
     }
 
     public int size()
@@ -42,7 +52,7 @@ public class SpriteLoader {
         return imageSetCopy.size();
     }
 
-    protected BufferedImage returnImageFromSet (int index)
+    public BufferedImage returnImageFromSet (int index)
     {
         if (index >= imageSetCopy.size())
         {
@@ -53,12 +63,17 @@ public class SpriteLoader {
     }
 
     public BufferedImage loadImage(String image_file){
-        BufferedImage img = null;
-        try {
+        BufferedImage img;
+        try
+        {
             img = ImageIO.read(getClass().getResource(image_file));
-        } catch (IOException e) {
-            System.out.println("Error loading image.");
         }
+        catch (IOException e)
+        {
+            System.out.println("Error loading image.");
+            return null;
+        }
+
         return img;
     }
 }

@@ -1,3 +1,5 @@
+package Base;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -194,7 +196,7 @@ public class Sprite {
     }
 
     //Check circular collision
-    /*public boolean CollidedRadius(Sprite other){
+    /*public boolean CollidedRadius(Base.Sprite other){
         int[] my_center = this.getCenter();
         int[] other_center = other.getCenter();
         double distance = Math.sqrt((my_center[0]-other_center[0])^2 - (my_center[1]-other_center[1])^2);
@@ -202,7 +204,7 @@ public class Sprite {
     }
 
     //Check rectangular collision
-    public boolean CollidedRectangle(Sprite other){
+    public boolean CollidedRectangle(Base.Sprite other){
         //Get the rectangle around the sprite.
         Rectangle my_rect = this.getBoundingRectangle();
         Rectangle other_rect = other.getBoundingRectangle();

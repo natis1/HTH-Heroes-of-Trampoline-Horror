@@ -1,11 +1,11 @@
-import sun.security.krb5.internal.crypto.Des;
+package Noise;
 
 import java.io.*;
 import java.util.Vector;
 
 public class OverworldSaveManager {
 
-    protected Vector<Object> loadFromSaveFile(String Destination){
+    public Vector<Object> loadFromSaveFile(String Destination){
         //Expand as needed
         Vector<Object> loadedData = new Vector<Object>();
 
@@ -47,7 +47,7 @@ public class OverworldSaveManager {
 
 
 
-    protected void saveToFile(String Destination, int x, int y, long seed){
+    public void saveToFile(String Destination, int x, int y, long seed){
 
 
         PrintWriter fileWriter;

@@ -1,3 +1,7 @@
+package Base;
+
+import Base.WindowLoader;
+
 import java.awt.*;
 
 /**

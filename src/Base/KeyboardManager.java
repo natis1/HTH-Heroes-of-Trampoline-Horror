@@ -1,3 +1,5 @@
+package Base;
+
 import java.awt.event.KeyEvent;
 
 public class KeyboardManager

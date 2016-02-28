@@ -1,4 +1,4 @@
-/*
+package Noise;/*
  * OpenSimplex Noise in Java.
  * by Kurt Spencer
  * 
