@@ -5,9 +5,16 @@ import java.awt.image.BufferedImage;
 
 public class Button extends Sprite
 {
-    public Button(BufferedImage image)
+    public Button(int x, int y, double angle, BufferedImage image)
     {
-        super(0,0,0, image);
+        super(x, y, angle, image);
+    }
 
+    public boolean contains(int x, int y)
+    {
+        return    ((x < this.x + getHeight())
+                && (x > this.x)
+                && (x < this.y + getHeight())
+                && (y > this.y));
     }
 }
