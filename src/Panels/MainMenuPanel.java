@@ -1,3 +1,9 @@
+package Panels;
+
+import Base.Main;
+import Base.Sprite;
+import Base.SpriteLoader;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
@@ -6,17 +12,16 @@ import java.awt.event.MouseListener;
 
 public class MainMenuPanel extends BasePanel implements MouseListener
 {
+    private SpriteLoader spriteLoader;
     private Sprite backgroundSprite;
 
     public MainMenuPanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
+        spriteLoader = new SpriteLoader(3);
         addMouseListener(this);
 
-        String bgImageString = "main/resources/mainMenuScreen.png";
-        //is4K = (universalScalar > 1.0001);
-
-        backgroundSprite = new Sprite(0, 0, 0, bgImageString);
+        backgroundSprite = new Sprite(0, 0, 0, spriteLoader.returnImageFromSet(0));
 
         runLoop();
     }
@@ -74,7 +79,7 @@ the drawing queue, create the class inside the board.*/
         } else if (mouseX > 1030 && mouseY > 600){
             System.exit(1);   // Manually caused exit
         }
-        else //Just for testing BattlePanel
+        else //Just for testing Panels.BattlePanel
         {
             Main.ElvenGameState = 3;
         }

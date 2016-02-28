@@ -1,5 +1,9 @@
-
+package Base;
 //package com.zetcode;
+
+import Panels.BattlePanel;
+import Panels.MainMenuPanel;
+import Panels.OverworldPanel;
 
 import javax.swing.*;
         import java.awt.*;
@@ -11,7 +15,7 @@ import javax.swing.*;
 public class WindowLoader implements ActionListener {
 
 
-    //private KeyboardManager keySetter = new KeyboardManager();
+    //private Base.KeyboardManager keySetter = new Base.KeyboardManager();
     private JFrame myBlackScreen;
     private JFrame myGameScreen;
     private JFrame myMenuScreen;
@@ -326,7 +330,7 @@ public class WindowLoader implements ActionListener {
 
     /**
      *
-     * Any code here can be called from anywhere by changing Main.ElvenGameState.
+     * Any code here can be called from anywhere by changing Base.Main.ElvenGameState.
      * Be sure that your code changes this gamestate back to 1 once the window is loaded so you do not constantly respawn windows
      * Setting it to 0 will accomplish the same thing but slower as it will check all the cases. However it acts as sort of a "safemode"
      * if this trash code breaks
@@ -378,7 +382,7 @@ public class WindowLoader implements ActionListener {
                 initUI("overworld");
                 Main.ElvenGameState = 1;
 
-                //3 Load Game
+                //3 Load Noise
                 break;
             case 3:
 

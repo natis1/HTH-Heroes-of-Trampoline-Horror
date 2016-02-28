@@ -1,3 +1,5 @@
+package Panels;
+
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -85,7 +87,7 @@ public class BasePanel extends JPanel
         int thisSecond = (int) (lastUpdateTime / 1000000000);
         if (thisSecond > lastSecondTime)
         {
-            //TODO System.out.println("Main: NEW SECOND " + thisSecond + " " + frame_count);
+            //TODO System.out.println("Base.Main: NEW SECOND " + thisSecond + " " + frame_count);
             lastSecondTime = thisSecond;
         }
 

@@ -1,3 +1,5 @@
+package Base;
+
 import java.awt.*;
 
 public class Collidable
