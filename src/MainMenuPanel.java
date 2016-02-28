@@ -58,17 +58,25 @@ the drawing queue, create the class inside the board.*/
     @Override
     public void mouseReleased(MouseEvent me) {
 
-        System.out.println(me.getX() / universalScalar);
-        System.out.println(me.getY() / universalScalar);
+        double mouseX = me.getX() / universalScalar;
+        double mouseY = me.getY() / universalScalar;
 
-        if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar < 316)){
+
+        System.out.println(mouseX);
+        System.out.println(mouseY);
+
+        if (mouseX > 1030 && mouseY < 316){
 
             //1 = start windows game new.
             Main.ElvenGameState = 2;
 
             //TODO ADD SOMETHING HERE
-        } else if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar > 600)){
+        } else if (mouseX > 1030 && mouseY > 600){
             System.exit(1);   // Manually caused exit
+        }
+        else //Just for testing BattlePanel
+        {
+            Main.ElvenGameState = 3;
         }
     }
 

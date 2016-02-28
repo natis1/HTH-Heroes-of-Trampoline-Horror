@@ -3,14 +3,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 
 
 public class BattlePanel extends BasePanel implements MouseListener
 {
-    private SpriteLoader battleLoader = new SpriteLoader(2);//Todo setup your own sprite loader switch for the battle
-    private KeyboardManager keyboardManager = new KeyboardManager();
+    private SpriteLoader battleLoader;
+    private KeyboardManager keyboardManager;
 
+    private Sprite backgroundSprite;
 
     private ArrayList<Sprite> weapons    = new ArrayList<>(); //Should be eventually full of a class "Weapon"?
     private ArrayList<Sprite> characters = new ArrayList<>(); //Should be full of "Character" ?
@@ -18,11 +21,18 @@ public class BattlePanel extends BasePanel implements MouseListener
     public BattlePanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
+
+        keyboardManager = new KeyboardManager();
+        battleLoader    = new SpriteLoader(2);
+
         addMouseListener(this);
         addKeyListener(new TAdapter());
         setFocusable(true);
 
         this.setBackground(Color.BLACK);
+
+
+        backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet(0)));
 
         runLoop();
     }
@@ -41,6 +51,8 @@ public class BattlePanel extends BasePanel implements MouseListener
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
+        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
+                backgroundSprite.getY(), this);
     }
 
     @Override

@@ -42,20 +42,18 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         }
         characterLocation.setLocation((int) loadData.get(0), (int) loadData.get(1) );
 
-        backgroundSprite =  new Sprite(0, 0, 0, "main/resources/ANGRY.png");
-
 
         try {
-            saveGameToLoad = ImageIO.read(new File("world" + (int) (((int) characterLocation.getX() + 512)/1024) + " " + (int) (((int) characterLocation.getY() + 512)/1024) + ".png"));
+            saveGameToLoad = ImageIO.read(new File("world" + (((int) characterLocation.getX() + 512)/1024) + " " + (((int) characterLocation.getY() + 512)/1024) + ".png"));
 
 
         } catch (IOException e) {
             System.out.println("Error loading image. This is normal for first time. IOException Regenerating");
-            new RandomWorldGenerator(seed, (int) (((int) characterLocation.getX() + 512)/1024), (int) (((int) characterLocation.getY() + 512)/1024));
+            new RandomWorldGenerator(seed, (int) (((int) characterLocation.getX() + 512)/1024), (((int) characterLocation.getY() + 512)/1024));
 
 
             try {
-                saveGameToLoad = ImageIO.read(new File("world" + (((int) characterLocation.getX() + 512)/1024) + " " + (int) (((int) characterLocation.getY() + 512)/1024) + ".png"));
+                saveGameToLoad = ImageIO.read(new File("world" + (((int) characterLocation.getX() + 512)/1024) + " " + (((int) characterLocation.getY() + 512)/1024) + ".png"));
             } catch (IOException e1) {
                 System.out.println("Unknown Error prevented image loading.\nThis shouldn't EVER happen. Corrupted harddrive maybe?\nLook at the stacktrace");
 
@@ -109,53 +107,36 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     private void reloadMapSprites() {
         //TODO check if chunk changed
 
-
-
-
-
         long time = System.nanoTime();
 
         BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1152, BufferedImage.TYPE_INT_RGB);
-
 
         for (int x = 0; x < 15; x++){
             for (int y = 0; y < 9; y++){
                 if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
                     copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 128, 0, 128, 1080, Color.GREEN);
-
                     break;
                 }
-
 
                 if (y + characterLocation.getY() >= 0 && y + characterLocation.getY() <= 1023){
                     int r;
                     Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
                     r = c.getRed() / 24;
 
-
-
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(backgroundImageLoader.returnImageFromSet(r)), 1, x * 128, y * 128);
+                    int index = r % backgroundImageLoader.size(); //FTFY
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(backgroundImageLoader.returnImageFromSet(index)), 1, x * 128, y * 128);
                     //backgroundLoadBufferedImage = copySrcIntoDstAt
                             //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
                 } else {
                     copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 128, y * 128, 128, 128, Color.GREEN);
                 }
-
             }
         }
 
         long endtime = System.nanoTime() - time;
 
         System.out.println("time taken (ns) : " + endtime);
-        backgroundSprite.image = backgroundLoadBufferedImage;
-    }
-
-    private BufferedImage deepCopy(BufferedImage bi) {
-        ColorModel cm = bi.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = bi.copyData(null);
-        //return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
-        return new BufferedImage(cm, raster, isAlphaPremultiplied, null).getSubimage(0, 0, bi.getWidth(), bi.getHeight());
+        backgroundSprite = new Sprite(0, 0, 0, backgroundLoadBufferedImage);
     }
 
 

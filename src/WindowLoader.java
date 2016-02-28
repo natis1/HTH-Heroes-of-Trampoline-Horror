@@ -227,40 +227,23 @@ public class WindowLoader implements ActionListener {
             myGameScreen.setResizable(false); //fullscreen
 
             if (screenWidth < screenHeight * (16.0 / 9.0)){
-                //force height to be a nice guy
-
                 screenChangeYBy = -(int) ((screenWidth * ( 9.0 / 16.0) - screenHeight) / 2);
-
                 screenHeight = screenWidth * ( 9.0 / 16.0);
                 universalScaler = screenHeight / 1080.0;
                 //Super wide monitors
             } else if (screenWidth > screenHeight * ( 16.0 / 9.0)) {
                 //force height to be a nice guy
-
                 screenChangeXBy = -(int) ((screenHeight * ( 16.0 / 9.0) - screenWidth) / 2);
-
                 screenWidth = screenHeight * ( 16.0 / 9.0);
-
                 universalScaler = screenHeight / 1080.0;
-
             }
-
-
         } else {
             screenHeight = Main.ElvenWindowedResolution;
-
-
-
             screenWidth = screenHeight * 16.0 / 9.0;
             universalScaler = screenHeight / 1080.0;
 
-
-
-
-
             myGameScreen.setUndecorated(false);
             myGameScreen.setResizable(false); //windowed
-
         }
 
 
@@ -268,18 +251,6 @@ public class WindowLoader implements ActionListener {
             spawnBlackBKG = false;
         }
 
-        //monitor is less than 16:9
-
-
-        //panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-
-
-
-
-
-
-        //myGameScreen.
         switch (UIName) {
             case "main_menu":
                 myGameScreen.add(new MainMenuPanel(universalScaler, pseudoVSync));

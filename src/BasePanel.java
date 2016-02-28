@@ -121,7 +121,7 @@ public class BasePanel extends JPanel
         return dst;
     }
 
-    protected BufferedImage DeepCopy(BufferedImage bi) {
+    protected BufferedImage deepCopy(BufferedImage bi) {
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = bi.copyData(null);
