@@ -1,3 +1,5 @@
+package Base;
+
 import java.util.ArrayList;
 
 //Ideally there will be a hashmap containing all of the Chunks - or, if we're adventurous, have the chunks manage themselves?
@@ -15,21 +17,18 @@ public class Chunk
 
     Sprite player; //Likely because the player will be  treated differently than the other sprites
 
-    int getPreHash()
-    {
+    int getPreHash() {
         return x * 10000 + y;
     }
 
-    public void update()
-    {
+    public void update() {
         for(Sprite s : sprites)
         {
             //s.update();
         }
     }
 
-    public void draw()
-    {
+    public void draw() {
         for(Sprite s : sprites)
         {
             //s.draw(); Assuming that s is responsible for drawing itself

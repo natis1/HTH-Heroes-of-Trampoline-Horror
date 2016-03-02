@@ -1,4 +1,9 @@
+package Panels;
+
 import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 
 public class BasePanel extends JPanel
 {
@@ -82,7 +87,7 @@ public class BasePanel extends JPanel
         int thisSecond = (int) (lastUpdateTime / 1000000000);
         if (thisSecond > lastSecondTime)
         {
-            //TODO System.out.println("Main: NEW SECOND " + thisSecond + " " + frame_count);
+            //TODO System.out.println("Base.Main: NEW SECOND " + thisSecond + " " + frame_count);
             lastSecondTime = thisSecond;
         }
 
@@ -109,6 +114,24 @@ public class BasePanel extends JPanel
 
     }
 
+    protected BufferedImage copySrcIntoDstAt(BufferedImage src, BufferedImage dst, int dx, int dy) {
+        for (int x = 0; x < src.getWidth(); x++) {
+            for (int y = 0; y < src.getHeight(); y++) {
+                dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
+            }
+        }
+        return dst;
+    }
+
+    protected BufferedImage deepCopy(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        //return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null).getSubimage(0, 0, bi.getWidth(), bi.getHeight());
+    }
+
+
     public void loop() //TODO: Break the contents of the loop into many smaller functions?
     {
         //We will need the last update time.
@@ -116,7 +139,7 @@ public class BasePanel extends JPanel
 
         //If we are able to get as high as this FPS, don't render again.
         final double TARGET_FPS = computerHZ;
-        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS; //TODO: Magic number removal service
+        final double TARGET_TIME_BETWEEN_RENDERS = 1000000000 / TARGET_FPS; //TODO: Magic number removal service?
 
         //Simple way of finding FPS.
         lastSecondTime = (int) (lastUpdateTime / 1000000000);

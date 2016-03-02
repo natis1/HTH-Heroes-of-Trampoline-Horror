@@ -1,3 +1,9 @@
+package Panels;
+
+import Base.Main;
+import Base.Sprite;
+import Base.SpriteLoader;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
@@ -6,18 +12,16 @@ import java.awt.event.MouseListener;
 
 public class MainMenuPanel extends BasePanel implements MouseListener
 {
+    private SpriteLoader spriteLoader;
     private Sprite backgroundSprite;
 
     public MainMenuPanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
+        spriteLoader = new SpriteLoader(3);
         addMouseListener(this);
 
-        String bgImageString = "main/resources/mainMenuScreen.png";
-        //is4K = (universalScalar > 1.0001);
-
-        backgroundSprite = new Sprite(0, 0, 0, bgImageString);
-        backgroundSprite.loadImage();
+        backgroundSprite = new Sprite(0, 0, 0, spriteLoader.returnImageFromSet(0));
 
         runLoop();
     }
@@ -59,30 +63,37 @@ the drawing queue, create the class inside the board.*/
     @Override
     public void mouseReleased(MouseEvent me) {
 
-        System.out.println(me.getX() / universalScalar);
-        System.out.println(me.getY() / universalScalar);
+        double mouseX = me.getX() / universalScalar;
+        double mouseY = me.getY() / universalScalar;
 
-        if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar < 316)){
+
+        System.out.println(mouseX);
+        System.out.println(mouseY);
+
+        if (mouseX > 1030 && mouseY < 316){
 
             //1 = start windows game new.
             Main.ElvenGameState = 2;
 
             //TODO ADD SOMETHING HERE
+        } else if (mouseX > 1030 && mouseY > 600){
+            System.exit(1);   // Manually caused exit
+        }
+        else //Just for testing Panels.BattlePanel
+        {
+            Main.ElvenGameState = 3;
         }
     }
 
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
     }
 
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
     }
 
-    private class TAdapter extends KeyAdapter
-    {
+    private class TAdapter extends KeyAdapter {
         //TODO KEYBOARD SUPPORT
     }
 }
