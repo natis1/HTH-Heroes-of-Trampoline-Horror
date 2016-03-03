@@ -33,32 +33,22 @@ public class SpriteLoader {
 
     public void generateBackgroundSet()
     {
-        imageSetCopy.add(loadImage("Resources/groundGrass.png"));
-        imageSetCopy.add(loadImage("Resources/groundSidewalk.png"));
+        imageSetCopy.add(loadImage("../Base/Resources/groundGrass.png"));
+        imageSetCopy.add(loadImage("../Base/Resources/groundSidewalk.png"));
     }
 
     public void generateEnemySet()
     {
-        imageSetCopy.add(loadImage("Resources/ANGRY.png"));
+        imageSetCopy.add(loadImage("../Base/Resources/ANGRY.png"));
     }
 
     public void generateMenuSet()
     {
-        imageSetCopy.add(loadImage("Resources/mainMenuScreen.png"));
+        imageSetCopy.add(loadImage("../Base/Resources/mainMenuScreen.png"));
     }
 
-    public int size()
-    {
-        return imageSetCopy.size();
-    }
-
-    public BufferedImage returnImageFromSet (int index)
-    {
-        if (index >= imageSetCopy.size())
-        {
-            throw new IllegalArgumentException("Image with ID: "              + Integer.toString(index) +
-                                               " Does not exist in the set: " + Integer.toString(setType));
-        }
+    public BufferedImage returnImageFromSet (int index) {
+        index %= imageSetCopy.size();
         return imageSetCopy.get(index);
     }
 

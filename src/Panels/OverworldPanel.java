@@ -1,6 +1,7 @@
 package Panels;
 
 import Base.KeyboardManager;
+import Base.OverworldSaveManager;
 import Base.Sprite;
 import Base.SpriteLoader;
 import Noise.*;
@@ -118,8 +119,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                     Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
                     r = c.getRed() / 24;
 
-                    int index = r % backgroundImageLoader.size(); //FTFY
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(backgroundImageLoader.returnImageFromSet(index)), 1, x * 128, y * 128);
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(backgroundImageLoader.returnImageFromSet(r)), 1, x * 128, y * 128);
                     //backgroundLoadBufferedImage = copySrcIntoDstAt
                             //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
                 } else {
