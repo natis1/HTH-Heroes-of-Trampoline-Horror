@@ -20,7 +20,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
     private Point characterLocation = new Point();
 
-    private SpriteLoader backgroundImageLoader = new SpriteLoader(1);
+    private SpriteLoader imageLoader = new SpriteLoader();
     private KeyboardManager keyboardManager = new KeyboardManager();
 
     private BufferedImage saveGameToLoad;
@@ -119,8 +119,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                     Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
                     r = c.getRed() / 24;
 
-                    int index = r %  backgroundImageLoader.size(); //Keep this in overworld panel, so that it doesn't cause problems in other classes
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(backgroundImageLoader.returnImageFromSet(index)), 1, x * 128, y * 128);
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(imageLoader.unsafeGetBackgroundImage(r)), 1, x * 128, y * 128);
                     //backgroundLoadBufferedImage = copySrcIntoDstAt
                             //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
                 } else {

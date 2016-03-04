@@ -15,24 +15,22 @@ import GUI.Button;
 
 public class MainMenuPanel extends BasePanel implements MouseListener
 {
-    private SpriteLoader guiSpriterLoader;
+    private SpriteLoader imageLoader;
     private Menu menu;
 
     public MainMenuPanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
-        guiSpriterLoader =  new SpriteLoader(4); //meh
+        imageLoader =  new SpriteLoader();
         addMouseListener(this);
 
-        menu = new Menu(300, 0, guiSpriterLoader.returnImageFromSet(0)); //Background for the menu
+        menu = new Menu(300, 0, imageLoader.returnImageFromSet("menuBack")); //Background for the menu
 
-        //This code is just for testing that the menu class works, I'll take it out soon
-
-        menu.add(new Button(350,   0, guiSpriterLoader.returnImageFromSet(1), "main")); //See how bad this could be if we shift our indexes?
-        menu.add(new Button(350, 100, guiSpriterLoader.returnImageFromSet(2), "new")); //See how bad this could be if we shift our indexes?
-        menu.add(new Button(350, 200, guiSpriterLoader.returnImageFromSet(3), "load")); //See how bad this could be if we shift our indexes?
-        menu.add(new Button(350, 300, guiSpriterLoader.returnImageFromSet(4), "options")); //See how bad this could be if we shift our indexes?
-        //Didn't mean to copy the comment four times but whatever
+        //This code is just for testing that the menu class works.
+        menu.add(new Button(350,   0, imageLoader.returnImageFromSet("mainMenu"), "main"));
+        menu.add(new Button(350, 100, imageLoader.returnImageFromSet("newGame") , "new"));
+        menu.add(new Button(350, 200, imageLoader.returnImageFromSet("loadGame"), "load"));
+        menu.add(new Button(350, 300, imageLoader.returnImageFromSet("options") , "options"));
 
         runLoop();
     }
@@ -74,7 +72,6 @@ public class MainMenuPanel extends BasePanel implements MouseListener
         System.out.println(mouseY);
 
         Button clickedOn = menu.listener(mouseX, mouseY);
-
         if(clickedOn != null) //If the user actually clicked on a button
         {
             switch (clickedOn.getText()) //React to a button click based on the buttons title.
@@ -83,7 +80,7 @@ public class MainMenuPanel extends BasePanel implements MouseListener
                     //This way, andre doesn't need to make a new button for us each time we change menus around,
                     //And instead he can create finalized buttons later on in the iterations of the game
             {
-                case "main":
+                case "new":
                     Main.ElvenGameState = 2;
                     break;
                 default:

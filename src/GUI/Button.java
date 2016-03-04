@@ -28,7 +28,7 @@ public class Button extends GUIElement
     }
 
     public void setText(String s){text = s;}
-    public String getText(){return text;}
+    public final String getText(){return text;}
 
     @Override
     public void draw(Graphics2D graphics, JPanel panel)
