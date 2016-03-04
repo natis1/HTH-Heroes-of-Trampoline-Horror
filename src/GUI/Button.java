@@ -21,14 +21,7 @@ public class Button extends GUIElement
 
     public void setText(String s){text = s;}
 
-    public boolean contains(int x, int y)
-    {
-        return    ((x < this.x + getHeight())
-                && (x > this.x)
-                && (x < this.y + getHeight())
-                && (y > this.y));
-    }
-
+    @Override
     public void draw(Graphics2D graphics, JPanel panel)
     {
         graphics.drawImage(getImage(), getX(), getY(), panel);

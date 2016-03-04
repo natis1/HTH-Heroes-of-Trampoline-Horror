@@ -2,35 +2,33 @@ package GUI;
 
 import Base.SpriteLoader;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class GUI implements MouseListener
 {
-    private ArrayList<Button> buttons;
+    private ArrayList<GUIElement> elements;
     private SpriteLoader spriteLoader;
     private double scalar;
 
     public GUI(double scalar)
     {
-        buttons = new ArrayList<>();
+        elements = new ArrayList<>();
         spriteLoader = new SpriteLoader(3);
         this.scalar = scalar;
 
-        buttons.add(new Button(0,0,0, spriteLoader.returnImageFromSet(0)));
+        elements.add(new Button(0,0, spriteLoader.returnImageFromSet(0)));
     }
 
-    public boolean handler(int x, int y)
+    public void draw(Graphics2D graphics, JPanel panel)
     {
-        for (Button b : buttons)
+        for(GUIElement g : elements)
         {
-            if (b.contains(x, y))
-            {
-                return true;
-            }
+            g.draw(graphics, panel);
         }
-        return false;
     }
 
     @Override

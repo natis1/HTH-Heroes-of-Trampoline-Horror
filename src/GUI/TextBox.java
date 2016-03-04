@@ -24,6 +24,7 @@ public class TextBox extends GUIElement{
     public void add(Text t){contents.add(t);}
     public void clear(){contents.clear();}
 
+    @Override
     public void draw(Graphics2D graphics, JPanel panel)
     {
         for(Text t : contents)

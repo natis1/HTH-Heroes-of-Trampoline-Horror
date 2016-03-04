@@ -18,6 +18,14 @@ abstract public class GUIElement extends Sprite{
         super(x, y, 0, image); //Ignore angles on GUI elements
     }
 
+    public boolean contains(int x, int y)
+    {
+        return    ((x < this.x + getHeight())
+                && (x > this.x)
+                && (x < this.y + getHeight())
+                && (y > this.y));
+    }
+
     abstract public void draw(Graphics2D graphics, JPanel panel); //Each GUI element will implement its own draw method
     
     protected void drawBackground(Graphics2D graphics, JPanel panel)
