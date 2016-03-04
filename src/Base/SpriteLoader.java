@@ -2,6 +2,7 @@ package Base;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,31 +16,10 @@ public class SpriteLoader {
 
         images = new HashMap<>();
         backgroundKeys = new ArrayList<>();
-        generateBattleSet();
-        generateGUISet();
-        generateBackgroundSet();
-    }
-
-    public void generateBackgroundSet()
-    {
-        images.put("grass",    loadImage("../Base/Resources/groundGrass.png"));
-        backgroundKeys.add("grass");
-        images.put("sidewalk", loadImage("../Base/Resources/groundSidewalk.png"));
+        String dir  = System.getProperty("user.dir") + "/src/Base/Resources/";
+        loadDir(dir);
+        backgroundKeys.add("grass"); //Don't need to do this manually, but for now, it will be alright
         backgroundKeys.add("sidewalk");
-    }
-
-    public void generateBattleSet(){
-        images.put("angry", loadImage("../Base/Resources/ANGRY.png"));
-        images.put("battleScreen", loadImage("../Base/Resources/battleScreen.png"));
-    }
-
-    public void generateGUISet()
-    {
-        images.put("menuBack", loadImage("../Base/Resources/menuBack.png"));
-        images.put("mainMenu", loadImage("../Base/Resources/mainMenu.png"));
-        images.put("newGame",  loadImage("../Base/Resources/newGame.png"));
-        images.put("loadGame", loadImage("../Base/Resources/loadGame.png"));
-        images.put("options",  loadImage("../Base/Resources/options.png"));
     }
 
     public BufferedImage unsafeGetBackgroundImage (int index)
@@ -51,6 +31,25 @@ public class SpriteLoader {
     public BufferedImage returnImageFromSet (String index)
     {
         return images.get(index);
+    }
+
+    public void loadDir(String directory)
+    {
+        File dir = new File(directory);
+        if(dir.isDirectory())
+        {
+            File[] directoryListing = dir.listFiles();
+            if (directoryListing != null) {
+                for (File child : directoryListing) {
+                    String name = child.getName().replace(".png", "").replace(".jpg", "");
+                    images.put(name, loadImage("../Base/Resources/" + child.getName()));
+                }
+            }
+        }
+        else
+        {
+            System.out.println("Attempted to load images from a non-existent directory");
+        }
     }
 
     public BufferedImage loadImage(String image_file){
