@@ -18,6 +18,7 @@ public class BattlePanel extends BasePanel implements MouseListener
     private KeyboardManager keyboardManager;
 
     private Sprite backgroundSprite;
+    private Sprite foregroundSprite;
 
     private ArrayList<Sprite> weapons    = new ArrayList<>(); //Should be eventually full of a class "Weapon"?
     private ArrayList<Sprite> characters = new ArrayList<>(); //Should be full of "Character" ?
@@ -35,13 +36,12 @@ public class BattlePanel extends BasePanel implements MouseListener
         addKeyListener(new TAdapter());
         setFocusable(true);
 
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.WHITE);
 
 
         test = new JLabel("Test");
 
-        test.setText("Label Text");
-
+        foregroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleScreen")));
         backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleScreen")));
 
         runLoop();

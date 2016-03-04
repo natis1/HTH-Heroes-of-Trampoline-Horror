@@ -3,7 +3,6 @@ package Panels;
 import Base.Main;
 import Base.Sprite;
 import Base.SpriteLoader;
-import GUI.GUI;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
