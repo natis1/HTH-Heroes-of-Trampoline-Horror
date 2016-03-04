@@ -24,7 +24,7 @@ public class MainMenuPanel extends BasePanel implements MouseListener
         guiSpriterLoader =  new SpriteLoader(4); //meh
         addMouseListener(this);
 
-        menu = new Menu(300, 0, guiSpriterLoader.returnImageFromSet(0));
+        menu = new Menu(300, 0, guiSpriterLoader.returnImageFromSet(0)); //Background for the menu
 
         //This code is just for testing that the menu class works, I'll take it out soon
 
@@ -77,13 +77,17 @@ public class MainMenuPanel extends BasePanel implements MouseListener
 
         if(clickedOn != null) //If the user actually clicked on a button
         {
-            switch (clickedOn.getText())
+            switch (clickedOn.getText()) //React to a button click based on the buttons title.
+                    //If you look closely you'll notice text near each button. This is its title
+                    //In the future, we could simply use titles on top of a static background button sprite
+                    //This way, andre doesn't need to make a new button for us each time we change menus around,
+                    //And instead he can create finalized buttons later on in the iterations of the game
             {
                 case "main":
                     Main.ElvenGameState = 2;
                     break;
                 default:
-                    Main.ElvenGameState = 2;
+                    Main.ElvenGameState = 3;
                     break;
             }
         }
