@@ -30,7 +30,7 @@ public class Menu extends GUIElement{
     {
         for (Button b : buttons)
         {
-            if(b.contains(x, y)) return b;
+            if (b.contains(x, y)) return b;
         }
 
         return null;
@@ -38,10 +38,10 @@ public class Menu extends GUIElement{
 
     @Override
     public void draw(Graphics2D graphics, JPanel panel) {
+        drawBackground(graphics, panel);
         for (Button b : buttons)
         {
             b.draw(graphics, panel);
         }
-        drawBackground(graphics, panel);
     }
 }

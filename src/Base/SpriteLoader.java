@@ -17,6 +17,7 @@ public class SpriteLoader {
         imageSetCopy = new ArrayList<>();
         this.setType = setType;
 
+        //Actually this is bugging me I'll probably get rid of it soon if thats okay -LucasS
         switch (this.setType) {
             case 1:
                 generateBackgroundSet();
@@ -26,6 +27,9 @@ public class SpriteLoader {
                 break;
             case 3:
                 generateMenuSet();
+                break;
+            case 4:
+                generateGUISet();
                 break;
         }
     }
@@ -44,6 +48,15 @@ public class SpriteLoader {
     public void generateMenuSet()
     {
         imageSetCopy.add(loadImage("../Base/Resources/mainMenuScreen.png"));
+    }
+
+    public void generateGUISet()
+    {
+        imageSetCopy.add(loadImage("../Base/Resources/menuBack.png"));
+        imageSetCopy.add(loadImage("../Base/Resources/mainMenu.png"));
+        imageSetCopy.add(loadImage("../Base/Resources/newGame.png"));
+        imageSetCopy.add(loadImage("../Base/Resources/loadGame.png"));
+        imageSetCopy.add(loadImage("../Base/Resources/options.png"));
     }
 
     public int size () {return imageSetCopy.size();}

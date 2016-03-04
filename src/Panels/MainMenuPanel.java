@@ -3,25 +3,36 @@ package Panels;
 import Base.Main;
 import Base.Sprite;
 import Base.SpriteLoader;
+import GUI.GUI;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import GUI.Menu;
+import GUI.Button;
 
 
 public class MainMenuPanel extends BasePanel implements MouseListener
 {
-    private SpriteLoader spriteLoader;
-    private Sprite backgroundSprite;
+    private SpriteLoader guiSpriterLoader;
+    private Menu menu;
 
     public MainMenuPanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
-        spriteLoader = new SpriteLoader(3);
+        guiSpriterLoader =  new SpriteLoader(4); //meh
         addMouseListener(this);
 
-        backgroundSprite = new Sprite(0, 0, 0, spriteLoader.returnImageFromSet(0));
+        menu = new Menu(300, 0, guiSpriterLoader.returnImageFromSet(0));
+
+        //This code is just for testing that the menu class works, I'll take it out soon
+
+        menu.add(new Button(350,   0, guiSpriterLoader.returnImageFromSet(1), "main")); //See how bad this could be if we shift our indexes?
+        menu.add(new Button(350, 100, guiSpriterLoader.returnImageFromSet(2), "new")); //See how bad this could be if we shift our indexes?
+        menu.add(new Button(350, 200, guiSpriterLoader.returnImageFromSet(3), "load")); //See how bad this could be if we shift our indexes?
+        menu.add(new Button(350, 300, guiSpriterLoader.returnImageFromSet(4), "options")); //See how bad this could be if we shift our indexes?
+        //Didn't mean to copy the comment four times but whatever
 
         runLoop();
     }
@@ -35,19 +46,12 @@ public class MainMenuPanel extends BasePanel implements MouseListener
         Toolkit.getDefaultToolkit().sync();
     }
 
-/** This function draws all of the sprites using graphics2D libraries
-All drawing must be called from the board
-You cannot call doDrawing from other classes, to add a sprite to
-the drawing queue, create the class inside the board.*/
-
     protected void doDrawing(Graphics g)
     {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
-        //Draw stuff here
-        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
-                backgroundSprite.getY(), this);
+        menu.draw(g2d, this);
     }
 
     @Override
@@ -63,25 +67,25 @@ the drawing queue, create the class inside the board.*/
     @Override
     public void mouseReleased(MouseEvent me) {
 
-        double mouseX = me.getX() / universalScalar;
-        double mouseY = me.getY() / universalScalar;
-
+        int mouseX = (int) (me.getX() / universalScalar);
+        int mouseY = (int) (me.getY() / universalScalar);
 
         System.out.println(mouseX);
         System.out.println(mouseY);
 
-        if (mouseX > 1030 && mouseY < 316){
+        Button clickedOn = menu.listener(mouseX, mouseY);
 
-            //1 = start windows game new.
-            Main.ElvenGameState = 2;
-
-            //TODO ADD SOMETHING HERE
-        } else if (mouseX > 1030 && mouseY > 600){
-            System.exit(1);   // Manually caused exit
-        }
-        else //Just for testing Panels.BattlePanel
+        if(clickedOn != null) //If the user actually clicked on a button
         {
-            Main.ElvenGameState = 3;
+            switch (clickedOn.getText())
+            {
+                case "main":
+                    Main.ElvenGameState = 2;
+                    break;
+                default:
+                    Main.ElvenGameState = 2;
+                    break;
+            }
         }
     }
 
