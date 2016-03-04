@@ -4,56 +4,53 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SpriteLoader {
 
-    private ArrayList<BufferedImage> imageSetCopy;
+    private static HashMap<String, BufferedImage> images;
+    public ArrayList<String> backgroundKeys;
 
-    private int setType;
+    public SpriteLoader () {
 
-    //Personally I would just prefer to have a static array that loads when the game does, rather than adding an unnecessary switch statement:
-    public SpriteLoader (int setType) {
-
-        imageSetCopy = new ArrayList<>();
-        this.setType = setType;
-
-        switch (this.setType) {
-            case 1:
-                generateBackgroundSet();
-                break;
-            case 2:
-                generateEnemySet();
-                break;
-            case 3:
-                generateMenuSet();
-                break;
-        }
+        images = new HashMap<>();
+        backgroundKeys = new ArrayList<>();
+        generateBattleSet();
+        generateGUISet();
+        generateBackgroundSet();
     }
 
     public void generateBackgroundSet()
     {
-        imageSetCopy.add(loadImage("../Base/Resources/groundGrass.png"));
-        imageSetCopy.add(loadImage("../Base/Resources/groundSidewalk.png"));
+        images.put("grass",    loadImage("../Base/Resources/groundGrass.png"));
+        backgroundKeys.add("grass");
+        images.put("sidewalk", loadImage("../Base/Resources/groundSidewalk.png"));
+        backgroundKeys.add("sidewalk");
     }
 
-    public void generateEnemySet()
-    {
-        imageSetCopy.add(loadImage("../Base/Resources/ANGRY.png"));
+    public void generateBattleSet(){
+        images.put("angry", loadImage("../Base/Resources/ANGRY.png"));
+        images.put("battleScreen", loadImage("../Base/Resources/battleScreen.png"));
     }
 
-    public void generateMenuSet()
+    public void generateGUISet()
     {
-        imageSetCopy.add(loadImage("../Base/Resources/mainMenuScreen.png"));
+        images.put("menuBack", loadImage("../Base/Resources/menuBack.png"));
+        images.put("mainMenu", loadImage("../Base/Resources/mainMenu.png"));
+        images.put("newGame",  loadImage("../Base/Resources/newGame.png"));
+        images.put("loadGame", loadImage("../Base/Resources/loadGame.png"));
+        images.put("options",  loadImage("../Base/Resources/options.png"));
     }
 
-    public int size () {return imageSetCopy.size();}
-
-    public BufferedImage returnImageFromSet (int index)
+    public BufferedImage unsafeGetBackgroundImage (int index)
     {
-        //Moved the %= code to overworld panel. If another class tries to access an image that doesn't exist, we want that access attempt to fail
-        //If you don't like doing it this way, maybe make a function "unsafeReturnImageFromSet" or print out "modified index to fit needs" or something
-        //The custom exception thing was a nice idea, but a catch-all block directly surrounding a try block cancels out any useful error-reporting
-        return imageSetCopy.get(index);
+        index %= backgroundKeys.size();
+        return images.get(backgroundKeys.get(index));
+    }
+
+    public BufferedImage returnImageFromSet (String index)
+    {
+        return images.get(index);
     }
 
     public BufferedImage loadImage(String image_file){

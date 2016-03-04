@@ -51,11 +51,13 @@ public class Sprite {
         vis = true;
     }
 
-    public Sprite(int x, int y, double angle, BufferedImage image) {
+    public Sprite(int x, int y, double angle, BufferedImage image)
+    {
         preloaded = true;
 
         this.x = x;
         this.y = y;
+
         this.angle = angle;
         this.image = createTransformedImage(image, angle);
 

@@ -27,10 +27,10 @@ public class TextBox extends GUIElement{
     @Override
     public void draw(Graphics2D graphics, JPanel panel)
     {
+        drawBackground(graphics, panel);
         for(Text t : contents)
         {
             graphics.drawString(t.field, t.x, t.y);
         }
-        drawBackground(graphics, panel);
     }
 }

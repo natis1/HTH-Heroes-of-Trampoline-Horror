@@ -29,7 +29,7 @@ public class BattlePanel extends BasePanel implements MouseListener
         super(scalar, monitorHZ);
 
         keyboardManager = new KeyboardManager();
-        battleLoader    = new SpriteLoader(2);
+        battleLoader    = new SpriteLoader();
 
         addMouseListener(this);
         addKeyListener(new TAdapter());
@@ -42,7 +42,7 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         test.setText("Label Text");
 
-        backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet(0)));
+        backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleScreen")));
 
         runLoop();
     }

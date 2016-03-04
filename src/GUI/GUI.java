@@ -17,10 +17,8 @@ public class GUI implements MouseListener
     public GUI(double scalar)
     {
         elements = new ArrayList<>();
-        spriteLoader = new SpriteLoader(3);
+        spriteLoader = new SpriteLoader();
         this.scalar = scalar;
-
-        elements.add(new Button(0,0, spriteLoader.returnImageFromSet(0)));
     }
 
     public void draw(Graphics2D graphics, JPanel panel)

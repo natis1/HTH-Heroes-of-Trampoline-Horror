@@ -20,10 +20,13 @@ abstract public class GUIElement extends Sprite{
 
     public boolean contains(int x, int y)
     {
-        return    ((x < this.x + getHeight())
+        boolean clickedOn =
+                ((x < this.x + getWidth())
                 && (x > this.x)
-                && (x < this.y + getHeight())
+                && (y < this.y + getHeight())
                 && (y > this.y));
+        if(clickedOn) System.out.println("Clicked on GUI element");
+        return clickedOn;
     }
 
     abstract public void draw(Graphics2D graphics, JPanel panel); //Each GUI element will implement its own draw method
