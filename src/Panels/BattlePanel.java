@@ -4,6 +4,7 @@ import Base.KeyboardManager;
 import Base.Sprite;
 import Base.SpriteLoader;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
@@ -21,6 +22,8 @@ public class BattlePanel extends BasePanel implements MouseListener
     private ArrayList<Sprite> weapons    = new ArrayList<>(); //Should be eventually full of a class "Weapon"?
     private ArrayList<Sprite> characters = new ArrayList<>(); //Should be full of "Character" ?
 
+    private JLabel test;
+
     public BattlePanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
@@ -34,6 +37,10 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         this.setBackground(Color.BLACK);
 
+
+        test = new JLabel("Test");
+
+        test.setText("Label Text");
 
         backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet(0)));
 
@@ -56,6 +63,12 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
                 backgroundSprite.getY(), this);
+
+        g2d.setPaint(Color.decode("#527A7A"));
+        g2d.setFont(new Font(null, Font.BOLD, 20));
+        g2d.drawString("Test" , 50, 50);
+
+        //Graphics2D;
     }
 
     @Override

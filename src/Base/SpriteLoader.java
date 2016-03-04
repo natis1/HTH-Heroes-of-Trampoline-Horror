@@ -5,14 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-class SpriteLoaderExceptions extends Exception {
-    public SpriteLoaderExceptions( String s ) {
-        super(s);
-    }
-
-}
-
 public class SpriteLoader {
 
     private ArrayList<BufferedImage> imageSetCopy;
@@ -54,15 +46,13 @@ public class SpriteLoader {
         imageSetCopy.add(loadImage("../Base/Resources/mainMenuScreen.png"));
     }
 
-    public BufferedImage returnImageFromSet (int index) {
-        if (index >= imageSetCopy.size()){
-            try {
-                throw new SpriteLoaderExceptions("Index out of bounds.");
-            } catch (Exception a){
-                index %= imageSetCopy.size();
-            }
-        }
+    public int size () {return imageSetCopy.size();}
 
+    public BufferedImage returnImageFromSet (int index)
+    {
+        //Moved the %= code to overworld panel. If another class tries to access an image that doesn't exist, we want that access attempt to fail
+        //If you don't like doing it this way, maybe make a function "unsafeReturnImageFromSet" or print out "modified index to fit needs" or something
+        //The custom exception thing was a nice idea, but a catch-all block directly surrounding a try block cancels out any useful error-reporting
         return imageSetCopy.get(index);
     }
 

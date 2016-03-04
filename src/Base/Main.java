@@ -20,7 +20,7 @@ public class Main
 {
     //Why not move these to a settings class (or something similar)? -Lucas
     //Because what else are we going to do with main class anyway? Every single class needs these variables so it makes no sense to move them.
-
+    //Every single class *Doesn't* need these variables, that's why you should move them - Lucas
 
 
     public static int ElvenGameState = 0;
@@ -43,7 +43,7 @@ public class Main
 
                     //Literally don't even need to name a windowloader here I don't think. But whatevs
 
-                    //hmmm..
+                    //hmmm.................................................................................................................................................................................................................................................................................................................................................................
 
                     //Clearly I am going insane.
                     WindowLoader ElvenMasterRulesOverPunyHumans = new WindowLoader();
