@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+class SpriteLoaderExceptions extends Exception {
+    public SpriteLoaderExceptions( String s ) {
+        super(s);
+    }
+
+}
+
 public class SpriteLoader {
 
     private ArrayList<BufferedImage> imageSetCopy;
@@ -48,7 +55,14 @@ public class SpriteLoader {
     }
 
     public BufferedImage returnImageFromSet (int index) {
-        index %= imageSetCopy.size();
+        if (index >= imageSetCopy.size()){
+            try {
+                throw new SpriteLoaderExceptions("Index out of bounds.");
+            } catch (Exception a){
+                index %= imageSetCopy.size();
+            }
+        }
+
         return imageSetCopy.get(index);
     }
 
