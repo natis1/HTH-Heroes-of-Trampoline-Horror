@@ -26,8 +26,12 @@ public class SpriteLoader {
         }
     }
 
-    public BufferedImage unsafeGetBackgroundImage (int index) {
-        index %= backgroundKeys.size();
+
+    public BufferedImage returnImageFromSet (int index) {
+        if (index >= backgroundKeys.size()){
+            System.out.println("Key out of bounds, modulating");
+            index %= backgroundKeys.size();
+        }
         return images.get(backgroundKeys.get(index));
     }
 
