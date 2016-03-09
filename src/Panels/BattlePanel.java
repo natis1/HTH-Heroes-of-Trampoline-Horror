@@ -10,6 +10,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import Base.Weapon;
+import Base.WeaponStats;
 
 
 public class BattlePanel extends BasePanel implements MouseListener
@@ -20,7 +22,7 @@ public class BattlePanel extends BasePanel implements MouseListener
     private Sprite backgroundSprite;
     private Sprite foregroundSprite;
 
-    private ArrayList<Sprite> weapons    = new ArrayList<>(); //Should be eventually full of a class "Weapon"?
+    private ArrayList<Weapon> weapons    = new ArrayList<>(); //Should be eventually full of a class "Weapon"?
     private ArrayList<Sprite> characters = new ArrayList<>(); //Should be full of "Character" ?
 
     private JLabel test;

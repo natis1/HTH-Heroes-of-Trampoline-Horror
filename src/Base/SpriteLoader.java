@@ -11,16 +11,19 @@ import java.util.HashMap;
 public class SpriteLoader {
 
     private static HashMap<String, BufferedImage> images;
-    public ArrayList<String> backgroundKeys;
+    private static ArrayList<String> backgroundKeys;
+    private static boolean loaded;
 
-    public SpriteLoader () {
-
-        images = new HashMap<>();
-        backgroundKeys = new ArrayList<>();
-        String dir  = System.getProperty("user.dir") + "/src/Base/Resources/";
-        loadDir(dir);
-        backgroundKeys.add("overworldGrass"); //Don't need to do this manually, but for now, it will be alright
-        backgroundKeys.add("overworldSidewalk");
+    public SpriteLoader ()
+    {
+        if(!loaded)
+        {
+            images = new HashMap<>();
+            backgroundKeys = new ArrayList<>();
+            String dir  = System.getProperty("user.dir") + "/src/Base/Resources/";
+            loadDir(dir);
+            loaded = true;
+        }
     }
 
     public BufferedImage unsafeGetBackgroundImage (int index) {
@@ -40,6 +43,8 @@ public class SpriteLoader {
             if (directoryListing != null) {
                 for (File child : directoryListing) {
                     String name = child.getName().replace(".png", "").replace(".jpg", "");
+
+                    if(name.contains("overworld")) backgroundKeys.add(name);
                     images.put(name, loadImage("../Base/Resources/" + child.getName()));
                 }
             }
