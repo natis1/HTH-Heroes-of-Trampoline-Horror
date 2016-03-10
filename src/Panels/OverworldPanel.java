@@ -1,7 +1,7 @@
 package Panels;
 
 import Base.*;
-import Noise.*;
+import Save_System.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

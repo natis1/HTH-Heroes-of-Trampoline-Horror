@@ -321,7 +321,7 @@ public class WindowLoader implements ActionListener {
         {
             public void run()
             {
-                //?
+                //Don't ask
             }
         };
         loop.start();
@@ -382,7 +382,7 @@ public class WindowLoader implements ActionListener {
                 initUI("overworld");
                 Main.ElvenGameState = 1;
 
-                //3 Load Noise
+                //3 Load Save_System
                 break;
             case 3:
 
@@ -396,18 +396,6 @@ public class WindowLoader implements ActionListener {
         }
 
 
-
-/*
-    if (ElvenMain.ElvenGameState > 999){
-
-        goToMainMenu(ElvenMain.ElvenGameState - 1000);
-        ElvenMain.ElvenGameState = 3; //3 is menu
-
-        // 10 through 255 selects difficulty.
-    } else if (ElvenMain.ElvenGameState > 9 && ElvenMain.ElvenGameState < 256){
-        goBackToGame();
-    }
-        */
 
     }
 

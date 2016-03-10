@@ -1,5 +1,5 @@
-package Noise;/*
- * OpenSimplex Noise in Java.
+package Save_System;/*
+ * OpenSimplex Save_System in Java.
  * by Kurt Spencer
  * 
  * v1.1 (October 5, 2014)
@@ -70,7 +70,7 @@ public class OpenSimplexNoise {
         }
     }
 
-    //2D OpenSimplex Noise.
+    //2D OpenSimplex Save_System.
     public double eval(double x, double y) {
 
         //Place input coordinates onto grid.
@@ -185,7 +185,7 @@ public class OpenSimplexNoise {
         return value / NORM_CONSTANT_2D;
     }
 
-    //3D OpenSimplex Noise.
+    //3D OpenSimplex Save_System.
     public double eval(double x, double y, double z) {
 
         //Place input coordinates on simplectic honeycomb.
@@ -746,7 +746,7 @@ public class OpenSimplexNoise {
         return value / NORM_CONSTANT_3D;
     }
 
-    //4D OpenSimplex Noise.
+    //4D OpenSimplex Save_System.
     public double eval(double x, double y, double z, double w) {
 
         //Place input coordinates on simplectic honeycomb.
