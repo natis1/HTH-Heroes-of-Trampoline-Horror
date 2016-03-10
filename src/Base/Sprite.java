@@ -1,16 +1,11 @@
 package Base;
 
-import Panels.BasePanel;
-
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.function.Function;
 
 public class Sprite {
 
@@ -107,17 +102,18 @@ public class Sprite {
         return image;
     }
 
-    public void draw(Graphics2D graphics, JPanel panel)
-    {
+    public void draw(Graphics2D graphics, JPanel panel) {
         graphics.drawImage(image, x, y, panel);
     }
 
-    public boolean contains(int x, int y)
-    {
+    public boolean contains(int x, int y) {
         return            ((x < this.x + getWidth())
                         && (x > this.x)
                         && (y < this.y + getHeight())
                         && (y > this.y));
+    }
+    public Rectangle getBoundingRectangle() {
+        return new Rectangle(x, y, width, height);
     }
 
     public int getWidth() {
@@ -135,4 +131,97 @@ public class Sprite {
     public int getY() {
         return y;
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setLocation(Point Location) {
+        this.x = Location.x;
+        this.y = Location.y;
+    }
+
+    public int getXCenter() {
+        return x + width /2;
+    }
+
+    public int getYCenter() {
+        return y + height /2;
+    }
+
+    public int[] getCenter() {
+        return new int[]{x + width /2, y + height /2};
+    }
+
+    //Center the sprite on the given x and y coordinates.
+    public void moveToCenter(int x, int y){
+        this.x = x - width/2;
+        this.y = y - height/2;
+    }
+
+    public boolean isVisible() {
+        return vis;
+    }
+
+    public void setVisible(Boolean visible) {
+        vis = visible;
+    }
+
+
+
+    public void changeVelocity(double change_dx, double change_dy){
+        dx += change_dx;
+        dy += change_dy;
+    }
+
+    public void setVelocity(double new_dx, double new_dy){
+        dx = new_dx;
+        dy = new_dy;
+    }
+
+    public void changeAngle(double angle){
+        //Remember the current center
+        int[] center = getCenter();
+        //Rotate the angle by pi/16
+        this.angle += angle;
+        //Reload the image.
+        loadImage();
+        //Update the image dimensions.
+        getImageDimensions();
+        //Move image to the old center to prevent rotation wobble.
+        moveToCenter(center[0], center[1]);
+    }
+
+    public void setAngle(double angle){
+        //Remember the current center
+        int[] center = getCenter();
+        //Rotate the angle by pi/16
+        this.angle = angle;
+        //Reload the image.
+        loadImage();
+        //Update the image dimensions.
+        getImageDimensions();
+        //Move image to the old center to prevent rotation wobble.
+        moveToCenter(center[0], center[1]);
+    }
+
+    //Check circular collision
+    /*public boolean CollidedRadius(Base.Sprite other){
+        int[] my_center = this.getCenter();
+        int[] other_center = other.getCenter();
+        double distance = Math.sqrt((my_center[0]-other_center[0])^2 - (my_center[1]-other_center[1])^2);
+        return distance < (this.collision_radius + other.collision_radius);
+    }
+
+    //Check rectangular collision
+    public boolean CollidedRectangle(Base.Sprite other){
+        //Get the rectangle around the sprite.
+        Rectangle my_rect = this.getBoundingRectangle();
+        Rectangle other_rect = other.getBoundingRectangle();
+        return my_rect.intersects(other_rect);
+    }*/
 }
