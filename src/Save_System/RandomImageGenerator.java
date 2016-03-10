@@ -1,4 +1,4 @@
-package Noise;
+package Save_System;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

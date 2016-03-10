@@ -69,7 +69,7 @@ public class WindowLoader {
 
 
     public void initUI(String UIName) {
-//Merg
+//wtf
         isRunning = true;
         if (!didInit){
 
@@ -272,7 +272,7 @@ public class WindowLoader {
         {
             public void run()
             {
-                //?
+                //Don't ask
             }
         };
         loop.start();
@@ -297,56 +297,6 @@ public class WindowLoader {
      *
      */
 
-    /*
-    @Override
-    public void actionPerformed(ActionEvent e) {
 
-
-        //-1 = main menu
-        switch (Main.ElvenGameState) {
-            case -1:
-                myGameScreen.setVisible(false);
-                myGameScreen.removeAll();
-                myGameScreen.dispose();
-
-
-                //Nothing like reiniting my perfectly working window. No reason for a new one.
-
-                initUI("main_menu");
-
-                Main.ElvenGameState = 1;
-
-                //1 = Do nothing, standard state.
-                break;
-            case 1:
-
-
-
-                break;
-            case 2:
-
-                myGameScreen.setVisible(false);
-                myGameScreen.removeAll();
-                myGameScreen.dispose();
-
-
-                //Nothing like reiniting my perfectly working window. No reason for a new one.
-
-                initUI("overworld");
-                Main.ElvenGameState = 1;
-
-                //3 Load Noise
-                break;
-            case 3:
-
-                myGameScreen.setVisible(false);
-                myGameScreen.removeAll();
-                myGameScreen.dispose();
-
-                initUI("battle");
-                Main.ElvenGameState = 1;
-                break;
-        }
-    }*/
 
 }

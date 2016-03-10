@@ -43,8 +43,7 @@ public class Sprite {
         vis = true;
     }
 
-    public Sprite(int x, int y, double angle, BufferedImage image)
-    {
+    public Sprite(int x, int y, double angle, BufferedImage image) {
         preloaded = true;
 
         this.x = x;
@@ -53,6 +52,32 @@ public class Sprite {
         this.angle = angle;
         this.image = createTransformedImage(image, angle);
     }
+
+    public Sprite(int x, int y, BufferedImage image) {
+        preloaded = true;
+
+        this.x = x;
+        this.y = y;
+        this.image = createTransformedImage(image, angle);
+
+    }
+
+    public Sprite(int x, int y, String image_file) {
+        preloaded = false;
+
+        this.x = x;
+        this.y = y;
+        this.image_file = image_file;
+
+        loadImage();
+
+
+
+        vis = true;
+
+
+    }
+
 
     //Load a buffered image
     public void loadImage(){

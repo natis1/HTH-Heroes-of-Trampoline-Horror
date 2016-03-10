@@ -1,7 +1,7 @@
 package Panels;
 
 import Base.*;
-import Noise.RandomWorldGenerator;
+import Save_System.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -118,7 +118,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                     int r;
                     Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
                     r = c.getRed() / 24;
-
+                    
                     //vector awesomeness
                     overworldMicroObjectVector[x + 8] [y + 5] = r;
 
