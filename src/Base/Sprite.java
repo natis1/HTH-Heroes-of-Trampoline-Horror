@@ -133,6 +133,19 @@ public class Sprite {
         return y;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setLocation(Point Location) {
+        this.x = Location.x;
+        this.y = Location.y;
+    }
+
     public int getXCenter() {
         return x + width /2;
     }
