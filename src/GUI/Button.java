@@ -30,7 +30,6 @@ public class Button extends GUIElement
     public void setText(String s){text = s;}
     public final String getText(){return text;}
 
-    @Override
     public void draw(Graphics2D graphics, JPanel panel)
     {
         drawBackground(graphics, panel);

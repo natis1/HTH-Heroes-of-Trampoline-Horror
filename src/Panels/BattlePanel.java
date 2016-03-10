@@ -22,7 +22,7 @@ public class BattlePanel extends BasePanel implements MouseListener
     private Sprite backgroundSprite;
     private Sprite foregroundSprite;
 
-    private ArrayList<Weapon> weapons    = new ArrayList<>(); //Should be eventually full of a class "Weapon"?
+    private ArrayList<Weapon> weapons    = new ArrayList<>();
     private ArrayList<Sprite> characters = new ArrayList<>(); //Should be full of "Character" ?
 
     private JLabel test;
@@ -40,11 +40,10 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         this.setBackground(Color.WHITE);
 
-
-        test = new JLabel("Test");
-
         foregroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleScreen")));
-        backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleScreen")));
+        backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleground")));
+
+        weapons.add(new Weapon(100, 100, deepCopy(battleLoader.returnImageFromSet("sword")), new WeaponStats(10, 10)));
 
         runLoop();
     }
@@ -66,6 +65,15 @@ public class BattlePanel extends BasePanel implements MouseListener
         g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
                 backgroundSprite.getY(), this);
 
+
+        g2d.drawImage(foregroundSprite.getImage(), foregroundSprite.getX(),
+                foregroundSprite.getY(), this);
+
+        for (Weapon w : weapons)
+        {
+            w.draw(g2d, this);
+        }
+
         g2d.setPaint(Color.decode("#527A7A"));
         g2d.setFont(new Font(null, Font.BOLD, 20));
         g2d.drawString("Test" , 50, 50);
@@ -74,8 +82,18 @@ public class BattlePanel extends BasePanel implements MouseListener
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e)
+    {
+        int mouseX = (int) (e.getX() / universalScalar);
+        int mouseY = (int) (e.getY() / universalScalar);
 
+        for (Weapon w : weapons)
+        {
+            if (w.contains(mouseX, mouseY))
+            {
+                w.use();
+            }
+        }
     }
 
     @Override

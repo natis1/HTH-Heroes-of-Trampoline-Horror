@@ -1,7 +1,7 @@
 package Panels;
 
 import Base.*;
-import Noise.*;
+import Noise.RandomWorldGenerator;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -31,8 +31,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         addMouseListener(this);
         addKeyListener(new TAdapter());
         setFocusable(true);
-
-
 
         int[] savedIntegers = new int[3];
         OverworldSaveManager saveManager = new OverworldSaveManager();

@@ -23,4 +23,9 @@ public class Weapon extends Sprite{
     {
         this.stats = setStats;
     }
+
+    public void use()
+    {
+        stats.durability -= 1;
+    }
 }
