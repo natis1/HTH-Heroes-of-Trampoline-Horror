@@ -28,4 +28,6 @@ public class Weapon extends Sprite{
     {
         stats.durability -= 1;
     }
+
+    public boolean hasDurability() {return stats.durability > 1;}
 }

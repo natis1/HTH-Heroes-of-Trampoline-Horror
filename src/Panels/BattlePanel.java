@@ -1,8 +1,6 @@
 package Panels;
 
-import Base.KeyboardManager;
-import Base.Sprite;
-import Base.SpriteLoader;
+import Base.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import Base.Weapon;
-import Base.WeaponStats;
 
 
 public class BattlePanel extends BasePanel implements MouseListener
@@ -23,7 +19,7 @@ public class BattlePanel extends BasePanel implements MouseListener
     private Sprite foregroundSprite;
 
     private ArrayList<Weapon> weapons    = new ArrayList<>();
-    private ArrayList<Sprite> characters = new ArrayList<>(); //Should be full of "Character" ?
+    private ArrayList<Base.Character> characters = new ArrayList<>(); //Should be full of "Character" ?
 
     private JLabel test;
 
@@ -71,6 +67,11 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         for (Weapon w : weapons)
         {
+            if (!w.hasDurability()) //Its possible to move this elsewhere once we make changes to the way that weapons work.
+            {
+                weapons.remove(w);
+                break;
+            }
             w.draw(g2d, this);
         }
 
