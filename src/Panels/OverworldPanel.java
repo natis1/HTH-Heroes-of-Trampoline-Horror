@@ -192,34 +192,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     @Override
     public void mousePressed(MouseEvent e) {
 
-        boolean reload = false;
-
-        if (e.getY() < 100){
-            characterLocation.y--;
-            reload = true;
-
-
-        }
-        if (e.getY() > 980){
-            characterLocation.y++;
-            reload = true;
-        }
-
-        if (e.getX() < 100){
-            characterLocation.x--;
-            reload = true;
-        }
-        if (e.getX() > 1820){
-            characterLocation.x++;
-            reload = true;
-        }
-
-
-
-        //Only redraw once
-        if (reload) {
-            reloadMapSprites();
-        }
     }
 
 
@@ -428,16 +400,12 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     @Override
     public void mouseReleased(MouseEvent me) {
 
+
+
         System.out.println(me.getX() / universalScalar);
         System.out.println(me.getY() / universalScalar);
 
-        if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar < 316)){
 
-            //1 = start windows game new.
-            Base.Main.ElvenGameState = 2;
-
-            //TODO ADD SOMETHING HERE
-        }
     }
 
     @Override
