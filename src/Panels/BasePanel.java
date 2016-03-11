@@ -1,6 +1,7 @@
 package Panels;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -114,12 +115,28 @@ public class BasePanel extends JPanel
 
     }
 
-    protected BufferedImage copySrcIntoDstAt(BufferedImage src, BufferedImage dst, int dx, int dy) {
+    protected void addImageWithAlphaComposite(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
+        Graphics2D g2d = buff1.createGraphics();
+        g2d.setComposite(
+                AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opaque));
+        g2d.drawImage(buff2, x, y, null);
+        g2d.dispose();
+    }
+
+    protected BufferedImage addImageUsingSetRGB(BufferedImage src, BufferedImage dst, int dx, int dy) {
         for (int x = 0; x < src.getWidth(); x++) {
             for (int y = 0; y < src.getHeight(); y++) {
                 dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
             }
         }
+        return dst;
+    }
+
+    protected BufferedImage copyColoredPixelsIntoBufferedImage(BufferedImage dst, int dx, int dy, int sizex, int sizey, Color color) {
+        Graphics2D g = dst.createGraphics();
+        g.setColor(color);
+        g.fillRect(dx, dy, sizex, sizey);
+        g.dispose();
         return dst;
     }
 
