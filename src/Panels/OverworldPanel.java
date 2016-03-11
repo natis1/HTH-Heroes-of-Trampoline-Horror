@@ -153,16 +153,10 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
         long time = System.nanoTime();
 
-        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(), backgroundSprite.getY(), this);
+        backgroundSprite.draw(g2d, this);
 
         long endtime = System.nanoTime() - time;
 
-
-        //System.out.println("Draw Time : " + endtime);
-
-        //Draw stuff here
-        //g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
-        //        backgroundSprite.getY(), this);
     }
 
     @Override

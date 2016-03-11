@@ -1,14 +1,14 @@
 package Panels;
 
 import Base.*;
+import Base.Character;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
 
 public class BattlePanel extends BasePanel implements MouseListener
 {
@@ -19,29 +19,38 @@ public class BattlePanel extends BasePanel implements MouseListener
     private Sprite foregroundSprite;
 
     private ArrayList<Weapon> weapons    = new ArrayList<>();
-    private ArrayList<Base.Character> characters = new ArrayList<>(); //Should be full of "Character" ?
-
-    private JLabel test;
+    private ArrayList<Base.Character> characters = new ArrayList<>();
 
     public BattlePanel(double scalar, int monitorHZ)
     {
         super(scalar, monitorHZ);
 
-        keyboardManager = new KeyboardManager();
-        battleLoader    = new SpriteLoader();
+        //For initializing properties, while init is for initializing data
+
+        this.setBackground(Color.WHITE);
 
         addMouseListener(this);
         addKeyListener(new TAdapter());
         setFocusable(true);
 
-        this.setBackground(Color.WHITE);
+        init(); //Data!
+
+        runLoop();
+    }
+
+    private void init()
+    {
+        //For creating new objects!
+
+        keyboardManager = new KeyboardManager();
+        battleLoader    = new SpriteLoader();
 
         foregroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleScreen")));
         backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleground")));
 
         weapons.add(new Weapon(100, 100, deepCopy(battleLoader.returnImageFromSet("sword")), new WeaponStats(10, 10)));
-
-        runLoop();
+        characters.add(new Base.Character(300, 0, deepCopy(battleLoader.returnImageFromSet("angry")), new CharacterStats("Tom")));
+        characters.add(new Base.Character(0, 100, deepCopy(battleLoader.returnImageFromSet("angry")), new CharacterStats("Tom")));
     }
 
     @Override
@@ -65,6 +74,12 @@ public class BattlePanel extends BasePanel implements MouseListener
         g2d.drawImage(foregroundSprite.getImage(), foregroundSprite.getX(),
                 foregroundSprite.getY(), this);
 
+
+        for (Character c : characters)
+        {
+            c.draw(g2d, this);
+        }
+
         for (Weapon w : weapons)
         {
             if (!w.hasDurability()) //Its possible to move this elsewhere once we make changes to the way that weapons work.
@@ -75,11 +90,6 @@ public class BattlePanel extends BasePanel implements MouseListener
             w.draw(g2d, this);
         }
 
-        g2d.setPaint(Color.decode("#527A7A"));
-        g2d.setFont(new Font(null, Font.BOLD, 20));
-        g2d.drawString("Test" , 50, 50);
-
-        //Graphics2D;
     }
 
     @Override
