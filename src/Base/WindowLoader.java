@@ -5,10 +5,10 @@ import Panels.MainMenuPanel;
 import Panels.OverworldPanel;
 
 import javax.swing.*;
-        import java.awt.*;
-        import java.awt.event.ActionEvent;
-        import java.awt.event.ActionListener;
-        import java.io.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
 
 
 public class WindowLoader {
@@ -257,96 +257,5 @@ public class WindowLoader {
         myGameScreen.setBackground(Color.black);
 
         myGameScreen.setTitle("Trampoline Hero!");
-
-        //setLocationRelativeTo(null);
-
-        //Wait. This means you can't possibly close it without taskMGR
-        //OP. Or maybe not, but the school will probably hate me for it.
-        //FYI This ain't my damn fault you put a virus on the school computers and are too apathetic
-        //to even fix it.
-        //myGameScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-    public void checkGameState() {
-        Thread loop = new Thread()
-        {
-            public void run()
-            {
-                //?
-            }
-        };
-        loop.start();
-    }
-
-
-    /**
-     *
-     * Any code here can be called from anywhere by changing Base.Main.ElvenGameState.
-     * Be sure that your code changes this gamestate back to 1 once the window is loaded so you do not constantly respawn windows
-     * Setting it to 0 will accomplish the same thing but slower as it will check all the cases. However it acts as sort of a "safemode"
-     * if this trash code breaks
-     *
-     *
-     * This variable is checked every 2 seconds to determine if it has changed.
-     *
-     * This is horrible code but whatever.
-     *
-     * The easiest way to work with this is to dispose of the old stuff and initUI with a string.
-     * Then in initUI tell it do something with that string.
-     *
-     *
-     */
-
-    /*
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-
-        //-1 = main menu
-        switch (Main.ElvenGameState) {
-            case -1:
-                myGameScreen.setVisible(false);
-                myGameScreen.removeAll();
-                myGameScreen.dispose();
-
-
-                //Nothing like reiniting my perfectly working window. No reason for a new one.
-
-                initUI("main_menu");
-
-                Main.ElvenGameState = 1;
-
-                //1 = Do nothing, standard state.
-                break;
-            case 1:
-
-
-
-                break;
-            case 2:
-
-                myGameScreen.setVisible(false);
-                myGameScreen.removeAll();
-                myGameScreen.dispose();
-
-
-                //Nothing like reiniting my perfectly working window. No reason for a new one.
-
-                initUI("overworld");
-                Main.ElvenGameState = 1;
-
-                //3 Load Noise
-                break;
-            case 3:
-
-                myGameScreen.setVisible(false);
-                myGameScreen.removeAll();
-                myGameScreen.dispose();
-
-                initUI("battle");
-                Main.ElvenGameState = 1;
-                break;
-        }
-    }*/
-
 }
