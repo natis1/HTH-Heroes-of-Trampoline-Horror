@@ -21,6 +21,10 @@ public class WindowLoader {
     private static int ElvenWindowedResolution = 0;
 
 
+    private double screenWidth;
+    private double screenHeight;
+
+
     private boolean isRunning = false;
 
     private boolean spawnBlackBKG = true;
@@ -192,8 +196,6 @@ public class WindowLoader {
 
         //Get computer screen size
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double screenWidth;
-        double screenHeight;
 
         int screenChangeXBy = 0;
         int screenChangeYBy = 0;
@@ -257,5 +259,13 @@ public class WindowLoader {
         myGameScreen.setBackground(Color.black);
 
         myGameScreen.setTitle("Trampoline Hero!");
+    }
+
+    public double getScreenHeight() {
+        return screenHeight;
+    }
+
+    public double getScreenWidth() {
+        return screenWidth;
     }
 }

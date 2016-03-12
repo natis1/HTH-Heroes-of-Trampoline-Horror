@@ -179,4 +179,13 @@ public class BasePanel extends JPanel
         //TODO ADD ACTUAL PARTICLES
     }
 
+    public int getHeight()
+    {
+        return (int) parent.getScreenHeight();
+    }
+
+    public int getWidth()
+    {
+        return (int) parent.getScreenWidth();
+    }
 }
