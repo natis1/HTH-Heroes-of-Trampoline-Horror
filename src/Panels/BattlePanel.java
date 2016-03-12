@@ -23,9 +23,9 @@ public class BattlePanel extends BasePanel implements MouseListener
     private GUI gui;
     private TextBox textbox;
 
-    public BattlePanel(double scalar, int monitorHZ)
+    public BattlePanel(double scalar, int monitorHZ, WindowLoader parent)
     {
-        super(scalar, monitorHZ);
+        super(scalar, monitorHZ, parent);
 
         //For initializing properties, while init is for initializing data
 

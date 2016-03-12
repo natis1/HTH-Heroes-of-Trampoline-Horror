@@ -1,34 +1,13 @@
 package Base;
 
-import Base.WindowLoader;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.function.Function;
 
-/**
- * 
- * TODO: THIS GAME WILL BE THE BEST PC PORT SINCE AC:Unity
- * 
- * 
- * 
- * SO CINEMATIC
- * 
- * 
- * 
- */
 
 public class Main
 {
-    //Why not move these to a settings class (or something similar)? -Lucas
-    //Because what else are we going to do with main class anyway? Every single class needs these variables so it makes no sense to move them.
-    //Every single class *Doesn't* need these variables, that's why you should move them - Lucas
-
-
-    public static int ElvenGameState = 0;
-
-    public static int ElvenFramerate = 0;
-    public static int ElvenWindowedResolution = 0;
+    //No more globals :)
 
     public static void map(Function f, ArrayList<Object> a) //WOO, use this for all kinds of crazy stuff in the future
     {

@@ -11,11 +11,15 @@ import javax.swing.*;
         import java.io.*;
 
 
-public class WindowLoader implements ActionListener {
+public class WindowLoader {
 
     private JFrame myBlackScreen;
     private JFrame myGameScreen;
     private JFrame myMenuScreen;
+
+    private static int ElvenFramerate = 0;
+    private static int ElvenWindowedResolution = 0;
+
 
     private boolean isRunning = false;
 
@@ -23,33 +27,18 @@ public class WindowLoader implements ActionListener {
 
     private boolean didInit = false;
 
-    private Timer timer;
-    private int DELAY = 2000;
-
-
     private int pseudoVSync;
     private double universalScaler;
 
-
-    //private SystemTray tray;
 
     public WindowLoader() {
 
         initUI("main_menu");
 
-
-        if (Main.ElvenWindowedResolution == 0 && spawnBlackBKG){
+        if (ElvenWindowedResolution == 0 && spawnBlackBKG){
             initBlackUI();
             myGameScreen.toFront();
         }
-
-
-
-
-        timer = new Timer(DELAY, this);
-        timer.start();
-
-
     }
 
     private void initBlackUI() {
@@ -58,9 +47,6 @@ public class WindowLoader implements ActionListener {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
-
-
-
 
 
         myBlackScreen = new JFrame();
@@ -75,21 +61,15 @@ public class WindowLoader implements ActionListener {
 
 
         myBlackScreen.setTitle("Trampolines");
-        //setLocationRelativeTo(null);
-        myBlackScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myBlackScreen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-
-
-        //myBlackScreen.
 
         myBlackScreen.setVisible(true);
-
-
     }
 
 
-    private void initUI(String UIName) {
-
+    public void initUI(String UIName) {
+//Merg
         isRunning = true;
         if (!didInit){
 
@@ -114,10 +94,10 @@ public class WindowLoader implements ActionListener {
 
                     //Line 5 - 6
 
-                    Main.ElvenWindowedResolution = Integer.parseInt(bufferedReader.readLine());
-                    Main.ElvenFramerate = Integer.parseInt(bufferedReader.readLine());
+                    ElvenWindowedResolution = Integer.parseInt(bufferedReader.readLine());
+                    ElvenFramerate = Integer.parseInt(bufferedReader.readLine());
 
-                    if (Main.ElvenFramerate == 0){
+                    if (ElvenFramerate == 0){
                         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                         GraphicsDevice[] gs = ge.getScreenDevices();
 
@@ -125,17 +105,17 @@ public class WindowLoader implements ActionListener {
                             DisplayMode dm = gs[i].getDisplayMode();
 
                             pseudoVSync = dm.getRefreshRate();
-                            Main.ElvenFramerate = pseudoVSync;
+                            ElvenFramerate = pseudoVSync;
                             if (pseudoVSync == DisplayMode.REFRESH_RATE_UNKNOWN) {
                                 System.out.println("Unknown HZ, using 60 because you are probably in a VM or something"); //I love VMs, might add an override
                                 //if the person runs it from the cmdline with the --hz option.
                                 pseudoVSync = 60;
-                                Main.ElvenFramerate = pseudoVSync;
+                                ElvenFramerate = pseudoVSync;
                             }
                         }
                     } else {
 
-                        pseudoVSync = Main.ElvenFramerate;//use user set fps
+                        pseudoVSync = ElvenFramerate;//use user set fps
                     }
 
 
@@ -169,12 +149,12 @@ public class WindowLoader implements ActionListener {
                         DisplayMode dm = gs[i].getDisplayMode();
 
                         pseudoVSync = dm.getRefreshRate();
-                        Main.ElvenFramerate = pseudoVSync;
+                        ElvenFramerate = pseudoVSync;
                         if (pseudoVSync == DisplayMode.REFRESH_RATE_UNKNOWN) {
                             System.out.println("Unknown HZ, using 60 because you are probably in a VM or something"); //I love VMs, might add an override
                             //if the person runs it from the cmdline with the --hz option.
                             pseudoVSync = 60;
-                            Main.ElvenFramerate = pseudoVSync;
+                            ElvenFramerate = pseudoVSync;
                         }
                     }
 
@@ -201,15 +181,14 @@ public class WindowLoader implements ActionListener {
 
         }
 
-        if (Main.ElvenFramerate != 0){
-            pseudoVSync = Main.ElvenFramerate;
+        if (ElvenFramerate != 0){
+            pseudoVSync = ElvenFramerate;
         }
 
 
         myGameScreen = new JFrame();
         myGameScreen.getContentPane().setBackground(Color.BLACK);
         //set this first
-
 
         //Get computer screen size
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -220,7 +199,7 @@ public class WindowLoader implements ActionListener {
         int screenChangeYBy = 0;
         universalScaler = 1;
 
-        if (Main.ElvenWindowedResolution == 0){
+        if (ElvenWindowedResolution == 0){
             screenWidth = screenSize.getWidth();
             screenHeight = screenSize.getHeight();
 
@@ -239,7 +218,7 @@ public class WindowLoader implements ActionListener {
                 universalScaler = screenHeight / 1080.0;
             }
         } else {
-            screenHeight = Main.ElvenWindowedResolution;
+            screenHeight = ElvenWindowedResolution;
             screenWidth = screenHeight * 16.0 / 9.0;
             universalScaler = screenHeight / 1080.0;
 
@@ -254,22 +233,21 @@ public class WindowLoader implements ActionListener {
 
         switch (UIName) {
             case "main_menu":
-                myGameScreen.add(new MainMenuPanel(universalScaler, pseudoVSync));
+                myGameScreen.add(new MainMenuPanel(universalScaler, pseudoVSync, this));
                 break;
 
             case "overworld":
-                myGameScreen.add(new OverworldPanel(universalScaler, pseudoVSync));
+                myGameScreen.add(new OverworldPanel(universalScaler, pseudoVSync, this));
                 break;
 
             case "battle":
-                myGameScreen.add(new BattlePanel(universalScaler, pseudoVSync));
+                myGameScreen.add(new BattlePanel(universalScaler, pseudoVSync, this));
                 break;
         }
 
 
 
         myGameScreen.setLocation(screenChangeXBy, screenChangeYBy);
-
 
         //I sure hope your screen size is an int
         myGameScreen.setVisible(true);
@@ -287,31 +265,7 @@ public class WindowLoader implements ActionListener {
         //FYI This ain't my damn fault you put a virus on the school computers and are too apathetic
         //to even fix it.
         //myGameScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
-
-        /*JFrame frame = new JFrame("TitleLessJFrame");
-        frame.getContentPane().add(new JLabel(" What up"));
-        frame.setUndecorated(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1920, 1080);
-        frame.setVisible(true);*/
-
-        /*GraphicsDevice myDevice = null;
-        Window myWindow = Elvenboard;
-
-        try {
-            myDevice.setFullScreenWindow(myWindow);
-        } finally {
-            myDevice.setFullScreenWindow(null);
-        }*/
-        //myGameScreen.toFront();
-
     }
-
-
-
-
 
     public void checkGameState() {
         Thread loop = new Thread()
@@ -342,6 +296,8 @@ public class WindowLoader implements ActionListener {
      *
      *
      */
+
+    /*
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -391,21 +347,6 @@ public class WindowLoader implements ActionListener {
                 Main.ElvenGameState = 1;
                 break;
         }
-
-
-
-/*
-    if (ElvenMain.ElvenGameState > 999){
-
-        goToMainMenu(ElvenMain.ElvenGameState - 1000);
-        ElvenMain.ElvenGameState = 3; //3 is menu
-
-        // 10 through 255 selects difficulty.
-    } else if (ElvenMain.ElvenGameState > 9 && ElvenMain.ElvenGameState < 256){
-        goBackToGame();
-    }
-        */
-
-    }
+    }*/
 
 }

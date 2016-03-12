@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import Base.WindowLoader;
 import GUI.Menu;
 import GUI.Button;
 
@@ -17,9 +19,9 @@ public class MainMenuPanel extends BasePanel implements MouseListener
     private SpriteLoader imageLoader;
     private Menu menu;
 
-    public MainMenuPanel(double scalar, int monitorHZ)
+    public MainMenuPanel(double scalar, int monitorHZ, WindowLoader parent)
     {
-        super(scalar, monitorHZ);
+        super(scalar, monitorHZ, parent);
         imageLoader =  new SpriteLoader();
         addMouseListener(this);
 
@@ -80,10 +82,10 @@ public class MainMenuPanel extends BasePanel implements MouseListener
                     //And instead he can create finalized buttons later on in the iterations of the game
             {
                 case "new":
-                    Main.ElvenGameState = 2;
+                    parent.initUI("overworld");
                     break;
                 default:
-                    Main.ElvenGameState = 3;
+                    parent.initUI("battle");
                     break;
             }
         }

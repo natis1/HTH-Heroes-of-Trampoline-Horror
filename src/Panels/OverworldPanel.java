@@ -26,8 +26,8 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
     private Timer autosaveTimer;
 
-    public OverworldPanel(double scalar, int monitorHZ) {
-        super(scalar, monitorHZ);
+    public OverworldPanel(double scalar, int monitorHZ, WindowLoader parent) {
+        super(scalar, monitorHZ, parent);
         addMouseListener(this);
         addKeyListener(new TAdapter());
         setFocusable(true);
@@ -368,12 +368,9 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         System.out.println(me.getX() / universalScalar);
         System.out.println(me.getY() / universalScalar);
 
-        if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar < 316)){
+        if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar < 316)){ //TODO: Stop manually checking coordinates
 
-            //1 = start windows game new.
-            Base.Main.ElvenGameState = 2;
-
-            //TODO ADD SOMETHING HERE
+            parent.initUI("overworld");
         }
     }
 
