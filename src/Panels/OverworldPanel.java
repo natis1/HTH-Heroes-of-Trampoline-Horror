@@ -12,7 +12,6 @@ import java.io.*;
 import javax.swing.Timer;
 import java.util.Vector;
 
-
 public class OverworldPanel extends BasePanel implements ActionListener, MouseListener {
     private Sprite backgroundSprite;
 

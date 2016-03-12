@@ -58,9 +58,9 @@ public class BattlePanel extends BasePanel implements MouseListener
         gui = new GUI();
 
         textbox =
-                new TextBox( //TODO: Replace constants with something relative to the size of the window :P
-                500,
-                700,
+                new TextBox(
+                        (int) (getHeight() * 0.75),
+                        (int) (getWidth() * 0.5),
                 deepCopy(spriteLoader.returnImageFromSet("textbox")),
                         3 //Max size of textbox
                              );
