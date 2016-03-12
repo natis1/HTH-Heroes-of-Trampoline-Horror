@@ -28,6 +28,9 @@ public class Character extends Sprite
         return stats.getHealth() <= 0;
     }
 
+    public int getHealth(){ return stats.getHealth(); }
+
+
     public void applyDamage(int damage)
     {
         this.stats.health -= damage;

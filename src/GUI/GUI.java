@@ -7,18 +7,23 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class GUI implements MouseListener
 {
-    private ArrayList<GUIElement> elements;
+    private Vector<GUIElement> elements;
     private SpriteLoader spriteLoader;
-    private double scalar;
 
-    public GUI(double scalar)
+    public GUI()
     {
-        elements = new ArrayList<>();
+        elements = new Vector<>();
         spriteLoader = new SpriteLoader();
-        this.scalar = scalar;
+    }
+
+    public void add(GUIElement element)
+    {
+        elements.add(element);
     }
 
     public void draw(Graphics2D graphics, JPanel panel)
@@ -42,8 +47,8 @@ public class GUI implements MouseListener
     @Override
     public void mouseReleased(MouseEvent me)
     {
-        double mouseX = me.getX() / scalar;
-        double mouseY = me.getY() / scalar;
+        double mouseX = me.getX();
+        double mouseY = me.getY();
 
         System.out.println(mouseX);
         System.out.println(mouseY);

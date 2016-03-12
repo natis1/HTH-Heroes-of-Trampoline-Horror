@@ -3,6 +3,8 @@ package Base;
 import Base.WindowLoader;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.function.Function;
 
 /**
  * 
@@ -28,7 +30,14 @@ public class Main
     public static int ElvenFramerate = 0;
     public static int ElvenWindowedResolution = 0;
 
-    
+    public static void map(Function f, ArrayList<Object> a) //WOO, use this for all kinds of crazy stuff in the future
+    {
+        for (Object o : a)
+        {
+            f.apply(o);
+        }
+    }
+
     public static void main(String[] args)
     {
         EventQueue.invokeLater(

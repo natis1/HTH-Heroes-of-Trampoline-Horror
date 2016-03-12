@@ -1,5 +1,4 @@
 package Base;
-//package com.zetcode;
 
 import Panels.BattlePanel;
 import Panels.MainMenuPanel;
@@ -14,8 +13,6 @@ import javax.swing.*;
 
 public class WindowLoader implements ActionListener {
 
-
-    //private Base.KeyboardManager keySetter = new Base.KeyboardManager();
     private JFrame myBlackScreen;
     private JFrame myGameScreen;
     private JFrame myMenuScreen;

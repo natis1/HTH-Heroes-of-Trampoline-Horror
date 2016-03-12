@@ -2,25 +2,26 @@ package Panels;
 
 import Base.*;
 import Base.Character;
+import GUI.*;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class BattlePanel extends BasePanel implements MouseListener
 {
-    private SpriteLoader battleLoader;
-    private KeyboardManager keyboardManager;
+    private SpriteLoader spriteLoader;
 
     private Sprite backgroundSprite;
-    private Sprite foregroundSprite;
 
     private ArrayList<Weapon> weapons    = new ArrayList<>();
     private ArrayList<Character> enemies = new ArrayList<>();
     private Base.Character player;
+
+    private GUI gui;
+    private TextBox textbox;
 
     public BattlePanel(double scalar, int monitorHZ)
     {
@@ -43,16 +44,28 @@ public class BattlePanel extends BasePanel implements MouseListener
     {
         //For creating new objects!
 
-        keyboardManager = new KeyboardManager();
-        battleLoader    = new SpriteLoader();
+        spriteLoader = new SpriteLoader();
 
-        foregroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleScreen")));
-        backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleground")));
+        backgroundSprite = new Sprite(0, 0, 0, deepCopy(spriteLoader.returnImageFromSet("battleground")));
 
-        weapons.add(new Weapon(100, 100, deepCopy(battleLoader.returnImageFromSet("sword")), new WeaponStats(10, 10)));
+        weapons.add(new Weapon(100, 100, deepCopy(spriteLoader.returnImageFromSet("sword")), new WeaponStats(10, 10)));
 
-        player = new Base.Character(300, 0, deepCopy(battleLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
-        enemies.add(new Base.Character(0, 100, deepCopy(battleLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20)));
+        player =     new Base.Character(0, 100, deepCopy(spriteLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
+        enemies.add (new Base.Character(300, 0, deepCopy(spriteLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20)));
+
+        //GUI code
+
+        gui = new GUI();
+
+        textbox =
+                new TextBox( //TODO: Replace constants with something relative to the size of the window :P
+                500,
+                700,
+                deepCopy(spriteLoader.returnImageFromSet("textbox")),
+                        3 //Max size of textbox
+                             );
+
+        gui.add(textbox);
     }
 
     @Override
@@ -70,27 +83,24 @@ public class BattlePanel extends BasePanel implements MouseListener
         g2d.scale(universalScalar, universalScalar);
 
         backgroundSprite.draw(g2d, this);
-        foregroundSprite.draw(g2d, this);
-
 
         player.draw(g2d, this);
+
         enemies.removeIf(Character::isDead); //Look at this beauty
+        weapons.removeIf(Weapon::noDurability);
 
         for (Character c : enemies)
         {
             c.draw(g2d, this);
         }
-
         for (Weapon w : weapons)
         {
-            if (!w.hasDurability()) //Its possible to move this elsewhere once we make changes to the way that weapons work.
-            {
-                weapons.remove(w);
-                break;
-            }
             w.draw(g2d, this);
         }
 
+        //GUI drawing
+
+        gui.draw(g2d, this);
     }
 
     @Override
@@ -106,6 +116,7 @@ public class BattlePanel extends BasePanel implements MouseListener
                 for (Character c: enemies)
                 {
                     c.applyDamage(w.use());
+                    textbox.add(new GUIText("Damaged enemy! Health remaining: " + String.valueOf(c.getHealth())));
                 }
             }
         }

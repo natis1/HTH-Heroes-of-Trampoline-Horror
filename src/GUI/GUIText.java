@@ -1,28 +1,28 @@
 package GUI;
 
-public class Text
+public class GUIText
 {
     //More of a data structure than a class, considering its only interface is constructors. Don't worry.
     public int x;
     public int y;
     public String field;
 
-    public Text()
+    public GUIText()
     {
         x = 0;
         y = 0;
     }
 
-    public Text(int x, int y)
+    public GUIText(int x, int y)
     {
         this.x = x;
         this.y = y;
     }
 
-    public Text(int x, int y, String s)
+    public GUIText(String s)
     {
-        this.x = x;
-        this.y = y;
+        this.x = 0;
+        this.y = 0;
         this.field = s;
     }
 }

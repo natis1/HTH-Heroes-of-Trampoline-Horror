@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.function.Function;
 
 public class Sprite {
 
@@ -55,10 +57,7 @@ public class Sprite {
 
         this.angle = angle;
         this.image = createTransformedImage(image, angle);
-
-
     }
-
 
     //Load a buffered image
     public void loadImage(){
