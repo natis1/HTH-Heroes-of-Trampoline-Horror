@@ -19,7 +19,8 @@ public class BattlePanel extends BasePanel implements MouseListener
     private Sprite foregroundSprite;
 
     private ArrayList<Weapon> weapons    = new ArrayList<>();
-    private ArrayList<Base.Character> characters = new ArrayList<>();
+    private ArrayList<Character> enemies = new ArrayList<>();
+    private Base.Character player;
 
     public BattlePanel(double scalar, int monitorHZ)
     {
@@ -49,8 +50,9 @@ public class BattlePanel extends BasePanel implements MouseListener
         backgroundSprite = new Sprite(0, 0, 0, deepCopy(battleLoader.returnImageFromSet("battleground")));
 
         weapons.add(new Weapon(100, 100, deepCopy(battleLoader.returnImageFromSet("sword")), new WeaponStats(10, 10)));
-        characters.add(new Base.Character(300, 0, deepCopy(battleLoader.returnImageFromSet("angry")), new CharacterStats("Tom")));
-        characters.add(new Base.Character(0, 100, deepCopy(battleLoader.returnImageFromSet("angry")), new CharacterStats("Tom")));
+
+        player = new Base.Character(300, 0, deepCopy(battleLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
+        enemies.add(new Base.Character(0, 100, deepCopy(battleLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20)));
     }
 
     @Override
@@ -67,15 +69,14 @@ public class BattlePanel extends BasePanel implements MouseListener
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
-        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(),
-                backgroundSprite.getY(), this);
+        backgroundSprite.draw(g2d, this);
+        foregroundSprite.draw(g2d, this);
 
 
-        g2d.drawImage(foregroundSprite.getImage(), foregroundSprite.getX(),
-                foregroundSprite.getY(), this);
+        player.draw(g2d, this);
+        enemies.removeIf(Character::isDead); //Look at this beauty
 
-
-        for (Character c : characters)
+        for (Character c : enemies)
         {
             c.draw(g2d, this);
         }
@@ -102,7 +103,10 @@ public class BattlePanel extends BasePanel implements MouseListener
         {
             if (w.contains(mouseX, mouseY))
             {
-                w.use();
+                for (Character c: enemies)
+                {
+                    c.applyDamage(w.use());
+                }
             }
         }
     }

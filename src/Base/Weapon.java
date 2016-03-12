@@ -24,9 +24,10 @@ public class Weapon extends Sprite{
         this.stats = setStats;
     }
 
-    public void use()
+    public int use()
     {
         stats.durability -= 1;
+        return stats.damage;
     }
 
     public boolean hasDurability() {return stats.durability > 1;}

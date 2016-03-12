@@ -22,4 +22,14 @@ public class Character extends Sprite
     {
         this.stats = setStats;
     }
+
+    public boolean isDead()
+    {
+        return stats.getHealth() <= 0;
+    }
+
+    public void applyDamage(int damage)
+    {
+        this.stats.health -= damage;
+    }
 }
