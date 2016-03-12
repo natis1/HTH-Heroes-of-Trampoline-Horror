@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class BattlePanel extends BasePanel implements MouseListener
@@ -57,11 +58,12 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         gui = new GUI();
 
+        BufferedImage textBoxSprite = deepCopy(spriteLoader.returnImageFromSet("textbox"));
         textbox =
                 new TextBox(
-                        (int) (getHeight() * 0.75),
-                        (int) (getWidth() * 0.5),
-                deepCopy(spriteLoader.returnImageFromSet("textbox")),
+                        (int) (getHeight() * 0.75), //In the bottom quarter of the screen
+                        (int) (getWidth() * 0.5) - (textBoxSprite.getWidth() / 2), //Centered
+                        textBoxSprite,
                         3 //Max size of textbox
                              );
 
@@ -89,6 +91,7 @@ public class BattlePanel extends BasePanel implements MouseListener
         enemies.removeIf(Character::isDead); //Look at this beauty
         weapons.removeIf(Weapon::noDurability);
 
+        //In the future, maybe we can map the draw function over each list?
         for (Character c : enemies)
         {
             c.draw(g2d, this);
