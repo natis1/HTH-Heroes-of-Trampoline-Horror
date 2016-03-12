@@ -1,7 +1,8 @@
 package Panels;
 
 import Base.*;
-import Save_System.*;
+import Save_System.OverworldSaveManager;
+import Save_System.RandomWorldGenerator;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,10 +18,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
     private Point characterLocation = new Point();
 
-    private Point characterMicroLocation = new Point(7, 4);
-
-    private int[][] overworldMicroObjectVector = new int[16][9];
-
     private SpriteLoader imageLoader = new SpriteLoader();
     private KeyboardManager keyboardManager = new KeyboardManager();
 
@@ -29,7 +26,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     private long seed;
 
     private Timer autosaveTimer;
-    private Sprite heroOverworldRepresentation = new Sprite(914, 530, 0, "../Base/Resources/hero.png");
 
     public OverworldPanel(double scalar, int monitorHZ, WindowLoader parent) {
         super(scalar, monitorHZ, parent);
@@ -75,6 +71,31 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     }
 
 
+    private void addImageWithAlphaComposite(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
+        Graphics2D g2d = buff1.createGraphics();
+        g2d.setComposite(
+                AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opaque));
+        g2d.drawImage(buff2, x, y, null);
+        g2d.dispose();
+    }
+
+    private BufferedImage addImageUsingSetRGB(BufferedImage src, BufferedImage dst, int dx, int dy) {
+        for (int x = 0; x < src.getWidth(); x++) {
+            for (int y = 0; y < src.getHeight(); y++) {
+                dst.setRGB( dx + x, dy + y, src.getRGB(x,y) );
+            }
+        }
+        return dst;
+    }
+
+    private BufferedImage copyColoredPixelsIntoBufferedImage(BufferedImage dst, int dx, int dy, int sizex, int sizey, Color color) {
+        Graphics2D g = dst.createGraphics();
+        g.setColor(color);
+        g.fillRect(dx, dy, sizex, sizey);
+        g.dispose();
+        return dst;
+    }
+
     private void reloadMapSprites() {
         //TODO check if chunk changed
 
@@ -82,10 +103,10 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
         BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1152, BufferedImage.TYPE_INT_RGB);
 
-        for (int x = -8; x < 7; x++){
-            for (int y = -5; y < 4; y++){
+        for (int x = 0; x < 15; x++){
+            for (int y = 0; y < 9; y++){
                 if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
-                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, (x + 8) * 128, 0, 128, 1080, Color.GREEN);
+                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 128, 0, 128, 1080, Color.GREEN);
                     break;
                 }
 
@@ -93,17 +114,12 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                     int r;
                     Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
                     r = c.getRed() / 24;
-                    
-                    //vector awesomeness
-                    overworldMicroObjectVector[x + 8] [y + 5] = r;
 
-
-
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(imageLoader.returnImageFromSet(r)), 1, (x + 8) * 128, (y + 5) * 128);
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(imageLoader.returnImageFromSet(r)), 1, x * 128, y * 128);
                     //backgroundLoadBufferedImage = copySrcIntoDstAt
-                            //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
+                    //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
                 } else {
-                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, (x + 8) * 128, (y + 5) * 128, 128, 128, Color.GREEN);
+                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, x * 128, y * 128, 128, 128, Color.GREEN);
                 }
             }
         }
@@ -138,9 +154,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
         long time = System.nanoTime();
 
-        g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(), backgroundSprite.getY(), this);
-        g2d.drawImage(heroOverworldRepresentation.getImage(),
-                heroOverworldRepresentation.getX(), heroOverworldRepresentation.getY(), this);
+        backgroundSprite.draw(g2d, this);
 
         long endtime = System.nanoTime() - time;
 
@@ -154,6 +168,34 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     @Override
     public void mousePressed(MouseEvent e) {
 
+        boolean reload = false;
+
+        if (e.getY() < 100){
+            characterLocation.y--;
+            reload = true;
+
+
+        }
+        if (e.getY() > 980){
+            characterLocation.y++;
+            reload = true;
+        }
+
+        if (e.getX() < 100){
+            characterLocation.x--;
+            reload = true;
+        }
+        if (e.getX() > 1820){
+            characterLocation.x++;
+            reload = true;
+        }
+
+
+
+        //Only redraw once
+        if (reload) {
+            reloadMapSprites();
+        }
     }
 
 
@@ -173,23 +215,19 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         }
         if (elvenAsciiInput[1]){
             characterLocation.y--;
-            heroOverworldRepresentation.setY(heroOverworldRepresentation.getY() + 128);
-            characterMicroLocation.y--;
+            reload = true;
         }
         if (elvenAsciiInput[2]){
             characterLocation.x--;
-            heroOverworldRepresentation.setX(heroOverworldRepresentation.getX() + 128);
-            characterMicroLocation.x--;
+            reload = true;
         }
         if (elvenAsciiInput[3]){
             characterLocation.x++;
-            heroOverworldRepresentation.setX(heroOverworldRepresentation.getX() - 128);
-            characterMicroLocation.x++;
+            reload = true;
         }
         if (elvenAsciiInput[4]){
             characterLocation.y++;
-            heroOverworldRepresentation.setY(heroOverworldRepresentation.getY() - 128);
-            characterMicroLocation.y++;
+            reload = true;
         }
         if (elvenAsciiInput[5]){
             //TODO add input when user presses Q
@@ -264,44 +302,29 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
             }
 
             if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
-                if (overworldMicroObjectVector[(int) characterMicroLocation.getX() - 1] [ (int) characterMicroLocation.getY()] != 1){
-                    characterMicroLocation.x--;
-                    heroOverworldRepresentation.setX(heroOverworldRepresentation.getX() - 128);
-                }
                 keyboardManager.elvenAsciiInput[2] = true;
-
-
+                characterLocation.x--;
+                reload = true;
             }
 
             if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-
-                if (overworldMicroObjectVector[(int) characterMicroLocation.getX() + 1] [ (int) characterMicroLocation.getY()] != 1){
-                    heroOverworldRepresentation.setX(heroOverworldRepresentation.getX() + 128);
-                    characterMicroLocation.x++;
-                }
-
+                characterLocation.x++;
+                reload = true;
 
                 keyboardManager.elvenAsciiInput[3] = true;
             }
 
             if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-                if (overworldMicroObjectVector[(int) characterMicroLocation.getX()] [ (int) characterMicroLocation.getY() - 1] != 1){
-                    heroOverworldRepresentation.setY(heroOverworldRepresentation.getY() - 128);
-                    characterMicroLocation.y--;
-                }
-
-
+                characterLocation.y--;
+                reload = true;
                 keyboardManager.elvenAsciiInput[1] = true;
             }
 
             if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-                if (overworldMicroObjectVector[(int) characterMicroLocation.getX()] [(int) characterMicroLocation.getY() + 1] != 1){
-                    characterMicroLocation.y++;
-                    heroOverworldRepresentation.setY(heroOverworldRepresentation.getY() + 128);
-                }
-
                 keyboardManager.elvenAsciiInput[4] = true;
 
+                characterLocation.y++;
+                reload = true;
             }
             if (key == KeyEvent.VK_Q) {
                 keyboardManager.elvenAsciiInput[5] = true;
@@ -310,26 +333,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                 keyboardManager.elvenAsciiInput[6] = true;
             }
 
-            if (heroOverworldRepresentation.getX() < 130){
-                heroOverworldRepresentation.setX(1682);
-                characterLocation.x -= 13;
-                characterMicroLocation.x = 13;
-                reloadMapSprites();
-            } else if (heroOverworldRepresentation.getX() > 1690){
-                heroOverworldRepresentation.setX(146);
-                characterLocation.x += 13;
-                characterMicroLocation.x = 1;
-                reloadMapSprites();
-            }
-            if (heroOverworldRepresentation.getY() < 100){
-                heroOverworldRepresentation.setY(914);
-                characterLocation.y -= 7;
-                characterMicroLocation.y = 7;
-                reloadMapSprites();
-            } else if (heroOverworldRepresentation.getY() > 920){
-                heroOverworldRepresentation.setY(146);
-                characterLocation.y += 7;
-                characterMicroLocation.y = 1;
+            if (reload) {
                 reloadMapSprites();
             }
 
@@ -365,7 +369,10 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         System.out.println(me.getX() / universalScalar);
         System.out.println(me.getY() / universalScalar);
 
+        if ((me.getX() / universalScalar) > 1030 && (me.getY() / universalScalar < 316)){ //TODO: Stop manually checking coordinates
 
+            parent.initUI("overworld");
+        }
     }
 
     @Override
