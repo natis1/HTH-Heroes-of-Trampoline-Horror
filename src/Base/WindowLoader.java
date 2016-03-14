@@ -73,7 +73,7 @@ public class WindowLoader {
 
 
     public void initUI(String UIName) {
-//wtf
+//no don't merge thank you and good night
         isRunning = true;
         if (!didInit){
 
@@ -179,9 +179,10 @@ public class WindowLoader {
             catch(IOException ex) {
                 System.out.println(
                         "Error reading file Because you do not have permissions. Run as Admin to fix.");
-                // Or we could just do this:
-                // ex.printStackTrace();
+                // WE ARE NOT PRINTING A STACK TRACE WHEN THE USER'S COMPUTER BREAKS, USERS DON'T KNOW HOW TO READ STACK TRACES
+                // HAVE YOU EVER SEEN PEOPLE POSTING 600 LINE TRACES WHICH ARE COMPLETELY USELESS WHEN THEIR MINECRAFT CRASHES?
             }
+            didInit = true;
 
         }
 
