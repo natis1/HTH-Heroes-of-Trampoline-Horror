@@ -261,11 +261,5 @@ public class WindowLoader {
         myGameScreen.setTitle("Trampoline Hero!");
     }
 
-    public double getScreenHeight() {
-        return screenHeight;
-    }
 
-    public double getScreenWidth() {
-        return screenWidth;
-    }
 }
