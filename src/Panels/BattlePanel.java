@@ -61,8 +61,8 @@ public class BattlePanel extends BasePanel implements MouseListener
         BufferedImage textBoxSprite = deepCopy(spriteLoader.returnImageFromSet("textbox"));
         textbox =
                 new TextBox(
-                        (int) (getHeight() * 0.75), //In the bottom quarter of the screen
-                        (int) (getWidth() * 0.5) - (textBoxSprite.getWidth() / 2), //Centered
+                        (int) (universalScalar * 1080 * 0.75), //In the bottom quarter of the screen
+                        (int) (universalScalar * 1920 * 0.5) - (textBoxSprite.getWidth() / 2), //Centered
                         textBoxSprite,
                         3 //Max size of textbox
                              );
