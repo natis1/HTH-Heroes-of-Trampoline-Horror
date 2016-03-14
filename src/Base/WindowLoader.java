@@ -184,6 +184,11 @@ public class WindowLoader {
             }
             didInit = true;
 
+        } else {
+            myGameScreen.dispose();
+            myGameScreen.removeAll();
+            myGameScreen.revalidate();
+            myGameScreen.repaint();
         }
 
         if (ElvenFramerate != 0){
@@ -261,6 +266,7 @@ public class WindowLoader {
 
         myGameScreen.setTitle("Trampoline Hero!");
     }
+
 
 
 }
