@@ -27,6 +27,8 @@ public class TextBox extends GUIElement{
         max_size = setMaxSize;
     }
 
+
+
     public void add(GUIText t)
     {
         if(contents.size() < max_size)
@@ -48,6 +50,8 @@ public class TextBox extends GUIElement{
         else
         {
             this.clear();
+
+            //oh my god
             this.add(t);
         }
     }

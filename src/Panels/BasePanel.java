@@ -1,11 +1,13 @@
 package Panels;
 
+import Base.Sprite;
 import Base.WindowLoader;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.ImageObserver;
 import java.awt.image.WritableRaster;
 
 public class BasePanel extends JPanel
@@ -120,6 +122,11 @@ public class BasePanel extends JPanel
         }
 
     }
+
+    protected void loadSpriteWithGraphics2D(Graphics2D g2d, Sprite image, ImageObserver observer){
+        g2d.drawImage(image.getImage(), image.getX(), image.getY(), observer);
+    }
+
 
     protected void addImageWithAlphaComposite(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
         Graphics2D g2d = buff1.createGraphics();

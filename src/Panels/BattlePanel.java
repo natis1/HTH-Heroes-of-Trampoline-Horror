@@ -84,10 +84,11 @@ public class BattlePanel extends BasePanel implements MouseListener
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
-        //TODO move draw to basepanel not sprite.
-        /*backgroundSprite.draw(g2d, this);
 
-        player.draw(g2d, this);
+        loadSpriteWithGraphics2D(g2d, backgroundSprite, this);
+
+        loadSpriteWithGraphics2D(g2d, player, this);
+
 
         enemies.removeIf(Character::isDead); //Look at this beauty
         weapons.removeIf(Weapon::noDurability);
@@ -95,18 +96,19 @@ public class BattlePanel extends BasePanel implements MouseListener
         //In the future, maybe we can map the draw function over each list?
         for (Character c : enemies)
         {
-            c.draw(g2d, this);
+            loadSpriteWithGraphics2D(g2d, c, this);
         }
         for (Weapon w : weapons)
         {
-            w.draw(g2d, this);
+            loadSpriteWithGraphics2D(g2d, w, this);
         }
 
-        //GUI drawing
-
+        for (GUIElement gg : gui.elements){
+            loadSpriteWithGraphics2D(g2d, gg, this);
+        }
         gui.draw(g2d, this);
 
-        */
+
     }
 
     @Override
