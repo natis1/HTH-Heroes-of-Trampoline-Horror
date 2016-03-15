@@ -36,7 +36,6 @@ public class Menu extends GUIElement{
         return null;
     }
 
-    @Override
     public void draw(Graphics2D graphics, JPanel panel) {
         drawBackground(graphics, panel);
         for (Button b : buttons)

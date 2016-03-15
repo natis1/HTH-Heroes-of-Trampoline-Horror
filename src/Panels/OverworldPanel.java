@@ -31,8 +31,8 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     private Timer autosaveTimer;
     private Sprite heroOverworldRepresentation = new Sprite(914, 530, 0, "../Base/Resources/hero.png");
 
-    public OverworldPanel(double scalar, int monitorHZ) {
-        super(scalar, monitorHZ);
+    public OverworldPanel(double scalar, int monitorHZ, WindowLoader parent) {
+        super(scalar, monitorHZ, parent);
         addMouseListener(this);
         addKeyListener(new TAdapter());
         setFocusable(true);

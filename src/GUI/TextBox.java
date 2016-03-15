@@ -54,7 +54,6 @@ public class TextBox extends GUIElement{
 
     public void clear(){contents.clear();}
 
-    @Override
     public void draw(Graphics2D graphics, JPanel panel)
     {
         drawBackground(graphics, panel);

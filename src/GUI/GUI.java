@@ -33,7 +33,7 @@ public class GUI implements MouseListener
     {
         for(GUIElement g : elements)
         {
-            g.draw(graphics, panel);
+            //g.draw(graphics, panel);
         }
     }
 
