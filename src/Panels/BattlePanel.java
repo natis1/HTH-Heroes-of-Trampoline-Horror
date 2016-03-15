@@ -84,7 +84,8 @@ public class BattlePanel extends BasePanel implements MouseListener
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
-        backgroundSprite.draw(g2d, this);
+        //TODO move draw to basepanel not sprite.
+        /*backgroundSprite.draw(g2d, this);
 
         player.draw(g2d, this);
 
@@ -104,6 +105,8 @@ public class BattlePanel extends BasePanel implements MouseListener
         //GUI drawing
 
         gui.draw(g2d, this);
+
+        */
     }
 
     @Override

@@ -1,5 +1,7 @@
 package Panels;
 
+import Base.WindowLoader;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,6 +10,9 @@ import java.awt.image.WritableRaster;
 
 public class BasePanel extends JPanel
 {
+
+    protected WindowLoader parent;
+    //Meh
 
     protected double universalScalar;
 
@@ -32,8 +37,9 @@ public class BasePanel extends JPanel
 
     private int frameCatchup = 0;
 
-    public BasePanel(double scalar, int monitorHZ)
+    public BasePanel(double scalar, int monitorHZ, WindowLoader parent)
     {
+        this.parent = parent;
         universalScalar = scalar;
         computerHZ = monitorHZ;
         TIME_BETWEEN_UPDATES = 1000000000 / computerHZ;

@@ -245,7 +245,7 @@ public class WindowLoader {
                 break;
 
             case "overworld":
-                myGameScreen.add(new OverworldPanel(universalScaler, pseudoVSync, this));
+                myGameScreen.add(new OverworldPanel(universalScaler, pseudoVSync));
                 break;
 
             case "battle":
