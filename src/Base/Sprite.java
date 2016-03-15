@@ -15,6 +15,9 @@ public class Sprite {
     //Dimensions
     protected int width;
     protected int height;
+    //Velocities
+    protected double dx;
+    protected double dy;
     //Whether or not the sprite is visible
     protected boolean vis;
     //Image of the sprite
@@ -127,9 +130,6 @@ public class Sprite {
         return image;
     }
 
-    public void draw(Graphics2D graphics, JPanel panel) {
-        graphics.drawImage(image, x, y, panel);
-    }
 
     public boolean contains(int x, int y) {
         return            ((x < this.x + getWidth())
