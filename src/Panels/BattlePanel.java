@@ -1,7 +1,10 @@
 package Panels;
 
 import Base.*;
-import Base.Character;
+import Base.Overworld.Character;
+import Base.Overworld.CharacterStats;
+import Base.Overworld.Weapon;
+import Base.Overworld.WeaponStats;
 import GUI.*;
 
 import java.awt.*;
@@ -19,7 +22,7 @@ public class BattlePanel extends BasePanel implements MouseListener
 
     private ArrayList<Weapon> weapons    = new ArrayList<>();
     private ArrayList<Character> enemies = new ArrayList<>();
-    private Base.Character player;
+    private Character player;
 
     private GUI gui;
     private TextBox textbox;
@@ -51,8 +54,8 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         weapons.add(new Weapon(100, 100, deepCopy(spriteLoader.returnImageFromSet("sword")), new WeaponStats(10, 10)));
 
-        player =     new Base.Character(0, 100, deepCopy(spriteLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
-        enemies.add (new Base.Character(300, 0, deepCopy(spriteLoader.returnImageFromSet("angry2")), new CharacterStats("Tom", 20)));
+        player =     new Character(0, 100, deepCopy(spriteLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
+        enemies.add (new Character(300, 0, deepCopy(spriteLoader.returnImageFromSet("angry2")), new CharacterStats("Tom", 20)));
 
         //GUI code
 

@@ -23,7 +23,7 @@ public class Main
            Also, theres not much wrong with it since its essentially just a library function, kinda like the for loop
      */
 
-    public static void map(Function f, ArrayList<Object> a) //WOO, use this for all kinds of crazy stuff in the future
+    public static void map(Function f, ArrayList<Object> a)
     {
         for (Object o : a)
         {

@@ -31,8 +31,9 @@ public class GUI
         for(GUIElement g : elements)
         {
             g.draw(graphics, panel); //Let the sprite be responsible for drawing itself, not BasePanel
+            // -- technically Basepanel is still the one drawing it, but this is easier to understand:
             //This way, we can create abstractions on top of Sprite,
-            //For example if you have an object consisting of multiple sprites, you just call draw on it rather than mapping over and drawing each individually
+            //For example if you have an object consisting of multiple sprites, you just call draw on it rather than mapping over and drawing each individually from basepanel
         }
     }
 
