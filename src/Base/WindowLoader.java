@@ -262,8 +262,5 @@ public class WindowLoader {
         myGameScreen.setTitle("Trampoline Hero!");
     }
 
-
     //TODO Find a way to delete jframes or you are gonna have a new window spawn every time a random encounter happens.
-
-
 }

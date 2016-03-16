@@ -7,13 +7,27 @@ import java.util.function.Function;
 
 public class Main
 {
-    //No more globals :)
-
-
-
     //Yeah no more globals except this MAP what is this amateur hour?
-    //No globals to be found here
-    public static void map(Function f, ArrayList<Object> a) //WOO, use this for all kinds of crazy stuff in the future
+
+    //Eli, map is a function.
+    //Ex: Instead of:
+    /*
+           for(Element e : elements)
+           {
+            e.use();
+           }
+
+           you can do
+
+           map(Element::use(), elements);
+
+           except that Element::use() has to have the type Object -> Object (it can't be void)
+
+           It doesn't really work yet but it can be pretty useful
+           Also, theres not much wrong with it since its essentially just a library function, kinda like the for loop
+     */
+
+    public static void map(Function f, ArrayList<Object> a)
     {
         for (Object o : a)
         {
@@ -36,6 +50,10 @@ public class Main
                     //Literally don't even need to name a windowloader here I don't think. But whatevs
 
                     //hmmm.................................................................................................................................................................................................................................................................................................................................................................
+
+                    //...................................................................
+                    //......................................................
+                    //.........
 
                     //Clearly I am going insane.
                     //OR AM I?

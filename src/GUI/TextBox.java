@@ -54,7 +54,7 @@ public class TextBox extends GUIElement{
 
     public void clear(){contents.clear();}
 
-    @Override
+    @Override //Same thing as with menu, this is to draw the background. Also, it makes our lives easier
     public void draw(Graphics2D graphics, JPanel panel)
     {
         drawBackground(graphics, panel);

@@ -25,7 +25,7 @@ public class Menu extends GUIElement{
     public void clear(){buttons.clear();}
 
     //Yo, Important:
-    //Thid is only used once it is known the mouse click is within the menu space
+    //This is only used once it is known the mouse click is within the menu space
     public Button listener(int x, int y)
     {
         for (Button b : buttons)
@@ -36,7 +36,7 @@ public class Menu extends GUIElement{
         return null;
     }
 
-    @Override
+    @Override //Keep this so that we draw the menu background as well as each of its elements
     public void draw(Graphics2D graphics, JPanel panel) {
         drawBackground(graphics, panel);
         for (Button b : buttons)
