@@ -1,4 +1,4 @@
-package Base;
+package Base.Overworld;
 
 public class CharacterStats
 {

@@ -1,9 +1,11 @@
-package Base;
+package Base.Overworld;
+
+import Base.Sprite;
 
 import java.awt.image.BufferedImage;
 
 
-public class Weapon extends Sprite{
+public class Weapon extends Sprite {
 
     private WeaponStats stats;
 
