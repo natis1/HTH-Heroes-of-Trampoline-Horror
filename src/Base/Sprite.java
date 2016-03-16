@@ -234,19 +234,4 @@ public class Sprite {
         moveToCenter(center[0], center[1]);
     }
 
-    //Check circular collision
-    /*public boolean CollidedRadius(Base.Sprite other){
-        int[] my_center = this.getCenter();
-        int[] other_center = other.getCenter();
-        double distance = Math.sqrt((my_center[0]-other_center[0])^2 - (my_center[1]-other_center[1])^2);
-        return distance < (this.collision_radius + other.collision_radius);
-    }
-
-    //Check rectangular collision
-    public boolean CollidedRectangle(Base.Sprite other){
-        //Get the rectangle around the sprite.
-        Rectangle my_rect = this.getBoundingRectangle();
-        Rectangle other_rect = other.getBoundingRectangle();
-        return my_rect.intersects(other_rect);
-    }*/
 }

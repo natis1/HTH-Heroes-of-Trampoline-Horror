@@ -39,8 +39,7 @@ public class BasePanel extends JPanel
 
     private int frameCatchup = 0;
 
-    public BasePanel(double scalar, int monitorHZ, WindowLoader parent)
-    {
+    public BasePanel(double scalar, int monitorHZ, WindowLoader parent) {
         this.parent = parent;
         universalScalar = scalar;
         computerHZ = monitorHZ;
@@ -52,8 +51,7 @@ public class BasePanel extends JPanel
     }
 
     //Starts a new thread and runs the game loop in it.
-    public void runLoop()
-    {
+    public void runLoop() {
         Thread loop = new Thread()
         {
             public void run()
@@ -64,8 +62,7 @@ public class BasePanel extends JPanel
         loop.start();
     }
 
-    private void render(double TARGET_TIME_BETWEEN_RENDERS)
-    {
+    private void render(double TARGET_TIME_BETWEEN_RENDERS) {
         now = System.nanoTime();
         int updateCount = 0;
 
@@ -123,7 +120,7 @@ public class BasePanel extends JPanel
 
     }
 
-    protected void loadSpriteWithGraphics2D(Graphics2D g2d, Sprite image, ImageObserver observer){
+    protected void loadSpriteWithGraphics2D(Graphics2D g2d, Sprite image, ImageObserver observer) {
         g2d.drawImage(image.getImage(), image.getX(), image.getY(), observer);
     }
 
@@ -162,8 +159,7 @@ public class BasePanel extends JPanel
     }
 
 
-    public void loop() //TODO: Break the contents of the loop into many smaller functions?
-    {
+    public void loop() {
         //We will need the last update time.
         lastUpdateTime = System.nanoTime();
 
@@ -187,8 +183,7 @@ public class BasePanel extends JPanel
     }
 
 
-    public void update()
-    {
+    public void update() {
         if (graphicsQuality > 2){
             updateParticles();
         }
@@ -197,8 +192,7 @@ public class BasePanel extends JPanel
         drawGame(interpolation);
     }
 
-    protected void updateParticles()
-    {
+    protected void updateParticles() {
         //TODO ADD ACTUAL PARTICLES
     }
 
