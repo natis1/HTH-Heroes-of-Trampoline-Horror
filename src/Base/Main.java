@@ -9,10 +9,6 @@ public class Main
 {
     //No more globals :)
 
-
-
-    //Yeah no more globals except this MAP what is this amateur hour?
-    //No globals to be found here
     public static void map(Function f, ArrayList<Object> a) //WOO, use this for all kinds of crazy stuff in the future
     {
         for (Object o : a)
@@ -36,6 +32,10 @@ public class Main
                     //Literally don't even need to name a windowloader here I don't think. But whatevs
 
                     //hmmm.................................................................................................................................................................................................................................................................................................................................................................
+
+                    //...................................................................
+                    //......................................................
+                    //.........
 
                     //Clearly I am going insane.
                     //OR AM I?
