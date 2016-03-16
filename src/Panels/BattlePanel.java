@@ -1,7 +1,10 @@
 package Panels;
 
 import Base.*;
-import Base.Character;
+import Base.Overworld.Character;
+import Base.Overworld.CharacterStats;
+import Base.Overworld.Weapon;
+import Base.Overworld.WeaponStats;
 import GUI.*;
 
 import java.awt.*;
@@ -19,7 +22,7 @@ public class BattlePanel extends BasePanel implements MouseListener
 
     private ArrayList<Weapon> weapons    = new ArrayList<>();
     private ArrayList<Character> enemies = new ArrayList<>();
-    private Base.Character player;
+    private Character player;
 
     private GUI gui;
     private TextBox textbox;
@@ -51,8 +54,8 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         weapons.add(new Weapon(100, 100, deepCopy(spriteLoader.returnImageFromSet("sword")), new WeaponStats(10, 10)));
 
-        player =     new Base.Character(0, 100, deepCopy(spriteLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
-        enemies.add (new Base.Character(300, 0, deepCopy(spriteLoader.returnImageFromSet("angry2")), new CharacterStats("Tom", 20)));
+        player =     new Character(0, 100, deepCopy(spriteLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
+        enemies.add (new Character(300, 0, deepCopy(spriteLoader.returnImageFromSet("angry2")), new CharacterStats("Tom", 20)));
 
         //GUI code
 
@@ -85,9 +88,8 @@ public class BattlePanel extends BasePanel implements MouseListener
         g2d.scale(universalScalar, universalScalar);
 
 
-        loadSpriteWithGraphics2D(g2d, backgroundSprite, this);
-
-        loadSpriteWithGraphics2D(g2d, player, this);
+        backgroundSprite.draw(g2d, this);
+        player.draw(g2d, this);
 
 
         enemies.removeIf(Character::isDead); //Look at this beauty
@@ -96,19 +98,14 @@ public class BattlePanel extends BasePanel implements MouseListener
         //In the future, maybe we can map the draw function over each list?
         for (Character c : enemies)
         {
-            loadSpriteWithGraphics2D(g2d, c, this);
+            c.draw(g2d, this); //This will compile to the same thing as loadSriteWithGraphics2D, but its much easier to understand
         }
         for (Weapon w : weapons)
         {
-            loadSpriteWithGraphics2D(g2d, w, this);
+            w.draw(g2d, this);
         }
 
-        for (GUIElement gg : gui.elements){
-            loadSpriteWithGraphics2D(g2d, gg, this);
-        }
         gui.draw(g2d, this);
-
-
     }
 
     @Override
