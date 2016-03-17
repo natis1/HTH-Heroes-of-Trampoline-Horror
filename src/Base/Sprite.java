@@ -80,14 +80,9 @@ public class Sprite {
 
     }
 
-    public void draw(Graphics2D g2d, ImageObserver observer)
-    {
+    public void draw(Graphics2D g2d, ImageObserver observer) {
         g2d.drawImage(getImage(), getX(), getY(), observer);
 
-    }
-
-    public void draw(Graphics2D g2d, ImageObserver observer){
-        g2d.drawImage(getImage(), getX(), getY(), observer);
     }
 
 

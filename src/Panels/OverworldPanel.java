@@ -9,6 +9,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.swing.Timer;
+import java.nio.Buffer;
+import java.util.Random;
 import java.util.Vector;
 
 
@@ -42,7 +44,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         int[] savedIntegers = new int[3];
         OverworldSaveManager saveManager = new OverworldSaveManager();
 
-        
+
 
 
 
@@ -82,38 +84,55 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     }
 
 
+    private BufferedImage drawMapTiles(int biomeType) {
+
+        BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1152, BufferedImage.TYPE_INT_RGB);
+
+        Random generateTile = new Random(System.nanoTime());
+
+        for (int x = 0; x < 15; x++){
+            for (int y = 0; y < 9; y++){
+
+                int tile = generateTile.nextInt(32);
+
+                if (tile < 28){
+                    overworldMicroObjectVector[x] [y] = 0;
+
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage,
+                            deepCopy(imageLoader.returnImageFromSet(0)), 1, (x + 8) * 128, (y + 5) * 128);
+                } else if (tile >= 28){
+                    overworldMicroObjectVector[x] [y] = 1;
+
+                    addImageWithAlphaComposite(backgroundLoadBufferedImage,
+                            deepCopy(imageLoader.returnImageFromSet(1)), 1, (x + 8) * 128, (y + 5) * 128);
+
+                }
+
+
+            }
+        }
+
+
+
+        return backgroundLoadBufferedImage;
+    }
+
+
     private void reloadMapSprites() {
         //TODO check if chunk changed
 
         long time = System.nanoTime();
+        int r = 255;
 
-        BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1152, BufferedImage.TYPE_INT_RGB);
-
-        for (int x = -8; x < 7; x++){
-            for (int y = -5; y < 4; y++){
-                if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
-                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, (x + 8) * 128, 0, 128, 1080, Color.GREEN);
-                    break;
-                }
-
-                if (y + characterLocation.getY() >= 0 && y + characterLocation.getY() <= 1023){
-                    int r;
-                    Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
-                    r = c.getRed() / 24;
-                    
-                    //vector awesomeness
-                    overworldMicroObjectVector[x + 8] [y + 5] = r;
+        if (characterLocation.getX() >= 0 && characterLocation.getX() < 1024
+                && characterLocation.getY() >= 0 && characterLocation.getY() < 1024) {
+            Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
+            r = c.getRed() / 24;
 
 
-
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(imageLoader.returnImageFromSet(r)), 1, (x + 8) * 128, (y + 5) * 128);
-                    //backgroundLoadBufferedImage = copySrcIntoDstAt
-                            //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
-                } else {
-                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, (x + 8) * 128, (y + 5) * 128, 128, 128, Color.GREEN);
-                }
-            }
         }
+        BufferedImage backgroundLoadBufferedImage = drawMapTiles(r);
+
 
         long endtime = System.nanoTime() - time;
 
@@ -135,9 +154,9 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     }
 
     /** This function draws all of the sprites using graphics2D libraries
-     All drawing must be called from the board
-     You cannot call doDrawing from other classes, to add a sprite to
-     the drawing queue, create the class inside the board.*/
+     *  All drawing must be called from the board
+     *  You cannot call doDrawing from other classes, to add a sprite to
+     *  the drawing queue, create the class inside the board.*/
 
     protected void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
