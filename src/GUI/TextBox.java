@@ -1,6 +1,5 @@
 package GUI;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
@@ -12,7 +11,7 @@ public class TextBox extends GUIElement{
 
     private int max_size;
 
-    private final int offset = 30;
+    private static final int offset = 30;
 
     public TextBox(BufferedImage image, int setMaxSize)
     {
@@ -48,9 +47,7 @@ public class TextBox extends GUIElement{
         }
         else
         {
-            this.clear();
-
-            //oh my god
+            this.clear(); //If the contents of the textbox are full, clear it and add a new field instead (relax, Eli)
             this.add(t);
         }
     }

@@ -27,14 +27,10 @@ public class GUI
         elements.add(element);
     }
 
-
-    //what is happening here?
     public void draw(Graphics2D graphics, JPanel panel) {
         for(GUIElement g : elements)
         {
-            g.drawBackground(graphics, panel);
+            g.draw(graphics, panel);
         }
     }
-
-
 }
