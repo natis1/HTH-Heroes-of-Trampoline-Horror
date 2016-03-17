@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.ImageObserver;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
 
@@ -42,7 +43,6 @@ public class Sprite {
         loadImage();
 
 
-
         vis = true;
     }
 
@@ -75,12 +75,16 @@ public class Sprite {
         loadImage();
 
 
-
         vis = true;
 
 
     }
 
+    public void draw(Graphics2D g2d, ImageObserver observer)
+    {
+        g2d.drawImage(getImage(), getX(), getY(), observer);
+
+    }
 
     //Load a buffered image
     public void loadImage(){

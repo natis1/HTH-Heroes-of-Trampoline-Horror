@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 public class Menu extends GUIElement{
@@ -36,12 +37,12 @@ public class Menu extends GUIElement{
         return null;
     }
 
-    @Override //Keep this so that we draw the menu background as well as each of its elements
-    public void draw(Graphics2D graphics, JPanel panel) {
-        drawBackground(graphics, panel);
+    @Override
+    public void draw(Graphics2D graphics, ImageObserver observer) {
+        drawBackground(graphics, observer);
         for (Button b : buttons)
         {
-            b.draw(graphics, panel);
+            b.draw(graphics, observer);
         }
     }
 }

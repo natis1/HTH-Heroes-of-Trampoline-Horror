@@ -123,10 +123,6 @@ public class BasePanel extends JPanel
 
     }
 
-    protected void loadSpriteWithGraphics2D(Graphics2D g2d, Sprite image, ImageObserver observer){
-        g2d.drawImage(image.getImage(), image.getX(), image.getY(), observer);
-    }
-
 
     protected void addImageWithAlphaComposite(BufferedImage buff1, BufferedImage buff2, float opaque, int x, int y) {
         Graphics2D g2d = buff1.createGraphics();

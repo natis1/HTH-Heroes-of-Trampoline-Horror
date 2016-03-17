@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 public class TextBox extends GUIElement{
@@ -56,10 +57,10 @@ public class TextBox extends GUIElement{
 
     public void clear(){contents.clear();}
 
-    @Override //Same thing as with menu, this is to draw the background. Also, it makes our lives easier
-    public void draw(Graphics2D graphics, JPanel panel)
+    @Override
+    public void draw(Graphics2D graphics, ImageObserver observer)
     {
-        drawBackground(graphics, panel);
+        drawBackground(graphics, observer);
         for(GUIText t : contents)
         {
             graphics.drawString(t.field, t.x, t.y);
