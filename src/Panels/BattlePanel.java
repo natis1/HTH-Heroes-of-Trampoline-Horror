@@ -64,16 +64,16 @@ public class BattlePanel extends BasePanel implements MouseListener
         BufferedImage textBoxSprite = deepCopy(spriteLoader.returnImageFromSet("textbox"));
         textbox =
                 new TextBox(
-                        (int) (universalScalar * 1080 * 0.75), //In the bottom quarter of the screen
                         (int) (universalScalar * 1920 * 0.5) - (textBoxSprite.getWidth() / 2), //Centered
+                        (int) (universalScalar * 1080 * 0.75), //In the bottom quarter of the screen
                         textBoxSprite,
                         3 //Max size of textbox
                              );
 
         menu = new Menu(
-                //TODO: This doesn't position the menu correctly, are you(Eli) assuming that all monitors are 1920 * 1080?
-                (int) (universalScalar * 1080 * 0.25), //In the top quarter of the screen
+                //TODO: This doesn't position the menu entirely correctly, are you(Eli) assuming that all monitors are 1920 * 1080?
                 (int) (universalScalar * 1920 * 0.5) - (textBoxSprite.getWidth() / 2), //Centered
+                (int) (universalScalar * 1080 * 0.25), //In the top quarter of the screen
                 spriteLoader.returnImageFromSet("textbox") //Eventually, we can make a different sprite for this menu background (but textbox's sprite works fine for now)
         );
 
