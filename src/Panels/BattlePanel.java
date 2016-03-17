@@ -3,6 +3,8 @@ package Panels;
 import Base.*;
 import Base.Character;
 import GUI.*;
+import GUI.Menu;
+import GUI.Button;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -23,6 +25,7 @@ public class BattlePanel extends BasePanel implements MouseListener
 
     private GUI gui;
     private TextBox textbox;
+    private Menu menu;
 
     public BattlePanel(double scalar, int monitorHZ, WindowLoader parent)
     {
@@ -67,6 +70,17 @@ public class BattlePanel extends BasePanel implements MouseListener
                         3 //Max size of textbox
                              );
 
+        menu = new Menu(
+                //TODO: This doesn't position the menu correctly, are you(Eli) assuming that all monitors are 1920 * 1080?
+                (int) (universalScalar * 1080 * 0.25), //In the top quarter of the screen
+                (int) (universalScalar * 1920 * 0.5) - (textBoxSprite.getWidth() / 2), //Centered
+                spriteLoader.returnImageFromSet("textbox") //Eventually, we can make a different sprite for this menu background (but textbox's sprite works fine for now)
+        );
+
+        menu.add(new Button(spriteLoader.returnImageFromSet("buttonBack"), "dodge"));
+
+        //Objects will be drawn in the order that they're added in
+        gui.add(menu);
         gui.add(textbox);
     }
 
@@ -101,7 +115,7 @@ public class BattlePanel extends BasePanel implements MouseListener
             w.draw(g2d, this);
         }
 
-        gui.draw(g2d, this);
+        gui.draw(g2d, this); //Draw all of our GUI elements in one call (includes sub elements and backgrounds of elements)
     }
 
     @Override

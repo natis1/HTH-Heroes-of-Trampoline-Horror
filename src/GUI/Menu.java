@@ -10,6 +10,8 @@ public class Menu extends GUIElement{
 
     private ArrayList<Button> buttons;
 
+    private static final int default_offset = 30;
+
     public Menu(BufferedImage image)
     {
         super(image);
@@ -22,7 +24,29 @@ public class Menu extends GUIElement{
         buttons = new ArrayList<>();
     }
 
-    public void add(Button b){buttons.add(b);}
+    public void add(Button b){
+        int offset = b.getHeight() + default_offset;
+        b.setX(this.getX() + default_offset);
+        if(buttons.size() > 0) {
+            b.setY(buttons.get(buttons.size() - 1).getY() + offset);
+        }
+        else {
+            b.setY(this.getY() + offset);
+        }
+        buttons.add(b);
+    }
+
+    public void add(Button b, int offset){
+        b.setX(this.getX() + offset);
+        if(buttons.size() > 0) {
+            b.setY(buttons.get(buttons.size() - 1).getY() + offset);
+        }
+        else {
+            b.setY(this.getY() + offset);
+        }
+        buttons.add(b);
+    }
+
     public void clear(){buttons.clear();}
 
     //Yo, Important:
