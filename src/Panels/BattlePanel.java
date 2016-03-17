@@ -6,6 +6,8 @@ import Base.Overworld.CharacterStats;
 import Base.Overworld.Weapon;
 import Base.Overworld.WeaponStats;
 import GUI.*;
+import GUI.Menu;
+import GUI.Button;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -26,6 +28,7 @@ public class BattlePanel extends BasePanel implements MouseListener
 
     private GUI gui;
     private TextBox textbox;
+    private Menu menu;
 
     public BattlePanel(double scalar, int monitorHZ, WindowLoader parent)
     {
@@ -64,12 +67,22 @@ public class BattlePanel extends BasePanel implements MouseListener
         BufferedImage textBoxSprite = deepCopy(spriteLoader.returnImageFromSet("textbox"));
         textbox =
                 new TextBox(
-                        (int) (universalScalar * 1080 * 0.75), //In the bottom quarter of the screen
                         (int) (universalScalar * 1920 * 0.5) - (textBoxSprite.getWidth() / 2), //Centered
+                        (int) (universalScalar * 1080 * 0.75), //In the bottom quarter of the screen
                         textBoxSprite,
                         3 //Max size of textbox
                              );
 
+        menu = new Menu(
+                (int) (universalScalar * 1920 * 0.5), //Centered
+                (int) (universalScalar * 1080 * 0.25), //In the top quarter of the screen
+                spriteLoader.returnImageFromSet("textbox") //Eventually, we can make a different sprite for this menu background (but textbox's sprite works fine for now)
+        );
+
+        menu.add(new Button(spriteLoader.returnImageFromSet("buttonBack"), "dodge"));
+
+        //Objects will be drawn in the order that they're added in (menu will be behind textbox in draworder)
+        gui.add(menu);
         gui.add(textbox);
     }
 
@@ -87,15 +100,15 @@ public class BattlePanel extends BasePanel implements MouseListener
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
-
         backgroundSprite.draw(g2d, this);
+
         player.draw(g2d, this);
+        backgroundSprite.draw(g2d, this);
 
 
         enemies.removeIf(Character::isDead); //Look at this beauty
         weapons.removeIf(Weapon::noDurability);
 
-        //In the future, maybe we can map the draw function over each list?
         for (Character c : enemies)
         {
             c.draw(g2d, this); //This will compile to the same thing as loadSriteWithGraphics2D, but its much easier to understand
@@ -105,7 +118,7 @@ public class BattlePanel extends BasePanel implements MouseListener
             w.draw(g2d, this);
         }
 
-        gui.draw(g2d, this);
+        gui.draw(g2d, this); //Draw all of our GUI elements in one call (includes sub elements and backgrounds of elements)
     }
 
     @Override

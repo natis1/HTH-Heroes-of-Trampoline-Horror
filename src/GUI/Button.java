@@ -9,21 +9,9 @@ public class Button extends GUIElement
 {
     private String text;
 
-    public Button(BufferedImage image)
+    public Button(BufferedImage image, String s)
     {
-        super(image);
-        text = "";
-    }
-
-    public Button(int x, int y, BufferedImage image)
-    {
-        super(x, y, image);
-        text = "";
-    }
-
-    public Button(int x, int y, BufferedImage image, String s)
-    {
-        super(x, y, image);
+        super(0, 0, image);
         text = s;
     }
 

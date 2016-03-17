@@ -43,7 +43,6 @@ public class Sprite {
         loadImage();
 
 
-
         vis = true;
     }
 
@@ -76,12 +75,16 @@ public class Sprite {
         loadImage();
 
 
-
         vis = true;
 
 
     }
 
+    public void draw(Graphics2D g2d, ImageObserver observer)
+    {
+        g2d.drawImage(getImage(), getX(), getY(), observer);
+
+    }
 
     public void draw(Graphics2D g2d, ImageObserver observer){
         g2d.drawImage(getImage(), getX(), getY(), observer);

@@ -12,6 +12,9 @@ import java.util.Vector;
 
 public class GUI
 {
+    //I'm not even going to ask
+
+
     public Vector<GUIElement> elements;
     private SpriteLoader spriteLoader;
 
@@ -36,6 +39,4 @@ public class GUI
             //For example if you have an object consisting of multiple sprites, you just call draw on it rather than mapping over and drawing each individually from basepanel
         }
     }
-
-
 }

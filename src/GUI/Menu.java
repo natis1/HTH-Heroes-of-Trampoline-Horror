@@ -3,6 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 public class Menu extends GUIElement{
@@ -13,13 +14,40 @@ public class Menu extends GUIElement{
         super(image);
         buttons = new ArrayList<>();
     }
+    private static final int default_offset = 30;
 
     public Menu(int x, int y, BufferedImage image) {
         super(x, y, image);
+        init();
+    }
+
+    private void init() {
         buttons = new ArrayList<>();
     }
 
-    public void add(Button b){buttons.add(b);}
+    public void add(Button b) {
+        int offset = b.getHeight() + default_offset;
+        b.setX(this.getX() + default_offset);
+        if(buttons.size() > 0) {
+            b.setY(buttons.get(buttons.size() - 1).getY() + offset);
+        }
+        else {
+            b.setY(this.getY() + offset);
+        }
+        buttons.add(b);
+    }
+
+    public void add(Button b, int offset) {
+        b.setX(this.getX() + offset);
+        if(buttons.size() > 0) {
+            b.setY(buttons.get(buttons.size() - 1).getY() + offset);
+        }
+        else {
+            b.setY(this.getY() + offset);
+        }
+        buttons.add(b);
+    }
+
     public void clear(){buttons.clear();}
 
     //Yo, Important:
@@ -33,12 +61,12 @@ public class Menu extends GUIElement{
         return null;
     }
 
-    //Method doesn't override anything
-    public void draw(Graphics2D graphics, JPanel panel) {
-        drawBackground(graphics, panel);
+    @Override
+    public void draw(Graphics2D graphics, ImageObserver observer) {
+        drawBackground(graphics, observer);
         for (Button b : buttons)
         {
-            b.draw(graphics, panel);
+            b.draw(graphics, observer);
         }
     }
 }

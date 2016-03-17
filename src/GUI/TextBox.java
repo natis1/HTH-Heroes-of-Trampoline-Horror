@@ -1,8 +1,8 @@
 package GUI;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 public class TextBox extends GUIElement{
@@ -11,7 +11,7 @@ public class TextBox extends GUIElement{
 
     private int max_size;
 
-    private final int offset = 30;
+    private static final int offset = 30;
 
     public TextBox(BufferedImage image, int setMaxSize)
     {
@@ -56,10 +56,10 @@ public class TextBox extends GUIElement{
 
     public void clear(){contents.clear();}
 
-    //Method doesn't override anything
-    public void draw(Graphics2D graphics, JPanel panel)
+    @Override
+    public void draw(Graphics2D graphics, ImageObserver observer)
     {
-        drawBackground(graphics, panel);
+        drawBackground(graphics, observer);
         for(GUIText t : contents)
         {
             graphics.drawString(t.field, t.x, t.y);
