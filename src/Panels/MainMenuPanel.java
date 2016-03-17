@@ -25,7 +25,7 @@ public class MainMenuPanel extends BasePanel implements MouseListener
         imageLoader =  new SpriteLoader();
         addMouseListener(this);
 
-        menu = new Menu(300, 0, imageLoader.returnImageFromSet("menuBack")); //Background for the menu
+        menu = new Menu((int)(universalScalar * 1920 * 0.5), 0, imageLoader.returnImageFromSet("menuBack")); //Background for the menu
 
         //Removed manual coordinates!
         menu.add(new Button(imageLoader.returnImageFromSet("mainMenu"), "main"   ));

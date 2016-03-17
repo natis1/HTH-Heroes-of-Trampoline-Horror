@@ -12,15 +12,14 @@ public class Menu extends GUIElement{
 
     private static final int default_offset = 30;
 
-    public Menu(BufferedImage image)
-    {
-        super(image);
-        buttons = new ArrayList<>();
-    }
-
     public Menu(int x, int y, BufferedImage image)
     {
         super(x, y, image);
+        init();
+    }
+
+    private void init()
+    {
         buttons = new ArrayList<>();
     }
 
