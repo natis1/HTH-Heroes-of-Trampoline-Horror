@@ -40,6 +40,7 @@ public class RandomImageGenerator {
                 rgb += 0x000100 * (int)((valueG + 1) * 127.5);
                 rgb += (int)((valueB + 1) * 127.5);
 
+
                 nextRandomImage.setRGB(x, y, rgb);
             }
 
