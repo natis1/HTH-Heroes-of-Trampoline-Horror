@@ -7,22 +7,46 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
 import java.io.*;
 import javax.swing.Timer;
+import java.util.HashMap;
 import java.util.Vector;
 
+//Basically a quaternary tree data class
+class Chunk extends Sprite
+{
+    public Chunk up;
+    public Chunk down;
+    public Chunk left;
+    public Chunk right;
+
+    public int chunkX, chunkY;
+
+    public Chunk(BufferedImage image, int setChunkX, int setChunkY)
+    {
+        super(0,0,0,image);
+        up    = null;
+        down  = null;
+        left  = null;
+        right = null;
+
+        chunkX = setChunkX;
+        chunkY = setChunkY;
+    }
+}
 
 public class OverworldPanel extends BasePanel implements ActionListener, MouseListener {
-    private Sprite backgroundSprite;
 
-    private Point characterLocation = new Point();
+    private HashMap<Pair<Integer, Integer>, Chunk> loadedChunks =  new HashMap<>(); //Gets updated as player moves across the world
+    //Also, Pair implements hashing for us
+    private Chunk currentChunk;
 
+    private Point characterLocation      = new Point();
     private Point characterMicroLocation = new Point(7, 4);
 
     private int[][] overworldMicroObjectVector = new int[16][9];
 
-    private SpriteLoader spriteLoader = new SpriteLoader();
+    private SpriteLoader spriteLoader       = new SpriteLoader();
     private KeyboardManager keyboardManager = new KeyboardManager();
 
     private BufferedImage savedWorld;
@@ -33,20 +57,26 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     private Sprite hero;
 
     //Make these locals if you want to
-    private final int numXTiles = 15;
+    private final int numXTiles = 15; //Per chunk
     private final int numYTiles = 9;
-    private final int tileSize = 128;
+    private final int tileSize  = 128;
 
-    private final int chunkSize = 16;
+    private final int loadDistance = 8;
+
+    private final int maxWorldSize = 128; //In chunks squared
 
     public OverworldPanel(double scalar, int monitorHZ, WindowLoader parent) {
         super(scalar, monitorHZ, parent);
-        addMouseListener(this);
-        addKeyListener(new TAdapter());
-        setFocusable(true);
 
+
+        addMouseListener(this);
+        addKeyListener  (new TAdapter());
+        setFocusable    (true);
+
+        hero  = new Sprite(914, 530, 0, spriteLoader.returnImageFromSet("hero"));
+
+        //Load previous save
         OverworldSaveManager saveManager = new OverworldSaveManager();
-        hero = new Sprite(914, 530, 0, spriteLoader.returnImageFromSet("hero"));
 
         Vector<Object> loadData = saveManager.loadFromSaveFile("worldsave.txt");
 
@@ -55,100 +85,133 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         }
         characterLocation.setLocation((int) loadData.get(0), (int) loadData.get(1) );
 
+        autosaveTimer = new Timer(60000, this); //60 seconds
+        autosaveTimer.start();
 
         loadWorld();
 
-        autosaveTimer = new Timer(60000, this);//60 secs or 1 minute
-        autosaveTimer.start();
-
         runLoop();
+    }
+
+    private void reloadWorld()
+    {
+        new WorldGenerator(numXTiles * maxWorldSize, numYTiles * maxWorldSize);
+
+        try
+        {
+            savedWorld = ImageIO.read(new File("world.png"));
+        }
+        catch (IOException e1)
+        {
+            System.out.println("Unable to read world from file");
+
+            e1.printStackTrace();
+        }
     }
 
     private void loadWorld()
     {
         //Load the world if it exists, and reload it if it doesn't
-        try {
-            savedWorld = ImageIO.read(new File("world.png"));
-        } catch (IOException e) {
-            System.out.println("No saved world. This is normal for first time. Regenerating...");
-            new WorldGenerator(numXTiles * chunkSize + 1, numYTiles * chunkSize + 1);
-
-            try {
-                savedWorld = ImageIO.read(new File("world.png"));
-            } catch (IOException e1) {
-                System.out.println("Unable to recreate world image, printing stack trace: ");
-
-                e1.printStackTrace();
-            }
-        }
-
-        //Start converting the world into tiles
-
-        BufferedImage tiledImage = new BufferedImage(numXTiles * tileSize, numYTiles * tileSize, BufferedImage.TYPE_INT_RGB);
-
-        for(int x = 0; x <= numXTiles*chunkSize; x++)
+        try
         {
-            for(int y = 0; y <= numYTiles*chunkSize; y++)
+            savedWorld = ImageIO.read(new File("world.png"));
+        }
+        catch (IOException e)
+        {
+            System.out.println("No saved world. This is normal for first time. Generating...");
+            reloadWorld();
+        }
+
+        //Check that the saved world file is big enough, if not, regenerate it.
+        if(savedWorld.getWidth() < numXTiles * maxWorldSize &&
+                savedWorld.getHeight() < numYTiles * maxWorldSize)
+        {
+            System.out.println("Previous world too small, regenerating...");
+           reloadWorld();
+        }
+
+        //Set our initial chunk to be in the middle of the world.
+        currentChunk = loadChunk(maxWorldSize / 2, maxWorldSize / 2);
+        loadNeighbors(currentChunk, loadDistance);
+    }
+
+    private Chunk loadChunk(int chunkX, int chunkY)
+    {
+        if(loadedChunks.get(new Pair<>(chunkX, chunkY)) == null) // If the chunk hasn't been loaded already
+        {
+            BufferedImage tiledImage = new BufferedImage(numXTiles * tileSize, numYTiles * tileSize, BufferedImage.TYPE_INT_RGB);
+
+            for(int x = 0; x < numXTiles; x++)
             {
-                Color pixel = new Color(savedWorld.getRGB(x, y));
-                int index = 0;
-                if(pixel.getGreen() > 0) index = 1;
+                for(int y = 0; y < numYTiles; y++)
+                {
+                    Color pixel = new Color(savedWorld.getRGB(x + chunkX * numXTiles, y + chunkY * numYTiles));
+                    int index = 0;
+                    if(pixel.getGreen() > 0) index = 1;
 
-                addImageWithAlphaComposite(tiledImage, deepCopy(spriteLoader.returnImageFromSet(index)), 1, x * 128, y * 128);
+                    addImageWithAlphaComposite(tiledImage, deepCopy(spriteLoader.returnImageFromSet(index)), 1, x * tileSize, y * tileSize);
+                }
             }
+
+            Chunk chunk = new Chunk(tiledImage, chunkX, chunkY);
+
+            loadedChunks.put(new Pair<>(chunkX, chunkY), chunk);
+            return chunk;
         }
-
-        backgroundSprite = new Sprite(0, 0, tiledImage);
-
-        File imageWriteLocation = new File("test.png");
-        try {
-            ImageIO.write(tiledImage, "png", imageWriteLocation);
-        } catch (IOException e) {
-            e.printStackTrace();
+        else
+        {
+            return loadedChunks.get(new Pair<>(chunkX, chunkY));
         }
     }
 
-    private void reloadMapSprites() {
-        //TODO check if chunk changed
-
-        long time = System.nanoTime();
-
-        //This commented out section is magic number hell, but I might figure it out
-
-/*
-        BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1152, BufferedImage.TYPE_INT_RGB);
-
-        for (int x = -8; x < 7; x++){
-            for (int y = -5; y < 4; y++){
-                if (x + characterLocation.getX() < 0 || x + characterLocation.getX() > 1023){
-                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, (x + 8) * 128, 0, 128, 1080, Color.GREEN);
-                    break;
-                }
-
-                if (y + characterLocation.getY() >= 0 && y + characterLocation.getY() <= 1023){
-                    int r;
-                    Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
-                    r = c.getRed() / 24;
-                    
-                    //vector awesomeness
-                    overworldMicroObjectVector[x + 8] [y + 5] = r;
-
-
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage, deepCopy(spriteLoader.returnImageFromSet(r)), 1, (x + 8) * 128, (y + 5) * 128);
-                    //backgroundLoadBufferedImage = copySrcIntoDstAt
-                            //(DeepCopy(loadImages.imageSetCopy.get(r)), backgroundLoadBufferedImage, x * 16, y * 16);
-                } else {
-                    copyColoredPixelsIntoBufferedImage(backgroundLoadBufferedImage, (x + 8) * 128, (y + 5) * 128, 128, 128, Color.GREEN);
-                }
+    private void loadNeighbors(Chunk chunk, int distance)
+    {
+        if(distance > 0)
+        {
+            if (chunk.up == null)
+            {
+                chunk.up = loadChunk(chunk.chunkX, chunk.chunkY - 1); //Is this right?
+                loadNeighbors(chunk.up, distance - 1);
+            }
+            if (chunk.down == null)
+            {
+                chunk.down = loadChunk(chunk.chunkX, chunk.chunkY + 1);
+                loadNeighbors(chunk.up, distance - 1);
+            }
+            if (chunk.left == null)
+            {
+                chunk.left = loadChunk(chunk.chunkX - 1, chunk.chunkY);
+                loadNeighbors(chunk.up, distance - 1);
+            }
+            if (chunk.right == null)
+            {
+                chunk.right = loadChunk(chunk.chunkX + 1, chunk.chunkY);
+                loadNeighbors(chunk.up, distance - 1);
             }
         }
-*/
-        long endtime = System.nanoTime() - time;
-
-        System.out.println("time taken (ns) : " + endtime);
     }
 
+    //Self explanatory, hopefully.
+    private void traverseChunks(String direction)
+    {
+        switch (direction)
+        {
+            case "up":
+                    currentChunk = currentChunk.up;
+                break;
+            case "down":
+                currentChunk = currentChunk.down;
+                break;
+            case "left":
+                currentChunk = currentChunk.left;
+                break;
+            case "right":
+                currentChunk = currentChunk.right;
+                break;
+        }
 
+        loadNeighbors(currentChunk, loadDistance); //Important so that we don't run out of chunks to walk into!
+    }
 
     @Override
     public void paintComponent(Graphics g) {
@@ -162,9 +225,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
 
-        long time = System.nanoTime();
-
-        backgroundSprite.draw(g2d, this);
+        currentChunk.draw(g2d, this);
         hero.draw(g2d, this);
     }
 
@@ -219,7 +280,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         }
 
         if (reload) {
-            reloadMapSprites();
+            //reloadMapSprites();
         }
 
 
@@ -330,27 +391,29 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                 keyboardManager.elvenAsciiInput[6] = true;
             }
 
+
+            //Try replacing these numbers with calculated, understandable ones
             if (hero.getX() < 130){
                 hero.setX(1682);
                 characterLocation.x -= 13;
                 characterMicroLocation.x = 13;
-                reloadMapSprites();
+                traverseChunks("left");
             } else if (hero.getX() > 1690){
                 hero.setX(146);
                 characterLocation.x += 13;
                 characterMicroLocation.x = 1;
-                reloadMapSprites();
+                traverseChunks("right");
             }
             if (hero.getY() < 100){
                 hero.setY(914);
                 characterLocation.y -= 7;
                 characterMicroLocation.y = 7;
-                reloadMapSprites();
+                traverseChunks("up"); //Is this correct? sometimes Java Y-coordinates are screwy
             } else if (hero.getY() > 920){
                 hero.setY(146);
                 characterLocation.y += 7;
                 characterMicroLocation.y = 1;
-                reloadMapSprites();
+                traverseChunks("down");
             }
 
 
