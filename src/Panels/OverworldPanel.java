@@ -278,16 +278,9 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         if (elvenAsciiInput[6]){
             //TODO add input when user presses E
         }
-
-        if (reload) {
-            //reloadMapSprites();
-        }
-
-
     }
 
     private class TAdapter extends KeyAdapter {
-
 
         @Override
         public void keyReleased(KeyEvent e) {
