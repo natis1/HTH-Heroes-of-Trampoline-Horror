@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+//Tuple classes for making manipulation easier
 import Base.Pair;
 import Base.Triple;
 
@@ -28,14 +29,13 @@ public class WorldGenerator
     {
         world = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-
-        //Arguments for getColorLandScape
+        //Arguments for getColorLandScape, for in the future (otherwise, the same map is generated every time)
         //int weight_min, int weight_max, int freq_min,int freq_max, int array_length
         RGBTuple level = getColorLandscape(1,3, 2,15, 8);
 
         genMap(level);
-
-        File imageWriteLocation = new File(System.getProperty("user.dir") + "/src/Base/Resources/test.png");
+        /*System.getProperty("user.dir") + "/src/Base/Resources/test.png"*/
+        File imageWriteLocation = new File("world.png");
         try {
             ImageIO.write(world, "png", imageWriteLocation);
         } catch (IOException e) {
@@ -43,6 +43,7 @@ public class WorldGenerator
         }
     }
 
+    //Preferably these will be in another module?
     private int randRange(int min, int max){return min + (int)(Math.random() * ((max - min) + 1));}
 
     private int[] randArray(int min, int max, int length)
@@ -144,9 +145,9 @@ public class WorldGenerator
                     }
                 }
 
-                System.out.println("Red: " + String.valueOf(red)   +
-                                 " Blue: " + String.valueOf(green) +
-                                " Green: " + String.valueOf(blue));
+                //System.out.println("Red: " + String.valueOf(red)   +
+                //                 " Blue: " + String.valueOf(green) +
+                //                " Green: " + String.valueOf(blue));
 
                 Color pixel = new Color(red, green, blue); //Easy to understand method of setting rgb. (Don't do it manually)
                 world.setRGB(x, y, pixel.getRGB());

@@ -5,9 +5,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by scc on 2/16/2016.
- */
 public class RandomWorldGenerator {
 
     private static int CHUNK_SIZE = 1;
@@ -43,19 +40,13 @@ public class RandomWorldGenerator {
         OpenSimplexNoise biomeGenerator = new OpenSimplexNoise(seed + 1);
 
         generateChunkData(chunkGenerator, biomeGenerator);
-
-
     }
 
 
     private void generateChunkData (OpenSimplexNoise chunkGenerator, OpenSimplexNoise biomeGenerator){
 
-
-
-
         //temporary storage method
         BufferedImage worldData = new BufferedImage(1024, 1024, BufferedImage.TYPE_INT_RGB);
-
 
         for (int x = -512; x < 512; x++){
             for (int y = -512; y < 512; y++){
@@ -68,13 +59,9 @@ public class RandomWorldGenerator {
                 int rgb = 0x010000 * r;
                 rgb += (int)((biomeData + 1) * 127.5);
 
-                System.out.println("rgb: " + String.valueOf(rgb));
                 worldData.setRGB(x + 512, y + 512, rgb);
-
             }
         }
-
-
 
         File imageWriteLocation = new File("world" + xLoc + " " + yLoc + ".png");
         try {
@@ -82,12 +69,5 @@ public class RandomWorldGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
     }
-
-
-
 }
