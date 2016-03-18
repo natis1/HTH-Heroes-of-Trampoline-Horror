@@ -12,12 +12,14 @@ import java.awt.event.MouseListener;
 import Base.WindowLoader;
 import GUI.Menu;
 import GUI.Button;
+import Save_System.WorldGenerator;
 
 
 public class MainMenuPanel extends BasePanel implements MouseListener
 {
     private SpriteLoader imageLoader;
     private Menu menu;
+    private WorldGenerator generator;
 
     public MainMenuPanel(double scalar, int monitorHZ, WindowLoader parent)
     {
@@ -26,6 +28,8 @@ public class MainMenuPanel extends BasePanel implements MouseListener
         addMouseListener(this);
 
         menu = new Menu((int)(universalScalar * 1920 * 0.5), 0, imageLoader.returnImageFromSet("menuBack")); //Background for the menu
+
+        generator = new WorldGenerator(128, 128);
 
         //Removed manual coordinates!
         menu.add(new Button(imageLoader.returnImageFromSet("mainMenu"), "main"   ));
