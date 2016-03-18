@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
 import java.io.*;
 import javax.swing.Timer;
 import java.util.Vector;
@@ -145,7 +146,6 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
         long endtime = System.nanoTime() - time;
 
         System.out.println("time taken (ns) : " + endtime);
-        //backgroundSprite = new Sprite(0, 0, 0, backgroundLoadBufferedImage);
     }
 
 
