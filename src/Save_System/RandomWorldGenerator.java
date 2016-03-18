@@ -68,6 +68,7 @@ public class RandomWorldGenerator {
                 int rgb = 0x010000 * r;
                 rgb += (int)((biomeData + 1) * 127.5);
 
+                System.out.println("rgb: " + String.valueOf(rgb));
                 worldData.setRGB(x + 512, y + 512, rgb);
 
             }
