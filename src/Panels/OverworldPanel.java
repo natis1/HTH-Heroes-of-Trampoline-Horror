@@ -22,6 +22,9 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     private Point characterMicroLocation = new Point(7, 4);
 
     private int[][] overworldMicroObjectVector = new int[16][9];
+    
+    
+    private int borderToRedraw = 0;
 
     private SpriteLoader imageLoader = new SpriteLoader();
     private KeyboardManager keyboardManager = new KeyboardManager();
@@ -84,37 +87,144 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     }
 
 
+    private BufferedImage drawImageFromMicroObjectVector (BufferedImage img, String wallType, String groundType){
+        for (int x = 0; x < 15; x++){
+            for (int y = 0; y < 9; y++){
+                if (overworldMicroObjectVector[x] [y] == 0){
+                    addImageWithAlphaComposite(img, imageLoader.returnImageFromSet(groundType), 1, x * 128, y * 128);
+                } else if (overworldMicroObjectVector[x] [y] == 1){
+                    addImageWithAlphaComposite(img, imageLoader.returnImageFromSet(wallType), 1, x * 128, y * 128);
+                }
+            }
+        }
+        return img;
+
+    }
+
+
     private BufferedImage drawMapTiles(int biomeType) {
+        
+        String wallType = "overworld001Sidewalk";
+        String groundType = "overworld000Grass";
+        int wallOdds = 50;
+        int totalOdds = 50;
+        
+        switch (biomeType) {
+            case 0:
+                wallType = "overworld001Sidewalk";
+                groundType = "overworld000Grass";
+                wallOdds = 40;
+                totalOdds = 50;
+                break;
+            case 1:
+                wallType = "overworld001Sidewalk";
+                groundType = "overworld000Grass";
+                wallOdds = 48;
+                totalOdds = 50;
+                break;
+            case 2:
+                wallType = "overworld001Sidewalk";
+                groundType = "overworld000Grass";
+                wallOdds = 30;
+                totalOdds = 50;
+                break;
+            
+            
+        }
 
         BufferedImage backgroundLoadBufferedImage= new BufferedImage(1920, 1152, BufferedImage.TYPE_INT_RGB);
 
         Random generateTile = new Random(System.nanoTime());
+        switch (borderToRedraw) {
+            case 0: for (int x = 0; x < 15; x++){
+                for (int y = 0; y < 9; y++){
+                    int tile = generateTile.nextInt(totalOdds);
+                    if (tile < wallOdds){
+                        overworldMicroObjectVector[x] [y] = 0;
+                    } else if (tile >= wallOdds){
+                        overworldMicroObjectVector[x] [y] = 1;
+                    }
+                }
+            }
+                break;
 
-        for (int x = 0; x < 15; x++){
-            for (int y = 0; y < 9; y++){
+            case 1://East
+                for (int a = 0; a < 9; a++){
+                    overworldMicroObjectVector[0] [a] = overworldMicroObjectVector[13] [a];
+                    overworldMicroObjectVector[1] [a] = overworldMicroObjectVector[14] [a];
+                }
 
-                int tile = generateTile.nextInt(32);
+                for (int x = 2; x < 15; x++){
+                    for (int y = 0; y < 9; y++){
+                    int tile = generateTile.nextInt(totalOdds);
+                    if (tile < wallOdds){
+                        overworldMicroObjectVector[x] [y] = 0;
+                    } else if (tile >= wallOdds){
+                        overworldMicroObjectVector[x] [y] = 1;
+                    }
+                }
+            }
+                break;
 
-                if (tile < 28){
-                    overworldMicroObjectVector[x] [y] = 0;
-
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage,
-                            deepCopy(imageLoader.returnImageFromSet(0)), 1, (x + 8) * 128, (y + 5) * 128);
-                } else if (tile >= 28){
-                    overworldMicroObjectVector[x] [y] = 1;
-
-                    addImageWithAlphaComposite(backgroundLoadBufferedImage,
-                            deepCopy(imageLoader.returnImageFromSet(1)), 1, (x + 8) * 128, (y + 5) * 128);
-
+            case 2://West
+                for (int a = 0; a < 9; a++){
+                    overworldMicroObjectVector[13] [a] = overworldMicroObjectVector[0] [a];
+                    overworldMicroObjectVector[14] [a] = overworldMicroObjectVector[1] [a];
                 }
 
 
-            }
+                for (int x = 0; x < 13; x++){
+                    for (int y = 0; y < 9; y++){
+                        int tile = generateTile.nextInt(totalOdds);
+                        if (tile < wallOdds){
+                            overworldMicroObjectVector[x] [y] = 0;
+                        } else if (tile >= wallOdds){
+                            overworldMicroObjectVector[x] [y] = 1;
+                        }
+                    }
+                }
+                break;
+
+            case 3://South
+                for (int a = 0; a < 15; a++){
+                    overworldMicroObjectVector[a] [0] = overworldMicroObjectVector[a] [7];
+                    overworldMicroObjectVector[a] [1] = overworldMicroObjectVector[a] [8];
+                }
+
+                for (int x = 0; x < 15; x++){
+                    for (int y = 2; y < 9; y++){
+                        int tile = generateTile.nextInt(totalOdds);
+                        if (tile < wallOdds){
+                            overworldMicroObjectVector[x] [y] = 0;
+                        } else if (tile >= wallOdds){
+                            overworldMicroObjectVector[x] [y] = 1;
+                        }
+                    }
+                }
+                break;
+
+            case 4://North
+                for (int a = 0; a < 15; a++){
+                    overworldMicroObjectVector[a] [7] = overworldMicroObjectVector[a] [0];
+                    overworldMicroObjectVector[a] [8] = overworldMicroObjectVector[a] [1];
+                }
+
+                for (int x = 0; x < 15; x++){
+                    for (int y = 0; y < 7; y++){
+                        int tile = generateTile.nextInt(totalOdds);
+                        if (tile < wallOdds){
+                            overworldMicroObjectVector[x] [y] = 0;
+                        } else if (tile >= wallOdds){
+                            overworldMicroObjectVector[x] [y] = 1;
+                        }
+                    }
+                }
+                break;
+
+
         }
 
-
-
-        return backgroundLoadBufferedImage;
+        return drawImageFromMicroObjectVector(backgroundLoadBufferedImage, wallType, groundType);
     }
 
 
@@ -126,10 +236,8 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
 
         if (characterLocation.getX() >= 0 && characterLocation.getX() < 1024
                 && characterLocation.getY() >= 0 && characterLocation.getY() < 1024) {
-            Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX() + x, (int)characterLocation.getY() + y));
+            Color c = new Color(saveGameToLoad.getRGB((int)characterLocation.getX(), (int)characterLocation.getY()));
             r = c.getRed() / 24;
-
-
         }
         BufferedImage backgroundLoadBufferedImage = drawMapTiles(r);
 
@@ -161,15 +269,11 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
     protected void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(universalScalar, universalScalar);
-
-        long time = System.nanoTime();
-
+        
         g2d.drawImage(backgroundSprite.getImage(), backgroundSprite.getX(), backgroundSprite.getY(), this);
         g2d.drawImage(heroOverworldRepresentation.getImage(),
                 heroOverworldRepresentation.getX(), heroOverworldRepresentation.getY(), this);
-
-        long endtime = System.nanoTime() - time;
-
+        
 
         //System.out.println("Draw Time : " + endtime);
 
@@ -346,22 +450,26 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                 heroOverworldRepresentation.setX(1682);
                 characterLocation.x -= 13;
                 characterMicroLocation.x = 13;
+                borderToRedraw = 2;
                 reloadMapSprites();
             } else if (heroOverworldRepresentation.getX() > 1690){
                 heroOverworldRepresentation.setX(146);
                 characterLocation.x += 13;
                 characterMicroLocation.x = 1;
+                borderToRedraw = 1;
                 reloadMapSprites();
             }
             if (heroOverworldRepresentation.getY() < 100){
                 heroOverworldRepresentation.setY(914);
                 characterLocation.y -= 7;
                 characterMicroLocation.y = 7;
+                borderToRedraw = 4;
                 reloadMapSprites();
             } else if (heroOverworldRepresentation.getY() > 920){
                 heroOverworldRepresentation.setY(146);
                 characterLocation.y += 7;
                 characterMicroLocation.y = 1;
+                borderToRedraw = 3;
                 reloadMapSprites();
             }
 
