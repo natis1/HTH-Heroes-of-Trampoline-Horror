@@ -144,9 +144,6 @@ public class WorldGenerator
                     }
                 }
 
-                System.out.println("Red: " + String.valueOf(red)   +
-                                 " Blue: " + String.valueOf(green) +
-                                " Green: " + String.valueOf(blue));
 
                 Color pixel = new Color(red, green, blue); //Easy to understand method of setting rgb. (Don't do it manually)
                 world.setRGB(x, y, pixel.getRGB());
