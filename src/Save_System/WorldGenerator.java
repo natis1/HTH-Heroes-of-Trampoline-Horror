@@ -6,19 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 import Base.Pair;
-import Base.Triple;
 
 import javax.imageio.ImageIO;
-
-//This is basically a Typedef
-//Prevents us from having to write "Triple<Pair<int[], int[]>, Pair<int[], int[]>, Pair<int[], int[]>>" everywhere
-//Still not sure if this is enough to justify it though
-class RGBTuple extends Triple<Pair<int[], int[]>, Pair<int[], int[]>, Pair<int[], int[]>>
-{
-    public RGBTuple(Pair<int[], int[]> left, Pair<int[], int[]> middle, Pair<int[], int[]> right) {
-        super(left, middle, right);
-    }
-}
 
 public class WorldGenerator
 {
