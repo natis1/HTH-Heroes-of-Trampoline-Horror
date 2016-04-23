@@ -149,7 +149,7 @@ public class OverworldPanel extends BasePanel implements ActionListener, MouseLi
                     int index = 0;
                     if(pixel.getGreen() > 0) index = 1;
 
-                    addImageWithAlphaComposite(tiledImage, deepCopy(spriteLoader.returnImageFromSet(index)), 1, x * tileSize, y * tileSize);
+                    addImageWithAlphaComposite(tiledImage, deepCopy(spriteLoader.returnBackgroundImageFromSet(index)), 1, x * tileSize, y * tileSize);
                 }
             }
 
