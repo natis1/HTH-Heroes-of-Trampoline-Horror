@@ -1,7 +1,10 @@
 package Panels;
 
 import Base.*;
-import Base.Character;
+import Base.Overworld.Character;
+import Base.Overworld.CharacterStats;
+import Base.Overworld.Weapon;
+import Base.Overworld.WeaponStats;
 import GUI.*;
 import GUI.Menu;
 import GUI.Button;
@@ -21,7 +24,7 @@ public class BattlePanel extends BasePanel implements MouseListener
 
     private ArrayList<Weapon> weapons    = new ArrayList<>();
     private ArrayList<Character> enemies = new ArrayList<>();
-    private Base.Character player;
+    private Character player;
 
     private GUI gui;
     private TextBox textbox;
@@ -54,8 +57,8 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         weapons.add(new Weapon(100, 100, deepCopy(spriteLoader.returnImageFromSet("sword")), new WeaponStats(10, 10)));
 
-        player =     new Base.Character(0, 100, deepCopy(spriteLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
-        enemies.add (new Base.Character(300, 0, deepCopy(spriteLoader.returnImageFromSet("angry2")), new CharacterStats("Tom", 20)));
+        player =     new Character(0, 100, deepCopy(spriteLoader.returnImageFromSet("angry")), new CharacterStats("Tom", 20));
+        enemies.add (new Character(300, 0, deepCopy(spriteLoader.returnImageFromSet("angry2")), new CharacterStats("Tom", 20)));
 
         //GUI code
 
@@ -100,6 +103,7 @@ public class BattlePanel extends BasePanel implements MouseListener
         backgroundSprite.draw(g2d, this);
 
         player.draw(g2d, this);
+        backgroundSprite.draw(g2d, this);
 
 
         enemies.removeIf(Character::isDead); //Look at this beauty
@@ -107,7 +111,7 @@ public class BattlePanel extends BasePanel implements MouseListener
 
         for (Character c : enemies)
         {
-            c.draw(g2d, this);
+            c.draw(g2d, this); //This will compile to the same thing as loadSriteWithGraphics2D, but its much easier to understand
         }
         for (Weapon w : weapons)
         {

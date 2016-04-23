@@ -47,7 +47,9 @@ public class TextBox extends GUIElement{
         }
         else
         {
-            this.clear(); //If the contents of the textbox are full, clear it and add a new field instead (relax, Eli)
+            this.clear();
+
+            //oh my god
             this.add(t);
         }
     }

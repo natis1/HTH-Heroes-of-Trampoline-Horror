@@ -1,4 +1,6 @@
-package Base;
+package Base.Overworld;
+
+import Base.Sprite;
 
 import java.awt.image.BufferedImage;
 
