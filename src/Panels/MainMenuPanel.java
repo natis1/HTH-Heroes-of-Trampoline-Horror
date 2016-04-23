@@ -1,7 +1,5 @@
 package Panels;
 
-import Base.Main;
-import Base.Sprite;
 import Base.SpriteLoader;
 
 import java.awt.*;
@@ -12,24 +10,19 @@ import java.awt.event.MouseListener;
 import Base.WindowLoader;
 import GUI.Menu;
 import GUI.Button;
-import Save_System.WorldGenerator;
-
 
 public class MainMenuPanel extends BasePanel implements MouseListener
 {
     private SpriteLoader imageLoader;
     private Menu menu;
-    private WorldGenerator generator;
 
-    public MainMenuPanel(double scalar, int monitorHZ, WindowLoader parent)
+    public MainMenuPanel(double scalar, int monitorHZ, WindowLoader setParent)
     {
-        super(scalar, monitorHZ, parent);
+        super(scalar, monitorHZ, setParent);
         imageLoader =  new SpriteLoader();
         addMouseListener(this);
 
         menu = new Menu((int)(universalScalar * 1920 * 0.5), 0, imageLoader.returnImageFromSet("menuBack")); //Background for the menu
-
-        generator = new WorldGenerator(128, 128);
 
         //Removed manual coordinates!
         menu.add(new Button(imageLoader.returnImageFromSet("mainMenu"), "main"   ));
@@ -85,11 +78,11 @@ public class MainMenuPanel extends BasePanel implements MouseListener
                     //This way, andre doesn't need to make a new button for us each time we change menus around,
                     //And instead he can create finalized buttons later on in the iterations of the game
             {
-                case "new":
-                    parent.initUI("overworld");
+                case "new": //If the newGame Button
+                    parent.initUI("overworld"); //Initialize an overworld panel
                     break;
-                default:
-                    parent.initUI("battle");
+                default: //Else...
+                    parent.initUI("battle"); //Initialize a battle panel
                     break;
             }
         }
